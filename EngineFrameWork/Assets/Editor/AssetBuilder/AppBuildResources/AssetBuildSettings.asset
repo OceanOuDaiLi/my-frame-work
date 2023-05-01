@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ae0547f7f49b54aa8a941cf7e27d88, type: 3}
+  m_Name: AssetBuildSettings
+  m_EditorClassIdentifier: 
+  applicationBuildInfo:
+    CompanyName: "\u6DF1\u5733\u5E02\u8303\u7279\u897F\u79D1\u6280\u6709\u9650\u8D23\u4EFB\u516C\u53F8"
+    ProductName: Engine-Frame-Work
+    Version: 1.0.0
+    PackageName: com.ftx.zeus
+    BundleVersionCode: 88
+    EncryptCode: 0
+    EncryptCodeAlg: 0
+    EncryptAsset: 0
+    EncryptAssetAlg: 1
+    EncryptCfgAsset: 0
+    EncryptCfgAlg: 1
+    DeviceLv: 2
+    subZipSize: 100
+  AssetBundleBuildInfos:
+  - JenkinsBuildId: 0
+    TipsName: Pure [ Android ] /  CDN [ Chanel1 ]
+    CDN: Chanel1
+    ChanelName: InNet
+    buildLanguage: 0
+    assetZipTool: 0
+    BuildTarget: Android
+    ChanelScriptingDefineSymbols: []
+  - JenkinsBuildId: 1
+    TipsName: Pure [ IOS ] /  CDN [ Chanel1 ]
+    CDN: Chanel1
+    ChanelName: InNet
+    buildLanguage: 0
+    assetZipTool: 0
+    BuildTarget: IOS
+    ChanelScriptingDefineSymbols: []
+  - JenkinsBuildId: 2
+    TipsName: 9377 [ Android ] /  CDN [ Chanel2 ]
+    CDN: Chanel2
+    ChanelName: 9377_Android
+    buildLanguage: 0
+    assetZipTool: 0
+    BuildTarget: Android
+    ChanelScriptingDefineSymbols:
+    - 9377
+  - JenkinsBuildId: 3
+    TipsName: 9377 [ IOS ] /  CDN [ Chanel2 ]
+    CDN: Chanel2
+    ChanelName: 9377_IOS
+    buildLanguage: 0
+    assetZipTool: 0
+    BuildTarget: IOS
+    ChanelScriptingDefineSymbols:
+    - 9377
+  - JenkinsBuildId: 4
+    TipsName: Tencent [ Android ] /  CDN [ Chanel3 ]
+    CDN: Chanel3
+    ChanelName: Tencent_Android
+    buildLanguage: 0
+    assetZipTool: 0
+    BuildTarget: Android
+    ChanelScriptingDefineSymbols:
+    - TENCENT
+  - JenkinsBuildId: 5
+    TipsName: Tencent [ IOS ] /  CDN [ Chanel3 ]
+    CDN: Chanel3
+    ChanelName: Tencent_IOS
+    buildLanguage: 0
+    assetZipTool: 0
+    BuildTarget: IOS
+    ChanelScriptingDefineSymbols:
+    - TENCENT
