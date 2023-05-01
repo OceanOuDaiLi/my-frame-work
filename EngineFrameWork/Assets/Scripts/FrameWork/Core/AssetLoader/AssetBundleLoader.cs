@@ -60,7 +60,7 @@ namespace Core.Resources
 
         #endregion
 
-        #region 异步加载 线程
+        #region 异步加载 
         public async ETTask TaskLoadAssetAsync(string path, System.Type type, System.Action<Object> callback)
         {
             LoadManifest();
@@ -287,7 +287,6 @@ namespace Core.Resources
 
         #endregion
 
-
         #region Util Methods
 
         /// <summary>
@@ -359,24 +358,30 @@ namespace Core.Resources
                 return;
             }
             AssetBundle assetTarget;
-            foreach (var dependencies in assetBundleManifest.GetAllDependencies(relPath))
+            // warning by daili.ou .dependencies => gc.allc
+            string[] dependencies = assetBundleManifest.GetAllDependencies(relPath);
+            foreach (var _dependencies in dependencies)
             {
-                if (!dependenciesBundles.ContainsKey(dependencies) || dependenciesBundles[dependencies].Bundle == null)
+                if (!dependenciesBundles.ContainsKey(_dependencies) || dependenciesBundles[_dependencies].Bundle == null)
                 {
+                    // todo by daili.ou
+                    // 适配首包StreamingAsset加载
+                    // UnityEngine.Application.persistentDataPath 不存在 ，则在 StreamingAsset 中加载。
+                    // persistentData Disk 不存在文件， 则 使用 StreamingDisk 进行加载
                     if (Disk.IsCrypt)
                     {
-                        var file = Disk.File(envPath + Path.AltDirectorySeparatorChar + dependencies, PathTypes.Absolute);
+                        var file = Disk.File(envPath + Path.AltDirectorySeparatorChar + _dependencies, PathTypes.Absolute);
                         assetTarget = AssetBundle.LoadFromMemory(file.Read());
                     }
                     else
                     {
-                        assetTarget = AssetBundle.LoadFromFile(envPath + Path.AltDirectorySeparatorChar + dependencies);
+                        assetTarget = AssetBundle.LoadFromFile(envPath + Path.AltDirectorySeparatorChar + _dependencies);
                     }
-                    dependenciesBundles.Add(dependencies, new DependenciesBundle(assetTarget));
+                    dependenciesBundles.Add(_dependencies, new DependenciesBundle(assetTarget));
                 }
                 else
                 {
-                    dependenciesBundles[dependencies].RefCount++;
+                    dependenciesBundles[_dependencies].RefCount++;
                 }
             }
         }
