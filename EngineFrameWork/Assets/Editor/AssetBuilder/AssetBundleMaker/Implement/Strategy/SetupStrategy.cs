@@ -36,7 +36,7 @@ namespace Core.AssetBuilder
             context.PersistentDataPath = App.Env.PersistentDataPath;
             context.FirstPkg = AssetBundlesMaker.BuildFirstPkg;
 
-            context.Disk = App.IO.Disk(context.ReleasePath);
+            context.Disk = AssetBundlesMaker.IO.Disk(context.ReleasePath);
 
             PrepearedInitBuildInformation();
 
@@ -63,8 +63,8 @@ namespace Core.AssetBuilder
             AssetBundlesMaker._chanelDirName = AssetBundlesMaker._curBuildInfo.ChanelName;
 
             // init disk.
-            AssetBundlesMaker._rootDisk = App.IO.Disk(AssetBundlesMaker._rootPath);
-            AssetBundlesMaker._streamingDisk = App.IO.Disk(App.Env.DataPath + App.Env.ReleasePath);
+            AssetBundlesMaker._rootDisk = AssetBundlesMaker.IO.Disk(AssetBundlesMaker._rootPath);
+            AssetBundlesMaker._streamingDisk = AssetBundlesMaker.IO.Disk(App.Env.DataPath + App.Env.ReleasePath);
             AssetBundlesMaker._souceAssetDir = AssetBundlesMaker._streamingDisk.Directory(AssetBundlesMaker._curPlatformName);
 
             // init directory.

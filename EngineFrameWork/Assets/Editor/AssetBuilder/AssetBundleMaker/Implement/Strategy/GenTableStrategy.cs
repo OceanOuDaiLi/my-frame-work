@@ -19,7 +19,7 @@ namespace Core.AssetBuilder
 
         void EncryptFile(IBuildContext context, string fileName)
         {
-            IDisk encryptDisk = App.IO.Disk(context.ReleasePath, App.AESCrypt);
+            IDisk encryptDisk = AssetBundlesMaker.IO.Disk(context.ReleasePath, App.AESCrypt);
             IFile dbFile = context.Disk.File(fileName, PathTypes.Relative);
             IFile dbFileEncrypt = encryptDisk.File(fileName + ".tmp", PathTypes.Relative);
             if (dbFile.Exists)

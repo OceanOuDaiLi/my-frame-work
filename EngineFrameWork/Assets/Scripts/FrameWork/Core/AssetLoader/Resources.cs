@@ -55,7 +55,7 @@ namespace Core.Resources
             });
         }
 
-        public async ETTask<T> LoadAsyncTask<T>(string path, System.Action<IObject> callback) where T : Object
+        public async ETTask LoadAsyncTask<T>(string path, System.Action<IObject> callback) where T : Object
         {
             ETTask tcs = ETTask.Create(true);
             IObject result = null;
@@ -63,19 +63,16 @@ namespace Core.Resources
             {
                 if (obj == null)
                 {
-#if UNITY_EDITOR
-                    Debug.LogError(string.Format("Res '{0}' is not found", path));
-#endif
+                    ZDebug.LogError(string.Format("Res '{0}' is not found", path));
                 }
+
                 result = obj;
                 callback?.Invoke(result);
                 tcs.SetResult();
-                tcs = null;
             });
 
             await tcs;
-
-            return (T)result;
+            tcs = null;
         }
 
         public async ETTask LoadAsyncTask(string path, System.Type type, System.Action<IObject> callback)
@@ -113,6 +110,7 @@ namespace Core.Resources
                 tcs = null;
             });
             await tcs;
+
             coroutineLock.Dispose();
         }
 

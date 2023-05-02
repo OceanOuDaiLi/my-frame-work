@@ -145,12 +145,6 @@ namespace FrameWork.Launch
                 return true;
             }
 
-            if (Dest.Exists && Dest.Length != source.Length)
-            {
-                Dest.Delete();
-                return true;
-            }
-
             return false;
         }
 

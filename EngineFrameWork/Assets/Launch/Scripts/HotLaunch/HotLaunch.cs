@@ -1,5 +1,4 @@
 ﻿using System;
-using FrameWork;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -54,22 +53,26 @@ namespace FrameWork.Launch
     public partial class HotLaunch : MonoBehaviour
     {
         string TxtTips = string.Empty;
-        [SerializeField] bool IsCodeCrypt = false;
-        [SerializeField] bool IsAssetCrypt = false;
-        [HideInInspector] bool DEBUG_MODEL = false;
+
+        //先默认不加密
+        bool IsCodeCrypt = false;
+        bool IsAssetCrypt = false;
+        bool DEBUG_MODEL = false;
 
         void Start()
         {
             Init();
 
-            if (DEBUG_MODEL)
-            {
-                SkipCsharpHotFix();
-            }
-            else
-            {
-                OnStart().Coroutine();
-            }
+            //            if (DEBUG_MODEL)
+            //            {
+            //#if UNITY_EDITOR
+            //                SkipCsharpHotFix();
+            //#endif
+            //            }
+            //            else
+            //            {
+            OnStart().Coroutine();
+            //}
         }
 
         async ETTask OnStart()
@@ -94,8 +97,6 @@ namespace FrameWork.Launch
             */
 
             await HybridClrStart();
-
-            OnDispose();
         }
 
 #if UNITY_EDITOR
@@ -122,7 +123,11 @@ namespace FrameWork.Launch
         async ETTask HybridClrStart()
         {
             ETTask tcs = ETTask.Create(true);
+
+            Debug.Log("HybridClrStart: " + _hotFixFile.Exists);
+
             var request = AssetBundle.LoadFromFileAsync(_hotFixFile.FullName);
+
             request.completed += (opt) =>
             {
                 AssetBundle dllAB = request.assetBundle;
@@ -161,16 +166,17 @@ namespace FrameWork.Launch
         void ShowTips(string tips)
         {
             TxtTips = tips;
+            Debug.Log(TxtTips);
         }
 
         void OnDispose()
         {
-            _codeDisk = null;
-            _assetDisk = null;
-            _streamingDisk = null;
-            _codeReleaseDir = null;
-            _assetReleaseDir = null;
-            _streamingReleaseDir = null;
+            //_codeDisk = null;
+            //_assetDisk = null;
+            //_streamingDisk = null;
+            //_codeReleaseDir = null;
+            //_assetReleaseDir = null;
+            //_streamingReleaseDir = null;
 
             _hostIni = null;
             _localVer = null;

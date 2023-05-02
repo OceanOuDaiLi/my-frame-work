@@ -61,6 +61,15 @@ namespace Core.AssetBuilder
         public static IDirectory _projectRootDir;
         public static IDirectory _outPutCacheDir;
         public static IDirectory _upLoadCachedDir;
+
+        private static Core.IO.IO _io;
+        public static Core.IO.IO IO
+        {
+            get
+            {
+                return _io ?? (_io = new Core.IO.IO());
+            }
+        }
         //------------------------------------------------------------------------
         //------------------------------------------------------------------------
         //------------------------------------------------------------------------
@@ -351,7 +360,7 @@ namespace Core.AssetBuilder
             string projectNmae = projectRootPath.Substring(idx + 1);
             projectRootPath = projectRootPath.Remove(idx);
 
-            IDisk projectRootDisk = App.IO.Disk(projectRootPath);
+            IDisk projectRootDisk = AssetBundlesMaker.IO.Disk(projectRootPath);
             IDirectory projectDir = projectRootDisk.Directory(projectNmae);
 
             IFile[] files = projectDir.GetFiles();

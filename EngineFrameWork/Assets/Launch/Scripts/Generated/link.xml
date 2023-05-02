@@ -5,21 +5,19 @@
     <type fullname="Core.Crypt.ICryptAdapter" preserve="all" />
     <type fullname="Core.Crypt.NetCrypt" preserve="all" />
     <type fullname="Core.INI.IniLoader" preserve="all" />
-    <type fullname="Core.Interface.IO.IDirectory" preserve="all" />
     <type fullname="Core.Interface.IO.IDisk" preserve="all" />
     <type fullname="Core.Interface.IO.IFile" preserve="all" />
     <type fullname="Core.Interface.IO.IIOCrypt" preserve="all" />
     <type fullname="Core.Interface.IO.PathTypes" preserve="all" />
     <type fullname="Core.Interface.RuntimeException" preserve="all" />
-    <type fullname="Core.IO.IO" preserve="all" />
     <type fullname="Core.IO.IOAESCrypt" preserve="all" />
     <type fullname="Core.IO.IOTEACrypt" preserve="all" />
     <type fullname="Core.IO.LocalDisk" preserve="all" />
-    <type fullname="ET.ETAsyncTaskMethodBuilder" preserve="all" />
-    <type fullname="ET.ETAsyncTaskMethodBuilder`1" preserve="all" />
-    <type fullname="ET.ETCancellationToken" preserve="all" />
-    <type fullname="ET.ETTask" preserve="all" />
-    <type fullname="ET.ETTask`1" preserve="all" />
+    <type fullname="FrameWork.ETAsyncTaskMethodBuilder" preserve="all" />
+    <type fullname="FrameWork.ETAsyncTaskMethodBuilder`1" preserve="all" />
+    <type fullname="FrameWork.ETCancellationToken" preserve="all" />
+    <type fullname="FrameWork.ETTask" preserve="all" />
+    <type fullname="FrameWork.ETTask`1" preserve="all" />
     <type fullname="FrameWork.Launch.Utils.Utility" preserve="all" />
   </assembly>
   <assembly fullname="HybridCLR.Runtime">
@@ -105,7 +103,6 @@
     <type fullname="System.IO.FileShare" preserve="all" />
     <type fullname="System.IO.FileStream" preserve="all" />
     <type fullname="System.IO.Path" preserve="all" />
-    <type fullname="System.IO.SearchOption" preserve="all" />
     <type fullname="System.IO.Stream" preserve="all" />
     <type fullname="System.Math" preserve="all" />
     <type fullname="System.MulticastDelegate" preserve="all" />
@@ -153,7 +150,6 @@
     <type fullname="System.String" preserve="all" />
     <type fullname="System.Text.Encoding" preserve="all" />
     <type fullname="System.Text.StringBuilder" preserve="all" />
-    <type fullname="System.Text.UTF8Encoding" preserve="all" />
     <type fullname="System.Threading.Interlocked" preserve="all" />
     <type fullname="System.Threading.Monitor" preserve="all" />
     <type fullname="System.Threading.Thread" preserve="all" />
@@ -210,7 +206,6 @@
     <type fullname="UnityEngine.Mathf" preserve="all" />
     <type fullname="UnityEngine.MonoBehaviour" preserve="all" />
     <type fullname="UnityEngine.Object" preserve="all" />
-    <type fullname="UnityEngine.ResourceRequest" preserve="all" />
     <type fullname="UnityEngine.Resources" preserve="all" />
     <type fullname="UnityEngine.RuntimePlatform" preserve="all" />
     <type fullname="UnityEngine.SceneManagement.LoadSceneMode" preserve="all" />
@@ -244,10 +239,6 @@
     <type fullname="UnityEngine.Networking.DownloadHandler" preserve="all" />
     <type fullname="UnityEngine.Networking.UnityWebRequest" preserve="all" />
     <type fullname="UnityEngine.Networking.UnityWebRequest/Result" preserve="all" />
-    <type fullname="UnityEngine.Networking.UnityWebRequestAsyncOperation" preserve="all" />
     <type fullname="UnityEngine.WWWForm" preserve="all" />
-  </assembly>
-  <assembly fullname="UnityEngine.UnityWebRequestWWWModule">
-    <type fullname="UnityEngine.WWW" preserve="all" />
   </assembly>
 </linker>

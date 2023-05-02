@@ -392,7 +392,7 @@ namespace AssetBundleBrowser
         {
             if (!close && updateFile != null) { return updateTips; }
 
-            var _streamingDisk = App.IO.Disk(App.Env.DataPath + App.Env.ReleasePath);
+            var _streamingDisk = AssetBundlesMaker.IO.Disk(App.Env.DataPath + App.Env.ReleasePath);
             var _souceAssetDir = _streamingDisk.Directory(App.Env.PlatformToName(App.Env.SwitchPlatform));
             IFile tarFile = _souceAssetDir.File(UpdateFileStore.FILE_NAME);
             if (!tarFile.Exists)

@@ -30,7 +30,7 @@ namespace Core.Resources
         /// </summary>
         private IDisk Disk
         {
-            get { return disk ?? (disk = App.Env.IsAssetCrypt ? App.AssetCryptDisk : App.AssetDisk); }
+            get { return disk ?? (disk = /*App.Env.IsAssetCrypt ? App.AssetCryptDisk :*/ App.AssetDisk); }
         }
 
         /// <summary>
@@ -60,7 +60,8 @@ namespace Core.Resources
 
         #endregion
 
-        #region 异步加载 
+        #region 异步加载
+
         public async ETTask TaskLoadAssetAsync(string path, System.Type type, System.Action<Object> callback)
         {
             LoadManifest();
@@ -84,9 +85,9 @@ namespace Core.Resources
             {
                 assetTarget = ab;
                 tcs.SetResult();
-                tcs = null;
             });
             await tcs;
+            tcs = null;
 
             tcs = ETTask.Create(true);
             AssetBundleRequest targetAssetRequest = assetTarget.LoadAssetAsync(objName, type);
@@ -96,7 +97,7 @@ namespace Core.Resources
                  tcs.SetResult();
              };
             await tcs;
-
+            tcs = null;
 
             protectedList[relPath]--;
             if (protectedList[relPath] <= 0)
@@ -279,9 +280,9 @@ namespace Core.Resources
                      //将 asset bundle 从加载中列表移除
                      onLoadingAssetBundles.Remove(dependencies);
                      tcs.SetResult();
-                     tcs = null;
                  };
                 await tcs;
+                tcs = null;
             }
         }
 
@@ -325,6 +326,10 @@ namespace Core.Resources
             AssetBundle assetTarget;
             if (!loadAssetBundles.ContainsKey(relPath) || loadAssetBundles[relPath].Bundle == null)
             {
+                // Changed by daili.ou on 2023.5.2
+                // 1.暂时不考虑加密。
+                // 2.适配首包StreamingAsset加载 => persistentData Disk 不存在文件， 则 使用 StreamingDisk 进行加载
+                /*
                 if (Disk.IsCrypt)
                 {
                     var file = Disk.File(envPath + Path.AltDirectorySeparatorChar + relPath, PathTypes.Absolute);
@@ -334,6 +339,18 @@ namespace Core.Resources
                 {
                     assetTarget = AssetBundle.LoadFromFile(envPath + Path.AltDirectorySeparatorChar + relPath);
                 }
+                */
+
+#if UNITY_EDITOR
+                assetTarget = AssetBundle.LoadFromFile(envPath + Path.AltDirectorySeparatorChar + relPath);
+#else
+                string loadPath = envPath + Path.AltDirectorySeparatorChar + relPath;
+                if (!System.IO.File.Exists(loadPath))
+                {
+                    loadPath = UnityEngine.Application.streamingAssetsPath + Path.AltDirectorySeparatorChar + relPath;
+                }
+                assetTarget = AssetBundle.LoadFromFile(loadPath);
+#endif
 
                 loadAssetBundles.Remove(relPath);
                 loadAssetBundles.Add(relPath, new MainBundle(assetTarget));
@@ -358,16 +375,27 @@ namespace Core.Resources
                 return;
             }
             AssetBundle assetTarget;
-            // warning by daili.ou .dependencies => gc.allc
             string[] dependencies = assetBundleManifest.GetAllDependencies(relPath);
             foreach (var _dependencies in dependencies)
             {
                 if (!dependenciesBundles.ContainsKey(_dependencies) || dependenciesBundles[_dependencies].Bundle == null)
                 {
-                    // todo by daili.ou
-                    // 适配首包StreamingAsset加载
-                    // UnityEngine.Application.persistentDataPath 不存在 ，则在 StreamingAsset 中加载。
-                    // persistentData Disk 不存在文件， 则 使用 StreamingDisk 进行加载
+                    // Changed by daili.ou on 2023.5.2
+                    // 1.暂时不考虑加密。
+                    // 2.适配首包StreamingAsset加载 => persistentData Disk 不存在文件， 则 使用 StreamingDisk 进行加载
+
+#if UNITY_EDITOR
+                    assetTarget = AssetBundle.LoadFromFile(envPath + Path.AltDirectorySeparatorChar + _dependencies);
+#else
+                    string loadPath = envPath + Path.AltDirectorySeparatorChar + _dependencies;
+                    if (!System.IO.File.Exists(loadPath))
+                    {
+                        loadPath = UnityEngine.Application.streamingAssetsPath + Path.AltDirectorySeparatorChar + _dependencies;
+                    }
+                    assetTarget = AssetBundle.LoadFromFile(loadPath);
+#endif
+
+                    /*
                     if (Disk.IsCrypt)
                     {
                         var file = Disk.File(envPath + Path.AltDirectorySeparatorChar + _dependencies, PathTypes.Absolute);
@@ -377,6 +405,8 @@ namespace Core.Resources
                     {
                         assetTarget = AssetBundle.LoadFromFile(envPath + Path.AltDirectorySeparatorChar + _dependencies);
                     }
+                    */
+
                     dependenciesBundles.Add(_dependencies, new DependenciesBundle(assetTarget));
                 }
                 else

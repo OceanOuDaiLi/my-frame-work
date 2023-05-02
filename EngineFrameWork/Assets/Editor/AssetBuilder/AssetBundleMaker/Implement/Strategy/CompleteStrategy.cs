@@ -20,8 +20,8 @@ namespace Core.AssetBuilder
             if (context.StopBuild) { return; }
 
             // Copy AssetBundle To PersistenData Path for Pc Sim Test.
-            IDirectory copyDir = context.Disk.Directory(context.ReleasePath, PathTypes.Absolute);
-            copyDir.CopyTo(context.PersistentDataPath);
+            //IDirectory copyDir = context.Disk.Directory(context.ReleasePath, PathTypes.Absolute);
+            //copyDir.CopyTo(context.PersistentDataPath);
 
             AssetBundleBuildInfo curBuildInfo = AssetBundlesMaker._curBuildInfo;
             string title = "{0} ########## AssetBundle BuildInfo ########## {1}";

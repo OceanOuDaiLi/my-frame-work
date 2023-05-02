@@ -126,6 +126,5 @@ namespace FrameWork.Launch
                 return _updateFileStore ?? (_updateFileStore = new UpdateFileStore());
             }
         }
-
     }
 }

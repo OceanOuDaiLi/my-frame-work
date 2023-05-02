@@ -78,11 +78,7 @@ namespace FrameWork.Application
                 yield return Yielders.EndOfFrame;
             }
 
-            //UIConfig startView = new UIConfig();
-            //startView.floaderName = "start";
-            //startView.prefabName = "StartView";
-            //bool opened = false;
-            //UIMgr.Ins.OpenUI(startView, (s) => { opened = true; });
+
 
             AsyncOperation sc = SceneManager.LoadSceneAsync("Scenes/LogIn", new LoadSceneParameters(LoadSceneMode.Single));
             while (/*!opened ||*/ !sc.isDone)
@@ -90,7 +86,14 @@ namespace FrameWork.Application
                 yield return Yielders.EndOfFrame;
             }
 
-            Debug.Log("## End ##");
+            UIConfig launchView = new UIConfig();
+            launchView.floaderName = "launch";
+            launchView.prefabName = "launch";
+            UIMgr.Ins.OpenUI(launchView, (s) =>
+            {
+
+
+            });
         }
 
 

@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace FrameWork.Launch
 {
     public partial class HotLaunch
@@ -9,7 +11,7 @@ namespace FrameWork.Launch
             // init local disk
             _streamingDisk = IOHelper.StreamingDisk;
             _codeDisk = IsCodeCrypt ? IOHelper.CodeCryptDisk : IOHelper.AssetDisk;
-            _assetDisk = IsAssetCrypt ? IOHelper.AssetDisk : IOHelper.AssetCryptDisk;
+            _assetDisk = IsAssetCrypt ? IOHelper.AssetCryptDisk : IOHelper.AssetDisk;
 
             // init local directory.
             _codeReleaseDir = _codeDisk.Directory(IOHelper.PlatformToName());

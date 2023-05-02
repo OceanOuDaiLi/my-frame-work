@@ -23,11 +23,13 @@ namespace UI
         #endregion
 
         #region Open & Close UI
+
         Dictionary<string, GameObject> cachesUI = new Dictionary<string, GameObject>();
         Stack<GameObject> openStack = new Stack<GameObject>();
         Stack<UIConfig> openConfig = new Stack<UIConfig>();
         Stack<UIConfig> tmpConfig = new Stack<UIConfig>();
         Stack<GameObject> tmpStack = new Stack<GameObject>();
+
         Transform uiContainer;
         bool opening = false;
         UIConfig curConfig;
@@ -36,9 +38,11 @@ namespace UI
         public event Func<GameObject, bool> onEventCloseUI = null;
         public event Action onEventRoot = null;
         public event Action onEventClear = null;
+
         #endregion
 
         #region Unity Calls
+
         protected override void Init()
         {
             self = gameObject;
@@ -135,9 +139,9 @@ namespace UI
                      GameObject prefabObj = obj.Get<GameObject>(this);
                      if (prefabObj == null)
                      {
-                         Debug.Log("Can not find the object from path " + path);
                          return;
                      }
+
                      GameObject uiO = Instantiate(prefabObj, uiContainer);
                      uiO.name = config.prefabName;
                      cachesUI.Add(config.prefabName, uiO);
@@ -217,7 +221,6 @@ namespace UI
         /// <param name="target">需要关闭的界面 config</param>
         public void CloseUI(UIConfig target)
         {
-            //way: 重新组装队列,执行一次深拷贝
             tmpConfig.Clear();
             tmpStack.Clear();
             foreach (var item in openConfig)
@@ -269,6 +272,7 @@ namespace UI
                 trans = null;       // no cached ui from stack.
                 return false;
             }
+
             bool opened = curConfig.prefabName.Equals(cfg.prefabName);
             trans = curConfig.transform;
 
@@ -288,8 +292,8 @@ namespace UI
             config.transform = trans;
             curConfig = config;
             openConfig.Push(config);
-            UpdateBaseUiElements();
 
+            UpdateBaseUiElements();
         }
 
         void UpdateBaseUiElements()
@@ -330,6 +334,11 @@ namespace UI
                     if (!oTmp.activeSelf) oTmp.SetActive(true);
                 }
             }
+        }
+
+        void OnDispose()
+        {
+
         }
     }
 }

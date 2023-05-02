@@ -54,7 +54,7 @@ namespace FrameWork
                     _env.SetResourcesBuildPath("ABAssets/AssetBundle");
                     _env.SetResourcesNoBuildPath("ABAssets/NotAssetBundle");
                     _env.SetReleasePath("StreamingAssets");
-                    _env.IsAssetCrypt = true;
+                    _env.IsAssetCrypt = false;
 #endif
                 }
                 return _env;
@@ -145,15 +145,6 @@ namespace FrameWork
                     _time = new TimeSystem();
                 }
                 return _time;
-            }
-        }
-
-        private static IO _io;
-        public static IO IO
-        {
-            get
-            {
-                return _io ?? (_io = new IO());
             }
         }
 

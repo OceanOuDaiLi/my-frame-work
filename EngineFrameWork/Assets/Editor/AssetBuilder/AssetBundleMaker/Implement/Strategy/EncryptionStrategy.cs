@@ -21,8 +21,8 @@ namespace Core.AssetBuilder
         {
             if (context.IsAssetCrypt == false && context.IsCodeCrypt == false) return;
 
-            IDisk encryptAESDisk = App.IO.Disk(context.ReleasePath, App.AESCrypt);
-            IDisk encryptTEADisk = App.IO.Disk(context.ReleasePath, App.TEACrypt);
+            IDisk encryptAESDisk = AssetBundlesMaker.IO.Disk(context.ReleasePath, App.AESCrypt);
+            IDisk encryptTEADisk = AssetBundlesMaker.IO.Disk(context.ReleasePath, App.TEACrypt);
 
             string[] releaseFiles = context.ReleaseFiles;
             IFile releaseFile = null;
