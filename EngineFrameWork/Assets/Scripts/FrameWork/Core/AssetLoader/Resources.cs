@@ -107,9 +107,11 @@ namespace Core.Resources
                 hosted = ResourcesHosted != null ? ResourcesHosted.Hosted(path, obj) : MakeDefaultObjectInfo(obj);
                 callback(hosted);
                 tcs.SetResult();
-                tcs = null;
+
             });
+
             await tcs;
+            tcs = null;
 
             coroutineLock.Dispose();
         }

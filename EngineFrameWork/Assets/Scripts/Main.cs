@@ -78,13 +78,12 @@ namespace FrameWork.Application
                 yield return Yielders.EndOfFrame;
             }
 
-
-
             AsyncOperation sc = SceneManager.LoadSceneAsync("Scenes/LogIn", new LoadSceneParameters(LoadSceneMode.Single));
-            while (/*!opened ||*/ !sc.isDone)
+            while (!sc.isDone)
             {
                 yield return Yielders.EndOfFrame;
             }
+            ZDebug.Log("Start Open");
 
             UIConfig launchView = new UIConfig();
             launchView.floaderName = "launch";

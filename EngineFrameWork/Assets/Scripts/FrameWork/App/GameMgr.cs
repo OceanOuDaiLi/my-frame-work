@@ -41,7 +41,7 @@ public class GameMgr : MonoSingleton<GameMgr>
         App.Env.IsAssetCrypt = isAssetCrypt;
 
 #if UNITY_EDITOR
-        App.Env.SetDebugLevel(DebugLevels.Develop);
+        App.Env.SetDebugLevel(DebugLevels.Staging);
 #else
         App.Env.SetDebugLevel(DebugLevels.Product);
 #endif

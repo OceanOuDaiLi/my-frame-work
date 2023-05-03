@@ -137,8 +137,6 @@ namespace FrameWork.Launch
                 //C需要D
                 //那么，加载顺序就是D, C, B, A
                 System.Reflection.Assembly GameAsset = System.Reflection.Assembly.Load(csBytes);
-                LogProgress("Load Asset --- gameAsset is null : " + (csBytes == null).ToString());
-
 
                 var appType = GameAsset.GetType("FrameWork.Application.Main");
                 if (appType == null)
