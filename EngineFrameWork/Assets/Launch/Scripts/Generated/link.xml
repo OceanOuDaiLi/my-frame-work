@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <linker>
+  <assembly fullname="ETTask">
+    <type fullname="FrameWork.ETAsyncTaskMethodBuilder" preserve="all" />
+    <type fullname="FrameWork.ETAsyncTaskMethodBuilder`1" preserve="all" />
+    <type fullname="FrameWork.ETCancellationToken" preserve="all" />
+    <type fullname="FrameWork.ETTask" preserve="all" />
+    <type fullname="FrameWork.ETTask`1" preserve="all" />
+  </assembly>
   <assembly fullname="HotLaunch">
     <type fullname="Core.Crypt.HMacAes256" preserve="all" />
     <type fullname="Core.Crypt.ICryptAdapter" preserve="all" />
@@ -13,11 +20,6 @@
     <type fullname="Core.IO.IOAESCrypt" preserve="all" />
     <type fullname="Core.IO.IOTEACrypt" preserve="all" />
     <type fullname="Core.IO.LocalDisk" preserve="all" />
-    <type fullname="FrameWork.ETAsyncTaskMethodBuilder" preserve="all" />
-    <type fullname="FrameWork.ETAsyncTaskMethodBuilder`1" preserve="all" />
-    <type fullname="FrameWork.ETCancellationToken" preserve="all" />
-    <type fullname="FrameWork.ETTask" preserve="all" />
-    <type fullname="FrameWork.ETTask`1" preserve="all" />
     <type fullname="FrameWork.Launch.Utils.Utility" preserve="all" />
   </assembly>
   <assembly fullname="HybridCLR.Runtime">

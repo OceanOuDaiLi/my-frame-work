@@ -54,6 +54,7 @@ namespace HybridCLR.Editor
             "mscorlib",
             "System",
             "System.Core",
+            "ETTask",
             //"SimpleDB",
             //"Animancer",
             //"MagicaCloth",
