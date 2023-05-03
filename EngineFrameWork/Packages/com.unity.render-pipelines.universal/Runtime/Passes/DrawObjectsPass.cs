@@ -102,5 +102,22 @@ namespace UnityEngine.Rendering.Universal.Internal
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);
         }
+
+        public void SetLayerMask(LayerMask layerMask)
+        {
+            m_FilteringSettings.layerMask = layerMask;
+        }
+
+        public void AddShaderTag(string tag)
+        {
+            if (!string.IsNullOrEmpty(tag))
+            {
+                ShaderTagId id = new ShaderTagId(tag);
+                if (!m_ShaderTagIdList.Contains(id))
+                {
+                    m_ShaderTagIdList.Add(id);
+                }
+            }
+        }
     }
 }

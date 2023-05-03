@@ -184,7 +184,7 @@ real D_GGXNoPI(real NdotH, real roughness)
 
     // If roughness is 0, returns (NdotH == 1 ? 1 : 0).
     // That is, it returns 1 for perfect mirror reflection, and 0 otherwise.
-    return SafeDiv(a2, s * s);
+    return SafeDiv(a2, max(s * s, REAL_MIN));
 }
 
 real D_GGX(real NdotH, real roughness)
@@ -398,6 +398,24 @@ real DisneyDiffuseNoPI(real NdotV, real NdotL, real LdotV, real perceptualRoughn
     // (2 * LdotH * LdotH) = 1 + LdotV
     // real fd90 = 0.5 + (2 * LdotH * LdotH) * perceptualRoughness;
     real fd90 = 0.5 + (perceptualRoughness + perceptualRoughness * LdotV);
+    // Two schlick fresnel term
+    real lightScatter = F_Schlick(1.0, fd90, NdotL);
+    real viewScatter = F_Schlick(1.0, fd90, NdotV);
+
+    // Normalize the BRDF for polar view angles of up to (Pi/4).
+    // We use the worst case of (roughness = albedo = 1), and, for each view angle,
+    // integrate (brdf * cos(theta_light)) over all light directions.
+    // The resulting value is for (theta_view = 0), which is actually a little bit larger
+    // than the value of the integral for (theta_view = Pi/4).
+    // Hopefully, the compiler folds the constant together with (1/Pi).
+    return rcp(1.03571) * (lightScatter * viewScatter);
+}
+
+real DisneyDiffuseNoPINBA(real NdotV, real NdotL, real LdotH, real perceptualRoughness)
+{
+    // (2 * LdotH * LdotH) = 1 + LdotV
+    real fd90 = 0.5 + (2 * LdotH * LdotH) * perceptualRoughness;
+    //real fd90 = 0.5 + (perceptualRoughness + perceptualRoughness * LdotV);
     // Two schlick fresnel term
     real lightScatter = F_Schlick(1.0, fd90, NdotL);
     real viewScatter = F_Schlick(1.0, fd90, NdotV);

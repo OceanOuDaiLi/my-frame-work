@@ -53,8 +53,18 @@ SpriteAtlas:
     isAtlasV2: 0
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
-  m_PackedSprites: []
-  m_PackedSpriteNamesToIndex: []
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 447a79f3ee332464193c69cf820a8e6d, type: 3}
+  - {fileID: 21300000, guid: a3494466a3391d34da6b12bce23c0ad9, type: 3}
+  - {fileID: 21300000, guid: deb7f80c045d31e419c3439c74e8e9f9, type: 3}
+  - {fileID: 21300000, guid: 27f5161dd68764f43bd5dc33a750f645, type: 3}
+  - {fileID: 21300000, guid: 5aed303fbe9467f4194f7869ce19ea0f, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - btn_yellow
+  - font_huanyipi
+  - chongxinkaishi
+  - tuichuzhanchang
+  - btn_blue
   m_RenderDataMap: {}
   m_Tag: common2d_atlas
   m_IsVariant: 0

@@ -44,6 +44,11 @@ namespace UnityEngine.Rendering.Universal.Internal
             descriptor = baseDescriptor;
         }
 
+        public void SetLayerMask(LayerMask layerMask)
+        {
+            m_FilteringSettings.layerMask = layerMask;
+        }
+
         public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
         {
             cmd.GetTemporaryRT(depthAttachmentHandle.id, descriptor, FilterMode.Point);

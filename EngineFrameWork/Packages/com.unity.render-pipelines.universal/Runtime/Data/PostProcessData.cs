@@ -74,19 +74,19 @@ namespace UnityEngine.Rendering.Universal
             public Texture2D[] blueNoise16LTex;
 
             // Post-processing
-            [Reload(new[]
-            {
-                "Textures/FilmGrain/Thin01.png",
-                "Textures/FilmGrain/Thin02.png",
-                "Textures/FilmGrain/Medium01.png",
-                "Textures/FilmGrain/Medium02.png",
-                "Textures/FilmGrain/Medium03.png",
-                "Textures/FilmGrain/Medium04.png",
-                "Textures/FilmGrain/Medium05.png",
-                "Textures/FilmGrain/Medium06.png",
-                "Textures/FilmGrain/Large01.png",
-                "Textures/FilmGrain/Large02.png"
-            })]
+            //[Reload(new[]
+            //{
+            //    "Textures/FilmGrain/Thin01.png",
+            //    "Textures/FilmGrain/Thin02.png",
+            //    "Textures/FilmGrain/Medium01.png",
+            //    "Textures/FilmGrain/Medium02.png",
+            //    "Textures/FilmGrain/Medium03.png",
+            //    "Textures/FilmGrain/Medium04.png",
+            //    "Textures/FilmGrain/Medium05.png",
+            //    "Textures/FilmGrain/Medium06.png",
+            //    "Textures/FilmGrain/Large01.png",
+            //    "Textures/FilmGrain/Large02.png"
+            //})]
             public Texture2D[] filmGrainTex;
 
             [Reload("Textures/SMAA/AreaTex.tga")]

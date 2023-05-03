@@ -63,8 +63,38 @@ SpriteAtlas:
     isAtlasV2: 0
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
-  m_PackedSprites: []
-  m_PackedSpriteNamesToIndex: []
+  m_PackedSprites:
+  - {fileID: 21300000, guid: e6f5092262ab5ac4396732743369d40f, type: 3}
+  - {fileID: 21300000, guid: af304a43007c62542a1b9c20deca7540, type: 3}
+  - {fileID: 21300000, guid: 2b2eef24e946c9e409d12ae5e20a145f, type: 3}
+  - {fileID: 21300000, guid: 42fc123542c06564d8114eaf7813b417, type: 3}
+  - {fileID: 21300000, guid: c61aa126d316ac34ca3d589df4e1b12c, type: 3}
+  - {fileID: 21300000, guid: 9fc44ac6b17651f44899ad9f4f36469b, type: 3}
+  - {fileID: 21300000, guid: cb88d3a75ff873b4b8e7bf783400d0c9, type: 3}
+  - {fileID: 21300000, guid: 16791db7b2e548b49b7b2785dd8f4413, type: 3}
+  - {fileID: 21300000, guid: f283198898658434aa15f1b15fb2b107, type: 3}
+  - {fileID: 21300000, guid: d1810e596f31951428453a3612052e16, type: 3}
+  - {fileID: 21300000, guid: 5faab8b992162ac48a3353bf304cbe7d, type: 3}
+  - {fileID: 21300000, guid: 2c473d4ae18f8b14080596ff22fe263a, type: 3}
+  - {fileID: 21300000, guid: e1dd265a3bd9aa84484605904f928013, type: 3}
+  - {fileID: 21300000, guid: 150d52aa45aca7744965d14a417f3deb, type: 3}
+  - {fileID: 21300000, guid: 80ac08cc56990e341b74482971692bfd, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - btn_yellow
+  - item_mask
+  - tishi
+  - icon_herofragment
+  - up_titlebg
+  - up_bg
+  - item_frame
+  - blacknumbg
+  - close
+  - blacknumbg02
+  - down_02
+  - down_01
+  - diamond
+  - item_effect
+  - gold
   m_RenderDataMap: {}
   m_Tag: common_atlas
   m_IsVariant: 0

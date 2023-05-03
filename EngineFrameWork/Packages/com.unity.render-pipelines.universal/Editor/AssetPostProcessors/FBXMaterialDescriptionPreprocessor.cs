@@ -31,10 +31,9 @@ namespace UnityEditor.Rendering.Universal
                 return;
 
             string path = AssetDatabase.GUIDToAssetPath(ShaderUtils.GetShaderGUID(ShaderPathID.Lit));
-            var shader = AssetDatabase.LoadAssetAtPath<Shader>(path);
+            var shader = Shader.Find("NBA2/URP/IndoorScene"); //AssetDatabase.LoadAssetAtPath<Shader>(path);
             if (shader == null)
                 return;
-            
 
             material.shader = shader;
 
@@ -98,19 +97,19 @@ namespace UnityEditor.Rendering.Universal
                     diffuseColor *= floatProperty;
                 diffuseColor.a = opacity;
 
-                SetMaterialTextureProperty("_BaseMap", material, textureProperty);
-                material.SetColor("_BaseColor", diffuseColor);
+                SetMaterialTextureProperty("_AlbedoMap", material, textureProperty);
+                material.SetColor("_AlbedoColor", diffuseColor);
             }
             else if (description.TryGetProperty("DiffuseColor", out vectorProperty))
             {
                 Color diffuseColor = vectorProperty;
                 diffuseColor.a = opacity;
-                material.SetColor("_BaseColor", PlayerSettings.colorSpace == ColorSpace.Linear ? diffuseColor.gamma : diffuseColor);
+                material.SetColor("_AlbedoColor", PlayerSettings.colorSpace == ColorSpace.Linear ? diffuseColor.gamma : diffuseColor);
             }
 
             if (description.TryGetProperty("Bump", out textureProperty))
             {
-                SetMaterialTextureProperty("_BumpMap", material, textureProperty);
+                SetMaterialTextureProperty("_NormalMap", material, textureProperty);
                 material.EnableKeyword("_NORMALMAP");
 
                 if (description.TryGetProperty("BumpFactor", out floatProperty))
@@ -118,11 +117,11 @@ namespace UnityEditor.Rendering.Universal
             }
             else if (description.TryGetProperty("NormalMap", out textureProperty))
             {
-                SetMaterialTextureProperty("_BumpMap", material, textureProperty);
+                SetMaterialTextureProperty("_NormalMap", material, textureProperty);
                 material.EnableKeyword("_NORMALMAP");
 
                 if (description.TryGetProperty("BumpFactor", out floatProperty))
-                    material.SetFloat("_BumpScale", floatProperty);
+                    material.SetFloat("_NormalScale", floatProperty);
             }
 
             if (description.TryGetProperty("EmissiveColor", out textureProperty))
@@ -164,7 +163,7 @@ namespace UnityEditor.Rendering.Universal
 
             RemapColorCurves(description, clips, "EmissiveColor", "_EmissionColor");
         }
-        
+
         static void RemapTransparencyCurves(MaterialDescription description, AnimationClip[] clips)
         {
             // For some reason, Opacity is never animated, we have to use TransparencyFactor and TransparentColor

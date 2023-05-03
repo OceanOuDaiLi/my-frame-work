@@ -86,6 +86,31 @@ half3 SampleSH9(half4 SHCoefficients[7], half3 N)
 
     return res;
 }
+
+half3 FastSampleSH9(half4 SHCoefficients[7], half3 N)
+{
+    half4 shAr = SHCoefficients[0];
+    half4 shAg = SHCoefficients[1];
+    half4 shAb = SHCoefficients[2];
+    half4 shBr = SHCoefficients[3];
+    half4 shBg = SHCoefficients[4];
+    half4 shBb = SHCoefficients[5];
+    half4 shCr = SHCoefficients[6];
+
+    // Linear + constant polynomial terms
+    half3 res = SHEvalLinearL0L1(N, shAr, shAg, shAb);
+
+    // Quadratic polynomials
+    //res += SHEvalLinearL2(N, shBr, shBg, shBb, shCr);
+
+#ifdef UNITY_COLORSPACE_GAMMA
+    res = LinearToSRGB(res);
+#endif
+
+    return res;
+}
+
+
 #endif
 
 float3 SampleSH9(float4 SHCoefficients[7], float3 N)
@@ -103,6 +128,29 @@ float3 SampleSH9(float4 SHCoefficients[7], float3 N)
 
     // Quadratic polynomials
     res += SHEvalLinearL2(N, shBr, shBg, shBb, shCr);
+
+#ifdef UNITY_COLORSPACE_GAMMA
+    res = LinearToSRGB(res);
+#endif
+
+    return res;
+}
+
+float3 FastSampleSH9(float4 SHCoefficients[7], float3 N)
+{
+    float4 shAr = SHCoefficients[0];
+    float4 shAg = SHCoefficients[1];
+    float4 shAb = SHCoefficients[2];
+    float4 shBr = SHCoefficients[3];
+    float4 shBg = SHCoefficients[4];
+    float4 shBb = SHCoefficients[5];
+    float4 shCr = SHCoefficients[6];
+
+    // Linear + constant polynomial terms
+    float3 res = SHEvalLinearL0L1(N, shAr, shAg, shAb);
+
+    // Quadratic polynomials
+    //res += SHEvalLinearL2(N, shBr, shBg, shBb, shCr);
 
 #ifdef UNITY_COLORSPACE_GAMMA
     res = LinearToSRGB(res);

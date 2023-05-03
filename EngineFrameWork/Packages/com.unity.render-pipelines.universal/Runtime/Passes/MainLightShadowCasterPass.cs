@@ -122,6 +122,9 @@ namespace UnityEngine.Rendering.Universal.Internal
                     m_ShadowmapHeight, k_ShadowmapBufferBits);
             ConfigureTarget(new RenderTargetIdentifier(m_MainLightShadowmapTexture));
             ConfigureClear(ClearFlag.All, Color.black);
+
+            //解决华为手机shader中访问到_MainLightShadowmapTexture时为空导致的卡死问题
+            cmd.SetGlobalTexture(m_MainLightShadowmap.id, m_MainLightShadowmapTexture);
         }
 
         /// <inheritdoc/>
