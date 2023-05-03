@@ -44,7 +44,7 @@ namespace FrameWork.Launch
 
         #endregion
 
-        #region Disk Config
+        #region Disk 
 
         private IDisk _codeDisk { get; set; }
         private IDisk _assetDisk { get; set; }
@@ -96,15 +96,17 @@ namespace FrameWork.Launch
             /// key :   source file.
             /// value:  dest file.
             /// </summary>
-            public Dictionary<IFile, IFile> DecompressDic { get; set; }
+            public Dictionary<IFile, byte[]> DecompressDic { get; set; }
 
-            public void ReSetDecompressSize()
+            public DecompressInfo()
             {
-                CurentDecompressSize = 0;
-                foreach (var kvp in DecompressDic)
-                {
-                    TotalDecompressSize += kvp.Key.Length;
-                }
+                TotalDecompressSize = 0;
+                DecompressDic = new Dictionary<IFile, byte[]>();
+            }
+
+            public void CollectDecompressSize(long fileSize)
+            {
+                TotalDecompressSize += fileSize;
             }
 
             public void Dispose()
@@ -136,16 +138,6 @@ namespace FrameWork.Launch
             {
                 return bytes + "B";
             }
-        }
-
-        bool JudgeFileNeedDecompress(IFile source, IFile Dest)
-        {
-            if (!Dest.Exists)
-            {
-                return true;
-            }
-
-            return false;
         }
 
         void LogProgress(string txt)

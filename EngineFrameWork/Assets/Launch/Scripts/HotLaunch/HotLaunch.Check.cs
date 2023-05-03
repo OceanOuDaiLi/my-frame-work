@@ -6,35 +6,10 @@ namespace FrameWork.Launch
 {
     public partial class HotLaunch
     {
-        // 1.Check Decompress.
-        bool CheckDecompressPass()
-        {
-            ShowTips("Asset Decompress Checking ... ");
-
-            bool result = true;
-            if (!_assetReleaseDir.Exists())
-            {
-                result = false;
-            }
-
-            if (!_assetReleaseDir.File(KEY_FILE).Exists)
-            {
-                result = false;
-            }
-
-            int decomSuccess = PlayerPrefs.GetInt(DECOMPRESS_SUCCESS);
-            if (decomSuccess < 1)
-            {
-                result = false;
-            }
-
-            return result;
-        }
-
-        // 2. Check Version.
+        // Check Version.
         async ETTask<bool> CheckVersionPass()
         {
-            ShowTips("Asset Update Checking ... ");
+            LogProgress("Asset Update Checking ... ");
 
             // Asyns Read HostsFile. 
             ETTask tTask = ETTask.Create(true);
@@ -92,6 +67,27 @@ namespace FrameWork.Launch
                 _serverVer = IOHelper.Ini.Load(data);
                 LogProgress("Get Server Version Successed. - 1");
             });
+        }
+
+        // Check Decompress
+        bool CheckDecompress()
+        {
+            bool result = true;
+
+            if (!_assetReleaseDir.File(KEY_FILE).Exists || !_assetReleaseDir.File(AOT_FILE).Exists
+                || !_assetReleaseDir.File(HOSTS_FILE).Exists || !_assetReleaseDir.File(HOT_FIX_FILE).Exists
+                || !_assetReleaseDir.File(UPDATE_FILE).Exists)
+            {
+                result = false;
+            }
+
+            int decomSuccess = PlayerPrefs.GetInt(DECOMPRESS_SUCCESS);
+            if (decomSuccess < 1)
+            {
+                result = false;
+            }
+
+            return result;
         }
     }
 }

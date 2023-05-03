@@ -57,27 +57,25 @@ namespace FrameWork.Launch
         //先默认不加密
         bool IsCodeCrypt = false;
         bool IsAssetCrypt = false;
-        bool DEBUG_MODEL = false;
 
         void Start()
         {
+
+            //#if UNITY_EDITOR
+            //            SkipCsharpHotFix();
+            //#else
+            //            Init();
+            //            //OnStart().Coroutine();
+            //#endif
+
             Init();
 
-            //            if (DEBUG_MODEL)
-            //            {
-            //#if UNITY_EDITOR
-            //                SkipCsharpHotFix();
-            //#endif
-            //            }
-            //            else
-            //            {
             OnStart().Coroutine();
-            //}
         }
 
         async ETTask OnStart()
         {
-            bool decompressPass = CheckDecompressPass();
+            bool decompressPass = CheckDecompress();
             if (!decompressPass)
             {
                 await AccompanyFilesDecompress();
@@ -131,7 +129,7 @@ namespace FrameWork.Launch
             request.completed += (opt) =>
             {
                 AssetBundle dllAB = request.assetBundle;
-                byte[] csBytes = dllAB.LoadAsset<TextAsset>("Assembly-CSharp.dll.bytes").bytes;
+                byte[] csBytes = dllAB.LoadAsset<TextAsset>("Assembly-CSharp.bytes").bytes;
 
                 // 先加载依赖的，再加载本体
                 //你有A, B, C, D四个dll
@@ -166,7 +164,6 @@ namespace FrameWork.Launch
         void ShowTips(string tips)
         {
             TxtTips = tips;
-            Debug.Log(TxtTips);
         }
 
         void OnDispose()

@@ -1,4 +1,4 @@
-using System.Diagnostics;
+using System.IO;
 
 namespace FrameWork.Launch
 {
@@ -6,17 +6,19 @@ namespace FrameWork.Launch
     {
         void Init()
         {
-            DEBUG_MODEL = !UnityEngine.Application.isMobilePlatform;
-
-            // init local disk
+            // init local disk.
             _streamingDisk = IOHelper.StreamingDisk;
             _codeDisk = IsCodeCrypt ? IOHelper.CodeCryptDisk : IOHelper.AssetDisk;
-            _assetDisk = IsAssetCrypt ? IOHelper.AssetCryptDisk : IOHelper.AssetDisk;
-
+            _assetDisk = IsCodeCrypt ? IOHelper.AssetCryptDisk : IOHelper.AssetDisk;
             // init local directory.
             _codeReleaseDir = _codeDisk.Directory(IOHelper.PlatformToName());
             _assetReleaseDir = _assetDisk.Directory(IOHelper.PlatformToName());
             _streamingReleaseDir = _streamingDisk.Directory(IOHelper.PlatformToName());
+
+            if (!_assetReleaseDir.Exists())
+            {
+                _assetReleaseDir.Create();
+            }
 
             // init local files.
             _aotFile = _assetReleaseDir.File(AOT_FILE);
