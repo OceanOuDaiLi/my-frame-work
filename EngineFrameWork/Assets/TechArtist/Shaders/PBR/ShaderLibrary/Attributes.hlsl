@@ -20,7 +20,7 @@ struct Attributes
 //    float2 uv3    : TEXCOORD3;
 //#endif
 
-    ////ºÅÂëÅÆÓÃµ½
+    ////ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½
     float2 uv3 : TEXCOORD3;
 
     
@@ -34,7 +34,7 @@ struct Attributes
     float4 waterCoord   : TEXCOORD5;
 #endif
     
-    ////ºÅÂëÅÆÓÃµ½
+    ////ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½
     //float2 uv1 : TEXCOORD5;
     
 #if defined(_ZWriteOn)
@@ -55,6 +55,7 @@ struct Varyings
     half4  color0       : COLOR0;
 #endif
 
+    float2 uvAO         : COLOR1;
 #if defined(LIGHTMAP_ON)
     float4 uv0          : TEXCOORD1;
 #else
@@ -90,7 +91,7 @@ struct Varyings
 //#endif
     
 
-//ºÅÂëÅÆÓÃµ½
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½
     float4 posOSNormalY : TEXCOORD9;
 
 
@@ -107,7 +108,7 @@ struct Varyings
 //    half3 tSpace2 : TEXCOORD15;
 //#endif
 
-    //ºÅÂëÅÆÒªÓÃ
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½
     half3 tSpace0 : TEXCOORD13;
     half3 tSpace1 : TEXCOORD14;
     half3 tSpace2 : TEXCOORD15;

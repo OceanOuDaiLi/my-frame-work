@@ -6,14 +6,11 @@ namespace FrameWork.Launch
         void Init()
         {
             // init local disk.
+            _assetDisk = IOHelper.AssetDisk;
             _streamingDisk = IOHelper.StreamingDisk;
-            _codeDisk = IsCodeCrypt ? IOHelper.CodeCryptDisk : IOHelper.AssetDisk;
-            _assetDisk = IsCodeCrypt ? IOHelper.AssetCryptDisk : IOHelper.AssetDisk;
             // init local directory.
-            _codeReleaseDir = _codeDisk.Directory(IOHelper.PlatformToName());
             _assetReleaseDir = _assetDisk.Directory(IOHelper.PlatformToName());
             _streamingReleaseDir = _streamingDisk.Directory(IOHelper.PlatformToName());
-
             if (!_assetReleaseDir.Exists())
             {
                 _assetReleaseDir.Create();

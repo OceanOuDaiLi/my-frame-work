@@ -46,11 +46,9 @@ namespace FrameWork.Launch
 
         #region Disk 
 
-        private IDisk _codeDisk { get; set; }
         private IDisk _assetDisk { get; set; }
         private IDisk _streamingDisk { get; set; }
 
-        private IDirectory _codeReleaseDir { get; set; }
         private IDirectory _assetReleaseDir { get; set; }
         private IDirectory _streamingReleaseDir { get; set; }
 

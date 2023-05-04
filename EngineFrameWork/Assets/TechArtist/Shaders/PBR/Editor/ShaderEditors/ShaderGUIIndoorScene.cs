@@ -22,22 +22,20 @@ namespace FTX.Rendering
             m_ShaderGUI.FloatRange(ShaderParameter.shadowIntensity, 0.0f, 1.0f, m_Content.shadowIntensity);
             m_ShaderGUI.FloatRange(ShaderParameter.reflectionNoiseScale, 0.0f, 2.0f, m_Content.reflectionNoiseScale);
 
-            m_ShaderGUI.Section(m_Content.useProbes, ShaderParameter.useProbes);
-
             if (m_ShaderGUI.Section(m_Content.useEmission, ShaderParameter.useEmission))
             {
                 m_ShaderGUI.TextureSlotWithColor(ShaderParameter.emissionMap, ShaderParameter.emissionColor, m_Content.emissionMap, m_Content.emissionMapChannels, true, true);
                 m_ShaderGUI.FloatRange(ShaderParameter.netLightness, 0.0f, 1.0f, m_Content.netLightness);
             }
 
-            if (m_ShaderGUI.Section(m_Content.useVertexColor, ShaderParameter.useVertexColor))
-            {
-                m_ShaderGUI.ColorField(ShaderParameter.vertexColorR, m_Content.vertexColorR, true, false);
-                m_ShaderGUI.ColorField(ShaderParameter.vertexColorG, m_Content.vertexColorG, true, false);
-                m_ShaderGUI.ColorField(ShaderParameter.vertexColorB, m_Content.vertexColorB, true, false);
-                m_ShaderGUI.ColorField(ShaderParameter.vertexColorA, m_Content.vertexColorA, true, false);
 
-            }
+            m_ShaderGUI.Section(m_Content.floorParameter, before: 0.0f);
+            m_ShaderGUI.TextureSlotWithColor(ShaderParameter.reflectionUvCube, ShaderParameter.reflectionColor, m_Content.reflectionColor, m_Content.reflectionUvCube, true);
+            m_ShaderGUI.FloatRange(ShaderParameter.reflectionInstensity, 0.1f, 5.0f, m_Content.reflectionInstensity);
+            m_ShaderGUI.FloatRange(ShaderParameter.reflectionRotation, 0.1f, 360.0f, m_Content.reflectionRotation);
+
+            m_ShaderGUI.TextureSlot(ShaderParameter.AOTex, m_Content.AOTex , m_Content.AOTexS);
+            m_ShaderGUI.TextureSlot(ShaderParameter.logoTex, m_Content.logoTex, m_Content.logoTexS);
         }
     }
 }

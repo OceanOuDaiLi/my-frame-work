@@ -106,10 +106,19 @@ namespace FTX
 		public static readonly string cullMode = "_CullMode";
 		public static readonly string blendMode = "_Blend";
 		public static readonly string queueOffset = "_QueueOffset";
-		#endregion
 
-		#region Material Property IDs
-		public static readonly int uvScaleID = Shader.PropertyToID (uvScale);
+		//Floor Ù–‘
+        public static readonly string reflectionUvCube = "_ReflectionUvCube";
+        public static readonly string reflectionColor = "_ReflectionColor";
+        public static readonly string reflectionInstensity = "_ReflectionInstensity";
+        public static readonly string reflectionRotation = "_ReflectionRotation";
+        public static readonly string AOTex = "_AOTex";
+        public static readonly string logoTex = "_LogoTex";
+
+        #endregion
+
+        #region Material Property IDs
+        public static readonly int uvScaleID = Shader.PropertyToID (uvScale);
 		#endregion
 
 	}

@@ -25,10 +25,6 @@ CBUFFER_START(UnityPerMaterial)
     half   _Cutoff;
     half   _EmissionEnabled;
     half   _UVScale;
-    half4  _RColor;
-    half4  _GColor;
-    half4  _BColor;
-    half4  _AColor;
     half   _NetLightness;
     half   _ShadowIntensity;
     half  _Transparency;
@@ -54,11 +50,18 @@ CBUFFER_START(UnityPerMaterial)
     half _gentle;
     half _ellipseX;
     half _ellipseY;
+    half _ReflectionInstensity;
+    half _ReflectionRotation;
+    half4 _ReflectionColor;
+    
 CBUFFER_END
 
 half   _ReflectionAlpha;
 half   _PlaneReflectionIntensity;
 half   _ReflectionNoiseScale;
+
+TEXTURE2D(_AOTex);              SAMPLER(sampler_AOTex);
+TEXTURE2D(_LogoTex);            SAMPLER(sampler_LogoTex);
 
 half circle(half2 ref, half2 center, half radius)
 {
@@ -84,6 +87,10 @@ inline Material GetMaterial(Varyings input)
 {
     half2 uv = input.uv0.xy;
     half4 albedoMap = SampleAlbedoMap(uv);
+
+    half4 logoCol = SAMPLE_TEXTURE2D(_LogoTex,sampler_LogoTex,float2(-(input.uvAO.x-0.5)*5.3+0.5,-(input.uvAO.y-0.5)*3+0.5));
+    albedoMap.rgb = logoCol.rgb * logoCol.a + albedoMap.rgb * (1 - logoCol.a);
+
     Material material;
 #if defined(QUALITY_HIGH)
     half4 normalMap = SampleNormalMap(uv);
@@ -101,7 +108,7 @@ inline Material GetMaterial(Varyings input)
     material.ao = 1;
 #endif
     material.alpha = Alpha(albedoMap.a, _AlbedoColor, _Cutoff);
-    material.albedo = albedoMap.rgb;
+    material.albedo = albedoMap.rgb * _AlbedoColor;
     material.emission = 0;
 
 #if defined (SHADING_EMISSION)
@@ -111,16 +118,18 @@ inline Material GetMaterial(Varyings input)
     material.transmission = 0.0h;
     material.smoothness *= _Glossiness;
 
-#if defined(VERTEX_COLOR)
-    half3 Vertr = lerp(material.albedo, _RColor.rgb, input.color0.r);
-    half3 Vertg = lerp(material.albedo, _GColor.rgb, input.color0.g);
-    half3 Vertb = lerp(material.albedo, _BColor.rgb, input.color0.b);
-    half3 Verta = lerp(material.albedo, _AColor.rgb, 1 - input.color0.a);
-    material.albedo = lerp(material.albedo, Vertr + Vertg + Vertb + Verta, input.color0.r + input.color0.g + input.color0.b + 1 - input.color0.a);
-#endif
-
     return material;
 }
+
+float3 RotateAroundYInDegrees (float3 vertex, float degrees)
+{
+    float alpha = degrees * 3.1415926 / 180.0;
+    float sina, cosa;
+    sincos(alpha, sina, cosa);
+    float2x2 m = float2x2(cosa, -sina, sina, cosa);
+    return float3(mul(m, vertex.xz), vertex.y).xzy;
+}
+
 
 /////////////////////////////////////////////////
 // FORWARD PASS /////////////////////////////////
@@ -141,6 +150,7 @@ Varyings LitVertForward(Attributes input)
 
     OUTPUT_TEXCOORD0(input, output, _UVScale);
     OUTPUT_TEXCOORD2(input, output);
+    output.uvAO = input.uv1;
 
     // OUTPUT SHADOW, NORMALS, AMBIENT GI, CLIP-, WORLD-POSITION, VIEWDIR
     OUTPUT_DEFAULT(input, output, positionWS, positionCS, normalWS, viewDirWS);
@@ -187,6 +197,10 @@ half4 LitFragForward (Varyings input) : SV_TARGET
 #endif
     color += LightingEmissive(material.emission);
 
+    half a = dot ( normalize( mainLight.direction + viewDirWS ) , normalize(normalWS) );
+    half3 ambient = a * SampleReflectionUv( RotateAroundYInDegrees( normalize(viewDirWS - normalWS * 2 * sin(dot(viewDirWS, normalWS))) ,_ReflectionRotation)) * _ReflectionInstensity *  material.smoothness;
+    color += ambient * _ReflectionColor;
+
 #if defined(RIM_MASK)
     half rim = 1 - saturate(dot(viewDirWS, normalWS));
     //trick rim
@@ -210,7 +224,10 @@ half4 LitFragForward (Varyings input) : SV_TARGET
 #endif
 
     APPLY_COLOR_GRADING(color);
-    return half4(color, material.alpha);
+
+    half AO = SAMPLE_TEXTURE2D(_AOTex , sampler_AOTex , input.uvAO);
+
+    return half4(color, material.alpha) * AO;
 }
 
 /////////////////////////////////////////////////

@@ -22,9 +22,11 @@ namespace FrameWork.Launch
                 webRequestAsync.completed += (asyncOperation) =>
                 {
                     waitDown.SetResult();
-                    waitDown = null;
                 };
+
                 await waitDown;
+                waitDown = null;
+
 #if UNITY_2020_1_OR_NEWER
                 if (webRequest.result != UnityWebRequest.Result.Success)
 #else

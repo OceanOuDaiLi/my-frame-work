@@ -252,5 +252,16 @@ namespace FTX
 		public GUIContent pos = new GUIContent("Pos");
 		public GUIContent rimEdge = new GUIContent("RimWidth");
 		public GUIContent rimDis = new GUIContent("RimGraDis");
-	}
+
+        public string[] reflectionUvCube = new[] { "Reflection Color" };
+        public GUIContent reflectionColor = new GUIContent("Reflection Cube");
+        public GUIContent reflectionInstensity = new GUIContent("Reflection Instensity");
+        public GUIContent reflectionRotation = new GUIContent("Reflection Rotation");
+        public GUIContent AOTex = new GUIContent("AO Tex");
+        public GUIContent logoTex = new GUIContent("Logo Tex");
+        public string[] AOTexS= new[] { "AO (R)" };
+        public string[] logoTexS = new[] { "Logo Tex (RGB)" };
+
+        public string floorParameter ="Floor Parameter";
+    }
 }

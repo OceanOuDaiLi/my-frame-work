@@ -27,17 +27,22 @@ namespace FrameWork.Launch
                 }
                 decompressInfo.CurentDecompressSize += item.Value.LongLength;
                 //LogProgress(string.Format($"Decompress : {GetBytesString(decompressInfo.CurentDecompressSize)} / {GetBytesString(decompressInfo.TotalDecompressSize)}"));
+                if (item.Key.FullName.Contains("launch"))
+                {
+                    _assetReleaseDir.Create("ui/prefabs");
+                }
                 item.Key.Create(item.Value);
                 downCount++;
-                LogProgress(" Copy Success: " + item.Key.FullName);
                 if (downCount.Equals(decompressInfo.DecompressDic.Count))
                 {
-                    LogProgress(" Copy End ");
+                    LogProgress("Copy End");
+
                     copyTask.SetResult();
                 }
             }
 
             await copyTask;
+            decompressInfo.Dispose();
             copyTask = null;
         }
 
@@ -45,6 +50,7 @@ namespace FrameWork.Launch
         {
             // prepare decompress
             decompressInfo = new DecompressInfo();
+            int copyCount = 5;
             string _aotStreamingFile = GetStreamingFilePath(_streamingReleaseDir.File(AOT_FILE).FullName);
             string _keyStreamingFile = GetStreamingFilePath(_streamingReleaseDir.File(KEY_FILE).FullName);
             string _hostsStreamingFile = GetStreamingFilePath(_streamingReleaseDir.File(HOSTS_FILE).FullName);
@@ -58,7 +64,7 @@ namespace FrameWork.Launch
                 decompressInfo.CollectDecompressSize(data.LongLength);
                 decompressInfo.DecompressDic[_aotFile] = data;
 
-                if (decompressInfo.DecompressDic.Count == 5)
+                if (decompressInfo.DecompressDic.Count == copyCount)
                     getTask.SetResult();
 
             }).Coroutine();
@@ -67,7 +73,7 @@ namespace FrameWork.Launch
                 decompressInfo.CollectDecompressSize(data.LongLength);
                 decompressInfo.DecompressDic[_keyFile] = data;
 
-                if (decompressInfo.DecompressDic.Count == 5)
+                if (decompressInfo.DecompressDic.Count == copyCount)
                     getTask.SetResult();
             }).Coroutine();
             UnityWebRequestGet(_hostsStreamingFile, (data) =>
@@ -75,7 +81,7 @@ namespace FrameWork.Launch
                 decompressInfo.CollectDecompressSize(data.LongLength);
                 decompressInfo.DecompressDic[_hostsFile] = data;
 
-                if (decompressInfo.DecompressDic.Count == 5)
+                if (decompressInfo.DecompressDic.Count == copyCount)
                     getTask.SetResult();
             }).Coroutine();
             UnityWebRequestGet(_hotFixStreamingFile, (data) =>
@@ -83,7 +89,7 @@ namespace FrameWork.Launch
                 decompressInfo.CollectDecompressSize(data.LongLength);
                 decompressInfo.DecompressDic[_hotFixFile] = data;
 
-                if (decompressInfo.DecompressDic.Count == 5)
+                if (decompressInfo.DecompressDic.Count == copyCount)
                     getTask.SetResult();
             }).Coroutine();
             UnityWebRequestGet(_updateStreamingFile, (data) =>
@@ -91,10 +97,9 @@ namespace FrameWork.Launch
                 decompressInfo.CollectDecompressSize(data.LongLength);
                 decompressInfo.DecompressDic[_updateFile] = data;
 
-                if (decompressInfo.DecompressDic.Count == 5)
+                if (decompressInfo.DecompressDic.Count == copyCount)
                     getTask.SetResult();
             }).Coroutine();
-
             await getTask;
             getTask = null;
 

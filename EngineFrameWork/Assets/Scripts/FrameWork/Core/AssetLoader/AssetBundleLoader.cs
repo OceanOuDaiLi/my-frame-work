@@ -192,12 +192,12 @@ namespace Core.Resources
             */
 
             loadPath = Path.Combine(envPath, App.Env.PlatformToName(App.Env.SwitchPlatform), relPath);
-            //Debug.Log(string.Format($"### 加载主包 start . loadPath: {loadPath} ###"));
+            Debug.Log(string.Format($"### 加载主包 start . loadPath: {loadPath} ###"));
             if (!File.Exists(loadPath))
             {
                 loadPath = Path.Combine(UnityEngine.Application.streamingAssetsPath, App.Env.PlatformToName(App.Env.SwitchPlatform), relPath);
             }
-            //Debug.Log(string.Format($"### 加载主包 end . loadPath: {loadPath} ###"));
+            Debug.Log(string.Format($"### 加载主包 end . loadPath: {loadPath} ###"));
             assetTargetBundleRequest = AssetBundle.LoadFromFileAsync(loadPath);
 
             //等待主包加载完成
@@ -291,12 +291,12 @@ namespace Core.Resources
                 */
 
                 loadPath = Path.Combine(envPath, App.Env.PlatformToName(App.Env.SwitchPlatform), dependencies);
-                //Debug.Log(string.Format($"### 加载资源依赖 start . loadPath: {loadPath} ###"));
+                Debug.Log(string.Format($"### 加载资源依赖 start . loadPath: {loadPath} ###"));
                 if (!File.Exists(loadPath))
                 {
                     loadPath = Path.Combine(UnityEngine.Application.streamingAssetsPath, dependencies);
                 }
-                //Debug.Log(string.Format($"### 加载资源依赖 end . loadPath: {loadPath} ###"));
+                Debug.Log(string.Format($"### 加载资源依赖 end . loadPath: {loadPath} ###"));
                 assetBundleDependencies = AssetBundle.LoadFromFileAsync(loadPath);
 
                 //等待请求完成
@@ -377,12 +377,12 @@ namespace Core.Resources
                 */
 
                 loadPath = Path.Combine(envPath, App.Env.PlatformToName(App.Env.SwitchPlatform), relPath);
-                //Debug.Log(string.Format($"### start . loadPath: {loadPath} ###"));
+                Debug.Log(string.Format($"### start . loadPath: {loadPath} ###"));
                 if (!File.Exists(loadPath))
                 {
                     loadPath = Path.Combine(UnityEngine.Application.streamingAssetsPath, relPath, relPath);
                 }
-                //Debug.Log(string.Format($"### end . loadPath: {loadPath} ###"));
+                Debug.Log(string.Format($"### end . loadPath: {loadPath} ###"));
                 assetTarget = AssetBundle.LoadFromFile(loadPath);
 
                 loadAssetBundles.Remove(relPath);
@@ -431,12 +431,12 @@ namespace Core.Resources
                     */
 
                     loadPath = Path.Combine(envPath, App.Env.PlatformToName(App.Env.SwitchPlatform), _dependencies);
-                    //Debug.Log(string.Format($"Dependencies: ### start . loadPath: {loadPath} ###"));
+                    Debug.Log(string.Format($"Dependencies: ### start . loadPath: {loadPath} ###"));
                     if (!File.Exists(loadPath))
                     {
                         loadPath = Path.Combine(UnityEngine.Application.streamingAssetsPath, App.Env.PlatformToName(App.Env.SwitchPlatform), _dependencies);
                     }
-                    //Debug.Log(string.Format($"Dependencies: ### end . loadPath: {loadPath} ###"));
+                    Debug.Log(string.Format($"Dependencies: ### end . loadPath: {loadPath} ###"));
                     assetTarget = AssetBundle.LoadFromFile(loadPath);
 
                     dependenciesBundles.Add(_dependencies, new DependenciesBundle(assetTarget));
