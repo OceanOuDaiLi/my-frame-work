@@ -156,6 +156,7 @@ namespace Core.AssetBuilder
             ExcuteBuildStrategy(filter, false);
         }
 
+        [MenuItem("Tools/构建AOT")]
         /// <summary>
         ///  Gen Supplementary AOT Metadata 
         /// </summary>
@@ -234,6 +235,7 @@ namespace Core.AssetBuilder
             Debug.Log("### Application Build Completed ###");
         }
 
+        [MenuItem("Tools/构建pkg")]
         /// <summary>
         /// Building First Package By Platform.
         /// </summary>
