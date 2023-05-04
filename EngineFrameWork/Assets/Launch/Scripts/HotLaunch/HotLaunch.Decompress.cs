@@ -108,13 +108,13 @@ namespace FrameWork.Launch
 
         string GetStreamingFilePath(string path)
         {
-            if (Application.isMobilePlatform || Application.isConsolePlatform)
+            if (UnityEngine.Application.isMobilePlatform || UnityEngine.Application.isConsolePlatform)
             {
-                if (Application.platform == RuntimePlatform.IPhonePlayer)
+                if (UnityEngine.Application.platform == RuntimePlatform.IPhonePlayer)
                 {
                     return string.Format("file://{0}", path);
                 }
-                else if (Application.platform == RuntimePlatform.Android)
+                else if (UnityEngine.Application.platform == RuntimePlatform.Android)
                 {
                     return path;
                 }

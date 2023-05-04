@@ -156,7 +156,7 @@ namespace Core.AssetBuilder
             ExcuteBuildStrategy(filter, false);
         }
 
-        [MenuItem("Tools/构建AOT")]
+        [MenuItem("打包工具/快速构建AOT", priority = 220)]
         /// <summary>
         ///  Gen Supplementary AOT Metadata 
         /// </summary>
@@ -235,7 +235,7 @@ namespace Core.AssetBuilder
             Debug.Log("### Application Build Completed ###");
         }
 
-        [MenuItem("Tools/构建pkg")]
+        [MenuItem("打包工具/快速构建pkg", priority = 320)]
         /// <summary>
         /// Building First Package By Platform.
         /// </summary>
@@ -271,16 +271,7 @@ namespace Core.AssetBuilder
                 return;
             }
 
-            try
-            {
-                BuildHCLRCommand.BuildHybridCLRHotRes(EditorUserBuildSettings.activeBuildTarget);
-            }
-            catch (Exception e)
-            {
-
-                Debug.LogError(e);
-                return;
-            }
+            BuildHCLRCommand.BuildHybridCLRHotRes(EditorUserBuildSettings.activeBuildTarget);
 
             BuildAssetBundle();
         }

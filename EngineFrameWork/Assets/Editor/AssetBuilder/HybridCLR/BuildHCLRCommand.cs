@@ -167,10 +167,11 @@ namespace HybridCLR.Editor
         {
             var hotUpdateDllAssets = new List<string>();
             string hotfixDllDir = SettingsUtil.GetHotUpdateDllsOutputDirByTarget(target);
-            foreach (var fileName in SettingsUtil.HotUpdateAssemblyNamesExcludePreserved)
+            foreach (var fileName in SettingsUtil.HotUpdateAssemblyFiles)
             {
-                string surDllPath = $"{hotfixDllDir}/{fileName}.dll";
-                string destDllPath = $"{destDir}/{fileName}.bytes";
+                string surDllPath = $"{hotfixDllDir}/{fileName}";
+                string destDllPath = ($"{destDir}/{fileName}.bytes").Replace(".dll", string.Empty);
+
                 if (!File.Exists(surDllPath))
                 {
                     Debug.LogError($"ab中添加HotFix DLL:{surDllPath} 时发生错误,文件不存在。");

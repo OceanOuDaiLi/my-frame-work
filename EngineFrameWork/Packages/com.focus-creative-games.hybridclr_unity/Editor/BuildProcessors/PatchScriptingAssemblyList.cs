@@ -92,7 +92,7 @@ namespace HybridCLR.Editor.BuildProcessors
             {
                 var patcher = new ScriptingAssembliesJsonPatcher();
                 patcher.Load(file);
-                patcher.AddScriptingAssemblies(SettingsUtil.HotUpdateAssemblyFilesIncludePreserved);
+                patcher.AddScriptingAssemblies(SettingsUtil.PatchingHotUpdateAssemblyFiles);
                 patcher.Save(file);
             }
         }
@@ -123,7 +123,7 @@ namespace HybridCLR.Editor.BuildProcessors
             {
                 var binFile = new UnityBinFile();
                 binFile.Load(binPath);
-                binFile.AddScriptingAssemblies(SettingsUtil.HotUpdateAssemblyFilesIncludePreserved);
+                binFile.AddScriptingAssemblies(SettingsUtil.PatchingHotUpdateAssemblyFiles);
                 binFile.Save(binPath);
                 Debug.Log($"[PatchScriptingAssemblyList] patch {binPath}");
             }
@@ -142,7 +142,7 @@ namespace HybridCLR.Editor.BuildProcessors
             foreach (string binPath in binFiles)
             {
                 var patcher = new Dataunity3dPatcher();
-                patcher.ApplyPatch(binPath, SettingsUtil.HotUpdateAssemblyFilesIncludePreserved);
+                patcher.ApplyPatch(binPath, SettingsUtil.PatchingHotUpdateAssemblyFiles);
                 Debug.Log($"[PatchScriptingAssemblyList] patch {binPath}");
             }
             return true;

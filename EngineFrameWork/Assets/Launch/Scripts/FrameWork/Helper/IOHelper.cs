@@ -1,7 +1,6 @@
 ﻿using Core.IO;
 using Core.INI;
 using UnityEngine;
-using System.IO;
 
 namespace FrameWork.Launch
 {
@@ -21,7 +20,7 @@ namespace FrameWork.Launch
         {
             get
             {
-                return _codeCryptDisk ?? (_codeCryptDisk = new LocalDisk(Application.persistentDataPath, TEACrypt));
+                return _codeCryptDisk ?? (_codeCryptDisk = new LocalDisk(UnityEngine.Application.persistentDataPath, TEACrypt));
             }
         }
 
@@ -30,7 +29,7 @@ namespace FrameWork.Launch
         {
             get
             {
-                return _assetCryptDisk ?? (_assetCryptDisk = new LocalDisk(Application.persistentDataPath, AESCrypt));
+                return _assetCryptDisk ?? (_assetCryptDisk = new LocalDisk(UnityEngine.Application.persistentDataPath, AESCrypt));
             }
         }
 
@@ -39,7 +38,7 @@ namespace FrameWork.Launch
         {
             get
             {
-                return _assetDisk ?? (_assetDisk = new LocalDisk(Application.persistentDataPath));
+                return _assetDisk ?? (_assetDisk = new LocalDisk(UnityEngine.Application.persistentDataPath));
             }
         }
 
@@ -48,7 +47,7 @@ namespace FrameWork.Launch
         {
             get
             {
-                return _streamingDisk ?? (_streamingDisk = new LocalDisk(Application.streamingAssetsPath));
+                return _streamingDisk ?? (_streamingDisk = new LocalDisk(UnityEngine.Application.streamingAssetsPath));
             }
         }
 
@@ -97,7 +96,7 @@ namespace FrameWork.Launch
         {
             if (platform == null)
             {
-                platform = Application.platform;
+                platform = UnityEngine.Application.platform;
             }
             switch (platform)
             {

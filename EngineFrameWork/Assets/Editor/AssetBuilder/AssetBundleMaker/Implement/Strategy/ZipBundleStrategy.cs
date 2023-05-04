@@ -24,20 +24,21 @@ namespace Core.AssetBuilder
     {
         public BuildProcess Process => BuildProcess.ZipBundle;
 
+        // dont zip asset. command bu daili.ou 2023/05/04
         public void Build(IBuildContext context)
         {
-            if (context.FirstPkg)
-            {
-                FirstPkgZip();
-            }
-            else
-            {
-                HotPkgZip(context);
-            }
+            //if (context.FirstPkg)
+            //{
+            //    FirstPkgZip();
+            //}
+            //else
+            //{
+            //    HotPkgZip(context);
+            //}
 
-            // copy to upload floder.
-            if (!context.StopBuild)
-                AssetBundlesMaker._upLoadCachedDir.CopyTo(AssetBundlesMaker._curBuildDir.Path);
+            //// copy to upload floder.
+            //if (!context.StopBuild)
+            //    AssetBundlesMaker._upLoadCachedDir.CopyTo(AssetBundlesMaker._curBuildDir.Path);
         }
 
         #region First Pkg Zip
@@ -103,10 +104,17 @@ namespace Core.AssetBuilder
             IFile oldUpdateFile = AssetBundlesMaker._upLoadDir.File(pastUpdateFile);
 
             UpdateFile newList = new UpdateFile(Encoding.Default.GetString(newUpdateFile.Read()));
-            UpdateFile oldList = new UpdateFile(Encoding.Default.GetString(oldUpdateFile.Read()));
+            if (oldUpdateFile.Exists)
+            {
+                UpdateFile oldList = new UpdateFile(Encoding.Default.GetString(oldUpdateFile.Read()));
 
-            UpdateFile needDeleteLst;
-            oldList.Comparison(newList, out needUpdateLst, out needDeleteLst);
+                UpdateFile needDeleteLst;
+                oldList.Comparison(newList, out needUpdateLst, out needDeleteLst);
+            }
+            else
+            {
+                needUpdateLst = newList;
+            }
         }
 
         private void HotPkgZip(IBuildContext context)

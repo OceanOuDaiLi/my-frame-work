@@ -20,6 +20,7 @@ namespace HybridCLR.Editor
         private SerializedProperty _externalHotUpdateAssembliyDirs;
         private SerializedProperty _strippedAOTDllOutputRootDir;
         private SerializedProperty _patchAOTAssemblies;
+        private SerializedProperty _collectAssetReferenceTypes;
         private SerializedProperty _outputLinkFile;
         private SerializedProperty _outputAOTGenericReferenceFile;
         private SerializedProperty _maxGenericReferenceIteration;
@@ -47,6 +48,7 @@ namespace HybridCLR.Editor
             _externalHotUpdateAssembliyDirs = _serializedObject.FindProperty("externalHotUpdateAssembliyDirs");
             _strippedAOTDllOutputRootDir = _serializedObject.FindProperty("strippedAOTDllOutputRootDir");
             _patchAOTAssemblies = _serializedObject.FindProperty("patchAOTAssemblies");
+            _collectAssetReferenceTypes = _serializedObject.FindProperty("collectAssetReferenceTypes");
             _outputLinkFile = _serializedObject.FindProperty("outputLinkFile");
             _outputAOTGenericReferenceFile = _serializedObject.FindProperty("outputAOTGenericReferenceFile");
             _maxGenericReferenceIteration = _serializedObject.FindProperty("maxGenericReferenceIteration");
@@ -135,6 +137,7 @@ namespace HybridCLR.Editor
                 EditorGUILayout.PropertyField(_externalHotUpdateAssembliyDirs);
                 EditorGUILayout.PropertyField(_strippedAOTDllOutputRootDir);
                 EditorGUILayout.PropertyField(_patchAOTAssemblies);
+                EditorGUILayout.PropertyField(_collectAssetReferenceTypes);
                 EditorGUILayout.PropertyField(_outputLinkFile);
                 EditorGUILayout.PropertyField(_outputAOTGenericReferenceFile);
                 EditorGUILayout.PropertyField(_maxGenericReferenceIteration);

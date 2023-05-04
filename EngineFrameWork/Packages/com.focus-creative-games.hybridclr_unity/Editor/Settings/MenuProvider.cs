@@ -1,9 +1,9 @@
-锘縰sing UnityEditor;
+using UnityEditor;
 using UnityEngine;
 
 public static class MenuProvider
 {
-    [MenuItem("鍏叡宸ュ叿/HybridCLR/Settings", priority = 200)]
+    [MenuItem("打包工具/HybridCLR/Settings", priority = 200)]
     public static void OpenSettings() => SettingsService.OpenProjectSettings("Project/HybridCLR Settings");
     //[MenuItem("HybridCLR/Documents/", menuItem = "HybridCLR/Documents/Quick Start")]
     public static void OpenQuickStart() => Application.OpenURL("https://focus-creative-games.github.io/hybridclr/start_up/");

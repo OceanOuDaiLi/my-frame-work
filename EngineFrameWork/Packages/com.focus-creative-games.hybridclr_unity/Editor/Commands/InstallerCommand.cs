@@ -12,7 +12,7 @@ namespace HybridCLR.Editor.Commands
     public static class InstallerCommand
     {
 
-        [MenuItem("公共工具/HybridCLR/Installer...", false, 0)]
+        [MenuItem("打包工具/HybridCLR/Installer...", false, 0)]
         private static void Open()
         {
             InstallerWindow window = EditorWindow.GetWindow<InstallerWindow>("HybridCLR Installer", true);

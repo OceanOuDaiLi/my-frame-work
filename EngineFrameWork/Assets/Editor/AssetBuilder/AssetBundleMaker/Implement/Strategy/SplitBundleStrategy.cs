@@ -17,6 +17,7 @@ namespace Core.AssetBuilder
     {
         public BuildProcess Process => BuildProcess.SplitBundle;
 
+        // dont use zip hot package. command bu daili.ou 2023/05/04
         public void Build(IBuildContext context)
         {
             if (context.FirstPkg)
@@ -32,10 +33,11 @@ namespace Core.AssetBuilder
                     DeletaMateFiles(AssetBundlesMaker._storageDir);
                 }
             }
-            else
-            {
-                SplitHotFixAssets();
-            }
+            //else
+            //{
+
+            //    SplitHotFixAssets();
+            //}
         }
 
         #region Spliting assets for build first package.

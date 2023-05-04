@@ -48,7 +48,7 @@ namespace AssetBundleBrowser
         const float k_ToolbarPadding = 15;
         const float k_MenubarPadding = 32;
 
-        [MenuItem("公共工具/打包工具", priority = 250)]
+        [MenuItem("打包工具/打包面板", priority = 100)]
         static void ShowWindow()
         {
             s_instance = null;

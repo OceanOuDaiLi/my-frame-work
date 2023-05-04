@@ -12,9 +12,9 @@ namespace HybridCLR.Editor
     public static class SettingsUtil
     {
         public static bool Enable
-        { 
+        {
             get => HybridCLRSettings.Instance.enable;
-            set 
+            set
             {
                 HybridCLRSettings.Instance.enable = value;
                 HybridCLRSettings.Save();
@@ -65,9 +65,9 @@ namespace HybridCLR.Editor
         }
 
         /// <summary>
-        /// 热更新dll列表。不包含 preserveHotUpdateAssemblies。
+        /// 所有热更新dll列表。放到此列表中的dll在打包时OnFilterAssemblies回调中被过滤。
         /// </summary>
-        public static List<string> HotUpdateAssemblyNamesExcludePreserved
+        public static List<string> HotUpdateAssemblyNames
         {
             get
             {
@@ -84,34 +84,30 @@ namespace HybridCLR.Editor
             }
         }
 
-        public static List<string> HotUpdateAssemblyFilesExcludePreserved => HotUpdateAssemblyNamesExcludePreserved.Select(dll => dll + ".dll").ToList();
+        public static List<string> HotUpdateAssemblyFiles => HotUpdateAssemblyNames.Select(dll => dll + ".dll").ToList();
 
-
-        public static List<string> HotUpdateAssemblyNamesIncludePreserved
+        public static List<string> PatchingHotUpdateAssemblyFiles
         {
             get
             {
-                List<string> allAsses = HotUpdateAssemblyNamesExcludePreserved;
+                List<string> patchingList = HotUpdateAssemblyFiles;
                 string[] preserveAssemblyNames = HybridCLRSettings.Instance.preserveHotUpdateAssemblies;
                 if (preserveAssemblyNames != null && preserveAssemblyNames.Length > 0)
                 {
                     foreach (var assemblyName in preserveAssemblyNames)
                     {
-                        if (allAsses.Contains(assemblyName))
+                        string dllFileName = assemblyName + ".dll";
+                        if (patchingList.Contains(dllFileName))
                         {
-                            throw new Exception($"[HotUpdateAssemblyNamesIncludePreserved] assembly:'{assemblyName}' 重复");
+                            throw new Exception($"[PatchingHotUpdateAssemblyFiles] assembly:'{assemblyName}' 重复");
                         }
-                        allAsses.Add(assemblyName);
+                        patchingList.Add(dllFileName);
                     }
                 }
 
-                return allAsses;
+                return patchingList;
             }
         }
-
-        public static List<string> HotUpdateAssemblyFilesIncludePreserved => HotUpdateAssemblyNamesIncludePreserved.Select(ass => ass + ".dll").ToList();
-
-        public static List<string> AOTAssemblyNames => HybridCLRSettings.Instance.patchAOTAssemblies.ToList();
 
         public static HybridCLRSettings HybridCLRSettings => HybridCLRSettings.Instance;
     }

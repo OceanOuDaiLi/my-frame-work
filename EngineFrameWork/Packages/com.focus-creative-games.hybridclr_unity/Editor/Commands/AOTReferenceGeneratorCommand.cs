@@ -24,7 +24,7 @@ namespace HybridCLR.Editor.Commands
         public static void GenerateAOTGenericReference(BuildTarget target)
         {
             var gs = SettingsUtil.HybridCLRSettings;
-            List<string> hotUpdateDllNames = SettingsUtil.HotUpdateAssemblyNamesExcludePreserved;
+            List<string> hotUpdateDllNames = SettingsUtil.HotUpdateAssemblyNames;
 
             using (AssemblyReferenceDeepCollector collector = new AssemblyReferenceDeepCollector(MetaUtil.CreateHotUpdateAndAOTAssemblyResolver(target, hotUpdateDllNames), hotUpdateDllNames))
             {

@@ -4,8 +4,7 @@ EngineFrameWork/Library/
 EngineFrameWork/AOT-Release/
 EngineFrameWork/HybridCLRData/
 EngineFrameWork/Package_Release/
-
-
+EngineFrameWork/Assets/StreamingAssets/
 
 EngineFrameWork/Packages/ml-agents-com.unity.ml-agents_1.0.8/
 [Tt]emp/
