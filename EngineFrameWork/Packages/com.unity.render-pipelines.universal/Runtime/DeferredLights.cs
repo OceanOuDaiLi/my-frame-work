@@ -1554,7 +1554,7 @@ namespace UnityEngine.Rendering.Universal.Internal
 
                 cmd.SetGlobalVector(ShaderConstants._LightPosWS, lightPos);
                 cmd.SetGlobalVector(ShaderConstants._LightColor, lightColor);
-                cmd.SetGlobalVector(ShaderConstants._LightAttenuation, lightAttenuation);
+                //cmd.SetGlobalVector(ShaderConstants._LightAttenuation, lightAttenuation);
                 cmd.SetGlobalVector(ShaderConstants._LightOcclusionProbInfo, lightOcclusionChannel);
                 cmd.SetGlobalInt(ShaderConstants._LightFlags, lightFlags);
                 cmd.SetGlobalInt(ShaderConstants._ShadowLightIndex, shadowLightIndex);
@@ -1609,7 +1609,7 @@ namespace UnityEngine.Rendering.Universal.Internal
                 cmd.SetGlobalVector(ShaderConstants._SpotLightGuard, new Vector4(guard, guard, guard, cosAlpha * vl.range));
                 cmd.SetGlobalVector(ShaderConstants._LightPosWS, lightPos);
                 cmd.SetGlobalVector(ShaderConstants._LightColor, lightColor);
-                cmd.SetGlobalVector(ShaderConstants._LightAttenuation, lightAttenuation);
+                //cmd.SetGlobalVector(ShaderConstants._LightAttenuation, lightAttenuation);
                 cmd.SetGlobalVector(ShaderConstants._LightDirection, new Vector3(lightSpotDir.x, lightSpotDir.y, lightSpotDir.z));
                 cmd.SetGlobalVector(ShaderConstants._LightOcclusionProbInfo, lightOcclusionChannel);
                 cmd.SetGlobalInt(ShaderConstants._LightFlags, lightFlags);

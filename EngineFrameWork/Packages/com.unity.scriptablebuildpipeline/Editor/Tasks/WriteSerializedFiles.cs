@@ -101,8 +101,8 @@ namespace UnityEditor.Build.Pipeline.Tasks
         internal void SetupTaskContext()
         {
             m_GlobalUsage = m_DependencyData.GlobalUsage;
-            foreach (var sceneInfo in m_DependencyData.SceneInfo)
-                m_GlobalUsage |= sceneInfo.Value.globalUsage;
+            // foreach (var sceneInfo in m_DependencyData.SceneInfo)
+                // m_GlobalUsage |= sceneInfo.Value.globalUsage;
 
             m_BuildSettings = m_Parameters.GetContentBuildSettings();
             m_UseCache = m_Parameters.UseCache ? m_Cache : null;

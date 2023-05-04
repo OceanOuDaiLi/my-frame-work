@@ -156,10 +156,6 @@ namespace UnityEngine.Rendering
         /// Field is a normalized vector.
         /// </summary>
         public bool checkIsNormalized;
-        /// <summary>
-        /// If not empty, add a preprocessor #if / #endif with the string provided around the generated hlsl code
-        /// </summary>
-        public string preprocessor;
 
         /// <summary>
         /// SurfaceDataAttributes constructor.
@@ -168,9 +164,7 @@ namespace UnityEngine.Rendering
         /// <param name="isDirection">Field is a direction.</param>
         /// <param name="sRGBDisplay">Field is an sRGB value.</param>
         /// <param name="precision">Field precision.</param>
-        /// <param name="checkIsNormalized">Field checkIsNormalized.</param>
-        /// <param name="preprocessor">Field preprocessor.</param>
-        public SurfaceDataAttributes(string displayName = "", bool isDirection = false, bool sRGBDisplay = false, FieldPrecision precision = FieldPrecision.Default, bool checkIsNormalized = false, string preprocessor = "")
+        public SurfaceDataAttributes(string displayName = "", bool isDirection = false, bool sRGBDisplay = false, FieldPrecision precision = FieldPrecision.Default, bool checkIsNormalized = false)
         {
             displayNames = new string[1];
             displayNames[0] = displayName;
@@ -178,7 +172,6 @@ namespace UnityEngine.Rendering
             this.sRGBDisplay = sRGBDisplay;
             this.precision = precision;
             this.checkIsNormalized = checkIsNormalized;
-            this.preprocessor = preprocessor;
         }
 
         // We allow users to add several names for one field, so user can override the auto behavior and do something else with the same data
@@ -190,16 +183,13 @@ namespace UnityEngine.Rendering
         /// <param name="isDirection">Field is a direction.</param>
         /// <param name="sRGBDisplay">Field is an sRGB value.</param>
         /// <param name="precision">Field precision.</param>
-        /// <param name="checkIsNormalized">Field checkIsNormalized.</param>
-        /// <param name="preprocessor">Field preprocessor.</param>
-        public SurfaceDataAttributes(string[] displayNames, bool isDirection = false, bool sRGBDisplay = false, FieldPrecision precision = FieldPrecision.Default, bool checkIsNormalized = false, string preprocessor = "")
+        public SurfaceDataAttributes(string[] displayNames, bool isDirection = false, bool sRGBDisplay = false, bool checkIsNormalized = false, FieldPrecision precision = FieldPrecision.Default)
         {
             this.displayNames = displayNames;
             this.isDirection = isDirection;
             this.sRGBDisplay = sRGBDisplay;
             this.precision = precision;
             this.checkIsNormalized = checkIsNormalized;
-            this.preprocessor = preprocessor;
         }
     }
 
@@ -268,10 +258,6 @@ namespace UnityEngine.Rendering
         /// True if the field is an sRGB value.
         /// </summary>
         public bool checkIsNormalized;
-        /// <summary>
-        /// If not empty, add a preprocessor #if / #endif with the string provided around the generated hlsl code
-        /// </summary>
-        public string preprocessor;
 
         /// <summary>
         /// Packing Attribute constructor.
@@ -284,9 +270,7 @@ namespace UnityEngine.Rendering
         /// <param name="maxValue">Maximum value.</param>
         /// <param name="isDirection">Field is a direction.</param>
         /// <param name="sRGBDisplay">Field is an sRGB value.</param>
-        /// <param name="checkIsNormalized">Field checkIsNormalized.</param>
-        /// <param name="preprocessor">Field preprocessor.</param>
-        public PackingAttribute(string[] displayNames, FieldPacking packingScheme = FieldPacking.NoPacking, int bitSize = 32, int offsetInSource = 0, float minValue = 0.0f, float maxValue = 1.0f, bool isDirection = false, bool sRGBDisplay = false, bool checkIsNormalized = false, string preprocessor = "")
+        public PackingAttribute(string[] displayNames, FieldPacking packingScheme = FieldPacking.NoPacking, int bitSize = 32, int offsetInSource = 0, float minValue = 0.0f, float maxValue = 1.0f, bool isDirection = false, bool sRGBDisplay = false, bool checkIsNormalized = false)
         {
             this.displayNames = displayNames;
             this.packingScheme = packingScheme;
@@ -296,7 +280,6 @@ namespace UnityEngine.Rendering
             this.checkIsNormalized = checkIsNormalized;
             this.sizeInBits = bitSize;
             this.range = new float[] { minValue, maxValue };
-            this.preprocessor = preprocessor;
         }
 
         /// <summary>
@@ -310,9 +293,7 @@ namespace UnityEngine.Rendering
         /// <param name="maxValue">Maximum value.</param>
         /// <param name="isDirection">Field is a direction.</param>
         /// <param name="sRGBDisplay">Field is an sRGB value.</param>
-        /// <param name="checkIsNormalized">Field checkIsNormalized.</param>
-        /// <param name="preprocessor">Field preprocessor.</param>
-        public PackingAttribute(string displayName = "", FieldPacking packingScheme = FieldPacking.NoPacking, int bitSize = 0, int offsetInSource = 0, float minValue = 0.0f, float maxValue = 1.0f, bool isDirection = false, bool sRGBDisplay = false, bool checkIsNormalized = false, string preprocessor = "")
+        public PackingAttribute(string displayName = "", FieldPacking packingScheme = FieldPacking.NoPacking, int bitSize = 0, int offsetInSource = 0, float minValue = 0.0f, float maxValue = 1.0f, bool isDirection = false, bool sRGBDisplay = false, bool checkIsNormalized = false)
         {
             displayNames = new string[1];
             displayNames[0] = displayName;
@@ -323,7 +304,6 @@ namespace UnityEngine.Rendering
             this.checkIsNormalized = checkIsNormalized;
             this.sizeInBits = bitSize;
             this.range = new float[] { minValue, maxValue };
-            this.preprocessor = preprocessor;
         }
     }
 

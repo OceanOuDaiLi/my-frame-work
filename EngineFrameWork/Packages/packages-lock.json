@@ -81,9 +81,7 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.unity.ugui": "1.0.0",
-        "com.unity.modules.physics": "1.0.0",
-        "com.unity.modules.jsonserialize": "1.0.0"
+        "com.unity.ugui": "1.0.0"
       }
     },
     "com.unity.render-pipelines.universal": {
@@ -92,8 +90,8 @@
       "source": "embedded",
       "dependencies": {
         "com.unity.mathematics": "1.1.0",
-        "com.unity.render-pipelines.core": "10.8.1",
-        "com.unity.shadergraph": "10.8.1"
+        "com.unity.render-pipelines.core": "10.6.0",
+        "com.unity.shadergraph": "10.6.0"
       }
     },
     "com.unity.scriptablebuildpipeline": {

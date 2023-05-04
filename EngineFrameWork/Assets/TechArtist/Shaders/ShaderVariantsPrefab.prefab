@@ -1,0 +1,129 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1948604038711879906
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3200982767727450948}
+  - component: {fileID: 8026972184809089690}
+  m_Layer: 0
+  m_Name: ShaderVariantsPrefab
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3200982767727450948
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948604038711879906}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8026972184809089690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948604038711879906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70f3818cd2596ca429009918498256e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShaderVariants:
+  - Shader: {fileID: 4800000, guid: 4c0ffa5b8aba6ba4d959e03499bcab96, type: 3}
+    PassType: 13
+    keywords:
+    - _RECEIVE_SHADOWS_OFF
+    - QUALITY_LOW
+  - Shader: {fileID: 4800000, guid: 4c0ffa5b8aba6ba4d959e03499bcab96, type: 3}
+    PassType: 13
+    keywords:
+    - _MAIN_LIGHT_SHADOWS
+    - _RECEIVE_SHADOWS_OFF
+    - QUALITY_LOW
+  - Shader: {fileID: 4800000, guid: 4c0ffa5b8aba6ba4d959e03499bcab96, type: 3}
+    PassType: 13
+    keywords:
+    - _RECEIVE_SHADOWS_OFF
+    - QUALITY_MEDIUM
+  - Shader: {fileID: 4800000, guid: 4c0ffa5b8aba6ba4d959e03499bcab96, type: 3}
+    PassType: 13
+    keywords:
+    - _MAIN_LIGHT_SHADOWS
+    - _RECEIVE_SHADOWS_OFF
+    - QUALITY_MEDIUM
+  - Shader: {fileID: 4800000, guid: 4c0ffa5b8aba6ba4d959e03499bcab96, type: 3}
+    PassType: 13
+    keywords:
+    - _RECEIVE_SHADOWS_OFF
+    - QUALITY_HIGH
+  - Shader: {fileID: 4800000, guid: 4c0ffa5b8aba6ba4d959e03499bcab96, type: 3}
+    PassType: 13
+    keywords:
+    - _MAIN_LIGHT_SHADOWS
+    - _RECEIVE_SHADOWS_OFF
+    - QUALITY_HIGH
+  - Shader: {fileID: 4800000, guid: 4c0ffa5b8aba6ba4d959e03499bcab96, type: 3}
+    PassType: 13
+    keywords: []
+  - Shader: {fileID: 4800000, guid: 4c0ffa5b8aba6ba4d959e03499bcab96, type: 3}
+    PassType: 8
+    keywords: []
+  - Shader: {fileID: 4800000, guid: dfb84e81102c0fa4089e23328beab59e, type: 3}
+    PassType: 0
+    keywords:
+    - _IFREMOVEACES_OFF
+  - Shader: {fileID: 4800000, guid: dfb84e81102c0fa4089e23328beab59e, type: 3}
+    PassType: 0
+    keywords:
+    - _IFREMOVEACES_ON
+  - Shader: {fileID: 4800000, guid: a58cff5995d3cbc47b57ae9a8705ae3a, type: 3}
+    PassType: 13
+    keywords:
+    - QUALITY_LOW
+  - Shader: {fileID: 4800000, guid: a58cff5995d3cbc47b57ae9a8705ae3a, type: 3}
+    PassType: 13
+    keywords:
+    - _MAIN_LIGHT_SHADOWS
+    - QUALITY_LOW
+  - Shader: {fileID: 4800000, guid: a58cff5995d3cbc47b57ae9a8705ae3a, type: 3}
+    PassType: 13
+    keywords:
+    - QUALITY_MEDIUM
+  - Shader: {fileID: 4800000, guid: a58cff5995d3cbc47b57ae9a8705ae3a, type: 3}
+    PassType: 13
+    keywords:
+    - _MAIN_LIGHT_SHADOWS
+    - QUALITY_MEDIUM
+  - Shader: {fileID: 4800000, guid: a58cff5995d3cbc47b57ae9a8705ae3a, type: 3}
+    PassType: 13
+    keywords:
+    - QUALITY_HIGH
+  - Shader: {fileID: 4800000, guid: a58cff5995d3cbc47b57ae9a8705ae3a, type: 3}
+    PassType: 13
+    keywords:
+    - _MAIN_LIGHT_SHADOWS
+    - QUALITY_HIGH
+  - Shader: {fileID: 4800000, guid: a58cff5995d3cbc47b57ae9a8705ae3a, type: 3}
+    PassType: 13
+    keywords: []
+  - Shader: {fileID: 4800000, guid: a58cff5995d3cbc47b57ae9a8705ae3a, type: 3}
+    PassType: 8
+    keywords: []
+  - Shader: {fileID: 4800000, guid: 2174c2939cceaf54e93ddf677b9a372d, type: 3}
+    PassType: 13
+    keywords: []

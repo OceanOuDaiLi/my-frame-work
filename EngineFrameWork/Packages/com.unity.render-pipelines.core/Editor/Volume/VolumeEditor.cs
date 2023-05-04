@@ -45,8 +45,6 @@ namespace UnityEditor.Rendering
         {
             m_ComponentList.Clear();
 
-            asset?.Sanitize();
-
             if (asset != null)
                 m_ComponentList.Init(asset, new SerializedObject(asset));
         }

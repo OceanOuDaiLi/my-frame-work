@@ -378,12 +378,7 @@ namespace UnityEditor.Rendering
             //GUILayout.Button(k_LoadButtonContent, EditorStyles.toolbarButton);
             //GUILayout.Button(k_SaveButtonContent, EditorStyles.toolbarButton);
             if (GUILayout.Button(k_ResetButtonContent, EditorStyles.toolbarButton))
-			{
                 DebugManager.instance.Reset();
-                DestroyWidgetStates();
-                UpdateWidgetStates();
-            }
-
             GUILayout.EndHorizontal();
 
             using (new EditorGUILayout.HorizontalScope())

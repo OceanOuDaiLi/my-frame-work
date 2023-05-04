@@ -137,6 +137,13 @@ void AlphaDiscard(real alpha, real cutoff, real offset = 0.0h)
     #endif
 }
 
+void AlphaMulitiply(real3 color, real alpha)
+{
+    #ifdef _ALPHAPREMULTIPLY_ON                                                        
+        color *= alpha;                                                                                                                            
+    #endif        
+}
+
 half OutputAlpha(half outputAlpha, half surfaceType = 0.0)
 {
     return surfaceType == 1 ? outputAlpha : 1.0;

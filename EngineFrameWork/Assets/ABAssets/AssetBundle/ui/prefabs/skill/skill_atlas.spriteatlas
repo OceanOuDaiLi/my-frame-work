@@ -55,8 +55,22 @@ SpriteAtlas:
     isAtlasV2: 0
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
-  m_PackedSprites: []
-  m_PackedSpriteNamesToIndex: []
+  m_PackedSprites:
+  - {fileID: 21300000, guid: ea1c9c40cad74d84e901e3ce2b95981b, type: 3}
+  - {fileID: 21300000, guid: af30c660a94e18c448e394cc69eaf04e, type: 3}
+  - {fileID: 21300000, guid: 3e7ef3b3045b7294282be06e3bc24564, type: 3}
+  - {fileID: 21300000, guid: fb094a14a30e96a4198f0d16aae4f8a5, type: 3}
+  - {fileID: 21300000, guid: f1c4dcb7d20c3b843b883ce132c18801, type: 3}
+  - {fileID: 21300000, guid: 3b1e169a2595f604d95096235362210e, type: 3}
+  - {fileID: 21300000, guid: 2e464eac30e86604992ffbb4af922efd, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - bg_jn7
+  - 10100012
+  - 10100020
+  - login_icon_xuanren2
+  - 10100015
+  - login_icon_xuanren
+  - 40290001
   m_RenderDataMap: {}
   m_Tag: skill_atlas
   m_IsVariant: 0

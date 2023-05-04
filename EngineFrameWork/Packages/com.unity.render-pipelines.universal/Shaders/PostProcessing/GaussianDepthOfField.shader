@@ -122,7 +122,8 @@ Shader "Hidden/Universal Render Pipeline/GaussianDepthOfField"
 
             // Bilinear sampling the coc is technically incorrect but we're aiming for speed here
             half farCoC = SAMPLE_TEXTURE2D_X(_FullCoCTexture, sampler_LinearClamp, uv).x;
-
+            farCoC = max(farCoC, 0.01);
+            
             // Fast bilinear downscale of the source target and pre-multiply the CoC to reduce
             // bleeding of background blur on focused areas
             half3 color = SAMPLE_TEXTURE2D_X(_ColorTexture, sampler_LinearClamp, uv).xyz;

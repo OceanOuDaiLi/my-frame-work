@@ -10,6 +10,7 @@ Shader "Hidden/Universal Render Pipeline/UberPost"
         #pragma multi_compile_local_fragment _ _DITHERING
         #pragma multi_compile_local_fragment _ _LINEAR_TO_SRGB_CONVERSION
         #pragma multi_compile _ _USE_DRAW_PROCEDURAL
+        #pragma multi_compile _ _LOCAL_SSAO
 
         #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
         #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Filtering.hlsl"
@@ -31,6 +32,7 @@ Shader "Hidden/Universal Render Pipeline/UberPost"
         TEXTURE2D(_InternalLut);
         TEXTURE2D(_UserLut);
         TEXTURE2D(_BlueNoise_Texture);
+        TEXTURE2D(_LocalSSAO_Texture);
 
         float4 _Lut_Params;
         float4 _UserLut_Params;
@@ -47,6 +49,7 @@ Shader "Hidden/Universal Render Pipeline/UberPost"
         float4 _Grain_TilingParams;
         float4 _Bloom_Texture_TexelSize;
         float4 _Dithering_Params;
+        float4 _LocalSSAO_Texture_ST;
 
         #define DistCenter              _Distortion_Params1.xy
         #define DistAxis                _Distortion_Params1.zw
@@ -146,6 +149,11 @@ Shader "Hidden/Universal Render Pipeline/UberPost"
             }
             #endif
 
+            #if _LOCAL_SSAO
+                float2 uvAO = uv * _LocalSSAO_Texture_ST.xy + _LocalSSAO_Texture_ST.zw;
+                color *= SAMPLE_TEXTURE2D(_LocalSSAO_Texture, sampler_LinearClamp, uvAO);
+            #endif
+
             #if defined(BLOOM)
             {
                 #if _BLOOM_HQ && !defined(SHADER_API_GLES)
@@ -212,9 +220,6 @@ Shader "Hidden/Universal Render Pipeline/UberPost"
             #if _DITHERING
             {
                 color = ApplyDithering(color, uv, TEXTURE2D_ARGS(_BlueNoise_Texture, sampler_PointRepeat), DitheringScale, DitheringOffset);
-                // Assume color > 0 and prevent 0 - ditherNoise.
-                // Negative colors can cause problems if fed back to the postprocess via render to FP16 texture.
-                color = max(color, 0);
             }
             #endif
 
