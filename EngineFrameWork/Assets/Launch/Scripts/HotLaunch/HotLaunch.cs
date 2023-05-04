@@ -112,11 +112,6 @@ namespace FrameWork.Launch
             await tcs;
         }
 
-        void ShowTips(string tips)
-        {
-            TxtTips = tips;
-        }
-
         void OnDispose()
         {
             //_codeDisk = null;

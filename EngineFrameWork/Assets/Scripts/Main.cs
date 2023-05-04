@@ -94,8 +94,6 @@ namespace FrameWork.Application
 
             });
         }
-
-
         #endregion
     }
 }

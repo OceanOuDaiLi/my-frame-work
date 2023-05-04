@@ -165,7 +165,7 @@ namespace UI
             this.State = TcpState.Connecting;
 
             // show loading rotate ui.
-#if UNITY_EDITOR || __LOG__
+#if UNITY_EDITOR
             ZDebug.Log("Tcp 服务器开始连接");
 #endif
             tcp.Connect();
@@ -267,7 +267,7 @@ namespace UI
 
             byte[] originalBytes = System.Text.Encoding.UTF8.GetBytes(request);
             byte[] encryptBytes = App.Crypt.Encrypt(originalBytes);                 //Error warning: Todo =》 SetCrypy Iv & key. by daili.ou 2023.03.08
-#if UNITY_EDITOR || __LOG__
+#if UNITY_EDITOR
             UnityEngine.Debug.LogFormat("Tcp 服务器请求：{0}", request);
 #endif
             tcp.Send(encryptBytes);
@@ -295,7 +295,7 @@ namespace UI
 
                 heartbeat++;
 
-#if UNITY_EDITOR || __LOG__
+#if UNITY_EDITOR
                 ZDebug.Log("Tcp 服务器心跳请求 :" + heartbeat);
 #endif
                 tcp.Send(new byte[1] { 1 });
@@ -312,7 +312,7 @@ namespace UI
 
         void OnConnect(object sender, EventArgs e)
         {
-#if UNITY_EDITOR || __LOG__
+#if UNITY_EDITOR
             ZDebug.Log("Tcp 服务器连接成功");
 #endif
 
@@ -363,7 +363,7 @@ namespace UI
             byte[] encryptBytes = args.Response.ToByte();
             if (encryptBytes.Length <= 1)
             {
-#if UNITY_EDITOR || __LOG__
+#if UNITY_EDITOR
                 ZDebug.Log("Tcp 服务器心跳响应");
 #endif
                 //心跳有回应的时候直接清零
@@ -379,7 +379,7 @@ namespace UI
             if (seperateIdx > -1) action = response.Substring(0, seperateIdx);
             string json = response.Substring(seperateIdx + 1, response.Length - seperateIdx - 1);
 
-#if UNITY_EDITOR || __LOG__
+#if UNITY_EDITOR
             if (string.IsNullOrEmpty(action)) UnityEngine.Debug.LogErrorFormat("Tcp 服务器返回: {0} {1}", action, json);
             else UnityEngine.Debug.LogFormat("Tcp 服务器返回: {0} {1}", action, json);
 #endif
@@ -420,7 +420,7 @@ namespace UI
                 }
                 catch (Exception e) //捕捉callback里面的异常，避免网络卡死游戏进程
                 {
-#if UNITY_EDITOR || __LOG__
+#if UNITY_EDITOR
                     UnityEngine.Debug.LogError(e);
 #endif
                 }
@@ -455,7 +455,7 @@ namespace UI
                 }
                 catch (Exception e) //捕捉callback里面的异常，避免网络卡死游戏进程
                 {
-#if UNITY_EDITOR || __LOG__
+#if UNITY_EDITOR
                     UnityEngine.Debug.LogError(e);
 #endif
                 }
@@ -467,7 +467,7 @@ namespace UI
         void OnError(object sender, EventArgs e)
         {
             ExceptionEventArgs args = e as ExceptionEventArgs;
-#if UNITY_EDITOR || __LOG__
+#if UNITY_EDITOR
             if (!args.Exception.GetType().Equals(typeof(TcpStateException))) UnityEngine.Debug.LogError(args.Exception);
             else ZDebug.Log(args.Exception);
 #endif
@@ -479,7 +479,7 @@ namespace UI
 
         void OnClose(object sender, EventArgs e)
         {
-#if UNITY_EDITOR || __LOG__
+#if UNITY_EDITOR
             ZDebug.Log("服务器连接关闭");
 #endif
 

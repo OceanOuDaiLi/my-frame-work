@@ -1,10 +1,9 @@
-﻿using FrameWork;
-using System;
+﻿using System;
 using System.IO;
+using FrameWork;
 using UnityEngine;
 using Core.Interface;
 using Core.Interface.IO;
-using Core.Interface.Resources;
 using strange.extensions.dispatcher.eventdispatcher.api;
 
 /********************************************************************
@@ -70,15 +69,15 @@ public class GameMgr : MonoSingleton<GameMgr>
         else
         {
 #endif
-        file = App.AssetDisk.File(System.IO.Path.Combine(App.Env.PlatformToName(), fileName));
-        //if (Ins.isAssetCrypt)
-        //{
-        //    file = App.AssetCryptDisk.File(App.Env.PlatformToName() + Path.AltDirectorySeparatorChar + fileName);
-        //}
-        //else
-        //{
-        //    file = App.AssetDisk.File(App.Env.PlatformToName() + Path.AltDirectorySeparatorChar + fileName);
-        //}
+            file = App.AssetDisk.File(System.IO.Path.Combine(App.Env.PlatformToName(), fileName));
+            //if (Ins.isAssetCrypt)
+            //{
+            //    file = App.AssetCryptDisk.File(App.Env.PlatformToName() + Path.AltDirectorySeparatorChar + fileName);
+            //}
+            //else
+            //{
+            //    file = App.AssetDisk.File(App.Env.PlatformToName() + Path.AltDirectorySeparatorChar + fileName);
+            //}
 #if UNITY_EDITOR
         }
 #endif

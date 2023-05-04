@@ -48,13 +48,13 @@ public class HttpService : IDisposable
 
     public delegate void ManagerErrorEventHandler();
 
-#if UNITY_EDITOR || __LOG__
+#if UNITY_EDITOR
     string url;
 #endif
 
     public HttpService(string url)
     {
-#if UNITY_EDITOR || __LOG__
+#if UNITY_EDITOR
         this.url = url;
 #endif
         eHandlerOnMessage = App.Instance.On(HttpRequestEvents.ON_MESSAGE, ResponseMessage);
@@ -103,71 +103,81 @@ public class HttpService : IDisposable
         object request = null;
         if (param == null)
         {
-#if UNITY_EDITOR || __LOG__
+#if UNITY_EDITOR
             UnityEngine.Debug.Log("Http Get 发起请求: " + url + action);
 #endif
             request = http.Get(action);
         }
         else
         {
-            // http.Post
+            string jsonData = App.Json.Encode(param);
+#if UNITY_EDITOR
+            UnityEngine.Debug.Log("Http Post 发起请求: " + url + action + "\n" + "ParamData:" + "\n" + jsonData);
+#endif
         }
 
-        callbackQueue.Add(request, new HttpResponseExtraInfo(action, succeed));
-    }
-
-    public void RequestRes(string action, Action<byte[]> succeed)
-    {
-        if (actionQueue.Contains(action)) return;
-        actionQueue.Add(action);
-
-#if UNITY_EDITOR|| __LOG__
-        UnityEngine.Debug.Log("Http Get Res 发起请求: " + url + action);
-#endif
-        object request = http.Get(action);
-
+        if (callbackQueue.Count == 0)
+        {
+            // show rotateing img.
+        }
         callbackQueue.Add(request, new HttpResponseExtraInfo(action, succeed));
     }
 
     void ResponseMessage(object Binder, EventArgs e)
     {
-        try
+        HttpRequestEventArgs response = e as HttpRequestEventArgs;
+
+#if UNITY_EDITOR
+        ZDebug.Log("Http 服务器返回: " + response.Text);
+#endif
+
+        HttpResponseExtraInfo extraInfo = null;
+        if (callbackQueue.TryGetValue(response.Request, out extraInfo))
         {
-            HttpRequestEventArgs response = e as HttpRequestEventArgs;
-            HttpResponseExtraInfo extraInfo = null;
+            Dictionary<string, object> dict = App.Json.Decode<Dictionary<string, object>>(response.Text);
 
-            if (callbackQueue.TryGetValue(response.Request, out extraInfo))
+            bool err = CheckLogicError(dict);
+
+            if (!err)
             {
-                if (extraInfo.callback != null)
-                {
+                object data = null;
+                dict.TryGetValue("data", out data);
+                if (data == null) data = dict;
+                extraInfo.callback((Dictionary<string, object>)data);
+            }
 
-#if UNITY_EDITOR || __LOG__
-                    UnityEngine.Debug.Log("Http response text: " + response.Text);
-#endif
+            callbackQueue.Remove(response.Request);
+            actionQueue.Remove(extraInfo.action);
+        }
 
-                    Dictionary<string, object> result = new Dictionary<string, object>();
-                    result["data"] = response.Text;
-                    extraInfo.callback(result);
-                }
-                else if (extraInfo.resCallBack != null)
-                {
-#if UNITY_EDITOR || __LOG__
-                    UnityEngine.Debug.Log("Http response Bytes len: " + response.Bytes.Length);
-#endif
-                    extraInfo.resCallBack(response.Bytes);
-                }
-                else
-                {
-                    // unKnowable callback
-                }
+        if (callbackQueue.Count == 0)
+        {
+            // dispare rotateing img.
+        }
+    }
 
-                callbackQueue.Remove(response.Request);
-                actionQueue.Remove(extraInfo.action);
+    bool CheckLogicError(Dictionary<string, object> dict)
+    {
+        if (dict == null) return true;
+
+        object tmp = null;
+        dict.TryGetValue("code", out tmp);
+        if (tmp != null)
+        {
+            int code = (int)tmp;
+
+            dict.TryGetValue("msg", out tmp);
+            string msg = tmp as string;
+            //Todo: Show Error Msg Alert .
+            switch (code)
+            {
+                case 404:
+                    return false;
+                case 400:
+                    return true;
             }
         }
-        catch (Exception excep)
-        {
-            UnityEngine.Debug.Log("Exception : " + excep);
-        }
+
+        return true;
     }
 }
