@@ -215,7 +215,7 @@ namespace Core
         /// </summary>
         public Env()
         {
-            SetDebugLevel(DebugLevels.Develop);
+            SetDebugLevel(DebugLevels.Auto);
         }
 
         #region Config

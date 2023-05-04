@@ -58,7 +58,6 @@ namespace FrameWork.Launch
             cSharp = AppDomain.CurrentDomain.GetAssemblies().First(assembly => assembly.GetName().Name == "Assembly-CSharp");
             System.Type appType = cSharp.GetType("FrameWork.Application.Main");
 
-
             var mainMethod = appType.GetMethod("HotFixStart");
             if (mainMethod == null)
             {

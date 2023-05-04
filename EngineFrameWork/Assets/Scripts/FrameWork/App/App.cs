@@ -48,7 +48,7 @@ namespace FrameWork
                 if (_env == null)
                 {
                     _env = new Env();
-                    _env.SetDebugLevel(DebugLevels.Develop);
+                    _env.SetDebugLevel(DebugLevels.Auto);
                     //#warning 配置环境目录
 #if UNITY_EDITOR
                     _env.SetResourcesBuildPath("ABAssets/AssetBundle");
