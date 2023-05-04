@@ -13,6 +13,7 @@ namespace FrameWork.Application
         {
             ZDebug.EnableLog = true;
 
+            // CoreMgr StartUp.
             UIMgr.Ins.Startup();
             GameMgr.Ins.Startup();
 
@@ -83,11 +84,10 @@ namespace FrameWork.Application
             {
                 yield return Yielders.EndOfFrame;
             }
-            ZDebug.Log("Start Open");
 
             UIConfig launchView = new UIConfig();
-            launchView.floaderName = "launch";
-            launchView.prefabName = "launch";
+            launchView.floaderName = "login";
+            launchView.prefabName = "login";
             UIMgr.Ins.OpenUI(launchView, (s) =>
             {
 
