@@ -12,6 +12,13 @@ namespace UI
 
         protected override void mapBindings()
         {
+            // bing service.
+            injectionBinder.Bind<ILogInService>().To<LogInService>().ToSingleton();
+
+            // bind command.from event to cmd.
+            commandBinder.Bind(LogInEvent.REQUEST_CLICK_LOGIN).To<LoginCommand>();
+
+            // view & mediator binding.
             mediationBinder.Bind<LogInView>().To<LogInMediator>();
         }
     }

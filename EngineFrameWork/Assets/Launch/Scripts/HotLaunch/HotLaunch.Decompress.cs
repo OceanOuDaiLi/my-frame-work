@@ -13,8 +13,6 @@ namespace FrameWork.Launch
 
             // copy sources file to dest file.
             await CopyFiles();
-
-            LogProgress("Decompressing ... Down");
         }
 
         async ETTask CopyFiles()
@@ -23,12 +21,15 @@ namespace FrameWork.Launch
             int downCount = 0;
             foreach (var item in decompressInfo.DecompressDic)
             {
+                decompressInfo.CurentDecompressSize += item.Value.LongLength;
+                LogProgress(string.Format($"Decompress : {GetBytesString(decompressInfo.CurentDecompressSize)} / {GetBytesString(decompressInfo.TotalDecompressSize)}"));
+
                 if (item.Key.Exists)
                 {
                     item.Key.Delete();
                 }
-                decompressInfo.CurentDecompressSize += item.Value.LongLength;
-                //LogProgress(string.Format($"Decompress : {GetBytesString(decompressInfo.CurentDecompressSize)} / {GetBytesString(decompressInfo.TotalDecompressSize)}"));
+                item.Key.Create(item.Value);
+
                 downCount++;
                 if (downCount.Equals(decompressInfo.DecompressDic.Count))
                 {
@@ -97,8 +98,6 @@ namespace FrameWork.Launch
             }).Coroutine();
             await getTask;
             getTask = null;
-
-            LogProgress(string.Format($"Decompress : {GetBytesString(decompressInfo.CurentDecompressSize)} / {GetBytesString(decompressInfo.TotalDecompressSize)}"));
         }
 
         string FormatStreamingFilePath(string path)

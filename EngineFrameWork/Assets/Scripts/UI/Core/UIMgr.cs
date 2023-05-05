@@ -42,6 +42,7 @@ namespace UI
         #endregion
 
         #region Unity Calls
+
         public void BindUICrossRoot()
         {
             self.AddComponent<UICrossRoot>();
@@ -181,7 +182,6 @@ namespace UI
             GameObject peek = openStack.Peek();
             if (peek != null && !peek.activeSelf) peek.SetActive(true);
             if (onEventRoot != null) onEventRoot();
-
         }
 
         /// <summary>
