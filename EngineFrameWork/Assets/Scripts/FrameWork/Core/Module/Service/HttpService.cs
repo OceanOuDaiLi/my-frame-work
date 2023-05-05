@@ -89,7 +89,7 @@ public class HttpService : IDisposable
 
 
     /// <summary>
-    /// 发起请求
+    /// (登录完成之前)发起请求
     /// </summary>
     /// <param name="action">请求的api</param>
     /// <param name="param">请求的参数</param>
@@ -114,6 +114,11 @@ public class HttpService : IDisposable
 #if UNITY_EDITOR
             UnityEngine.Debug.Log("Http Post 发起请求: " + url + action + "\n" + "ParamData:" + "\n" + jsonData);
 #endif
+
+            //先加密再转byte
+            byte[] body = System.Text.Encoding.UTF8.GetBytes(jsonData);
+            //登录完之后所有接口带上access_token
+            request = http.Post(action, body);
         }
 
         if (callbackQueue.Count == 0)
