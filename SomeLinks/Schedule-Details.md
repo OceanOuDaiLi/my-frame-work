@@ -120,8 +120,10 @@ Res :
 	 -- 资源加载脚本添加StreamingAsset加载策略：
 		-- Way1: 判断持久化路径是否有加载资源。
 				 若有，则从持久化路径加载。
-				 若无，则从StreamingAsset路径加载。
-		-- Way2: 待定。
-		
+				 若无，则从StreamingAsset路径加载。		
 #### 添加AdvanFPS工具 & 重构体型工具 & 接入体型测试资源 ####
 #### 启动流程重构 -> Launch 应该包含热更资源下载 ####
+
+#### Add ToDoList #### 2023.5.5
+1.Java - Hall FrameWork.
+2.Fight LockStep.
