@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class MyUnityTextureWindow : EditorWindow
 {
 
-    [MenuItem(("公共工具/UnityTextureWindow"), priority = 300)]
+    //[MenuItem(("公共工具/UnityTextureWindow"), priority = 300)]
     static void Init()
     {
         EditorWindow.GetWindow<MyUnityTextureWindow>("MyUnityTextureWindow");
@@ -27,7 +27,6 @@ public class MyUnityTextureWindow : EditorWindow
                 m_Icons.Add(x.name);
             }
         }
-        Debug.Log(m_Icons.Count);
     }
     void OnGUI()
     {
