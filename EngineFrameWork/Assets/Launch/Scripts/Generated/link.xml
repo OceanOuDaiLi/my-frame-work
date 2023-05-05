@@ -232,7 +232,6 @@
     <type fullname="UnityEngine.FilterMode" preserve="all" />
     <type fullname="UnityEngine.GameObject" preserve="all" />
     <type fullname="UnityEngine.Graphics" preserve="all" />
-    <type fullname="UnityEngine.HeaderAttribute" preserve="all" />
     <type fullname="UnityEngine.HelpURLAttribute" preserve="all" />
     <type fullname="UnityEngine.HideFlags" preserve="all" />
     <type fullname="UnityEngine.LayerMask" preserve="all" />

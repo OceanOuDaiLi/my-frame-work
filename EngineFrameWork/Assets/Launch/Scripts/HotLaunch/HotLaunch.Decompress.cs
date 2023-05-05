@@ -6,13 +6,15 @@ namespace FrameWork.Launch
     {
         async ETTask AccompanyFilesDecompress()
         {
-            LogProgress("Decompressing ...");
+            LogProgress("Decompressing ... Start");
 
             // get sources files.
             await RequestStreamingFiles();
 
             // copy sources file to dest file.
             await CopyFiles();
+
+            LogProgress("Decompressing ... Down");
         }
 
         async ETTask CopyFiles()
@@ -27,16 +29,9 @@ namespace FrameWork.Launch
                 }
                 decompressInfo.CurentDecompressSize += item.Value.LongLength;
                 //LogProgress(string.Format($"Decompress : {GetBytesString(decompressInfo.CurentDecompressSize)} / {GetBytesString(decompressInfo.TotalDecompressSize)}"));
-                if (item.Key.FullName.Contains("launch"))
-                {
-                    _assetReleaseDir.Create("ui/prefabs");
-                }
-                item.Key.Create(item.Value);
                 downCount++;
                 if (downCount.Equals(decompressInfo.DecompressDic.Count))
                 {
-                    LogProgress("Copy End");
-
                     copyTask.SetResult();
                 }
             }
@@ -51,11 +46,11 @@ namespace FrameWork.Launch
             // prepare decompress
             decompressInfo = new DecompressInfo();
             int copyCount = 5;
-            string _aotStreamingFile = GetStreamingFilePath(_streamingReleaseDir.File(AOT_FILE).FullName);
-            string _keyStreamingFile = GetStreamingFilePath(_streamingReleaseDir.File(KEY_FILE).FullName);
-            string _hostsStreamingFile = GetStreamingFilePath(_streamingReleaseDir.File(HOSTS_FILE).FullName);
-            string _updateStreamingFile = GetStreamingFilePath(_streamingReleaseDir.File(UPDATE_FILE).FullName);
-            string _hotFixStreamingFile = GetStreamingFilePath(_streamingReleaseDir.File(HOT_FIX_FILE).FullName);
+            string _aotStreamingFile = FormatStreamingFilePath(_streamingReleaseDir.File(AOT_FILE).FullName);
+            string _keyStreamingFile = FormatStreamingFilePath(_streamingReleaseDir.File(KEY_FILE).FullName);
+            string _hostsStreamingFile = FormatStreamingFilePath(_streamingReleaseDir.File(HOSTS_FILE).FullName);
+            string _updateStreamingFile = FormatStreamingFilePath(_streamingReleaseDir.File(UPDATE_FILE).FullName);
+            string _hotFixStreamingFile = FormatStreamingFilePath(_streamingReleaseDir.File(HOT_FIX_FILE).FullName);
 
             // get source files.
             ETTask getTask = ETTask.Create(true);
@@ -106,15 +101,15 @@ namespace FrameWork.Launch
             LogProgress(string.Format($"Decompress : {GetBytesString(decompressInfo.CurentDecompressSize)} / {GetBytesString(decompressInfo.TotalDecompressSize)}"));
         }
 
-        string GetStreamingFilePath(string path)
+        string FormatStreamingFilePath(string path)
         {
-            if (UnityEngine.Application.isMobilePlatform || UnityEngine.Application.isConsolePlatform)
+            if (Application.isMobilePlatform || Application.isConsolePlatform)
             {
-                if (UnityEngine.Application.platform == RuntimePlatform.IPhonePlayer)
+                if (Application.platform == RuntimePlatform.IPhonePlayer)
                 {
                     return string.Format("file://{0}", path);
                 }
-                else if (UnityEngine.Application.platform == RuntimePlatform.Android)
+                else if (Application.platform == RuntimePlatform.Android)
                 {
                     return path;
                 }

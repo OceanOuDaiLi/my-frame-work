@@ -9,8 +9,6 @@ namespace FrameWork.Launch
 {
     public partial class HotLaunch : MonoBehaviour
     {
-        string TxtTips = string.Empty;
-
         //先默认不加密
         bool IsCodeCrypt = false;
         bool IsAssetCrypt = false;
@@ -66,8 +64,6 @@ namespace FrameWork.Launch
             }
 
             mainMethod.Invoke(null, new object[] { "" });
-
-            OnDispose();
         }
 #endif
 
@@ -114,16 +110,21 @@ namespace FrameWork.Launch
 
         void OnDispose()
         {
-            //_codeDisk = null;
-            //_assetDisk = null;
-            //_streamingDisk = null;
-            //_codeReleaseDir = null;
-            //_assetReleaseDir = null;
-            //_streamingReleaseDir = null;
+            _assetDisk = null;
+            _streamingDisk = null;
+            _assetReleaseDir = null;
+            _streamingReleaseDir = null;
 
             _hostIni = null;
             _localVer = null;
             _serverVer = null;
+
+            _aotFile = null;
+            _keyFile = null;
+            _hostsFile = null;
+            _hotFixFile = null;
+            _updateFile = null;
+            _versionFile = null;
         }
     }
 }

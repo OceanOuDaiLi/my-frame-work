@@ -79,6 +79,8 @@ namespace FrameWork.Application
                 yield return Yielders.EndOfFrame;
             }
 
+            UIMgr.Ins.BindUICrossRoot();
+
             AsyncOperation sc = SceneManager.LoadSceneAsync("Scenes/LogIn", new LoadSceneParameters(LoadSceneMode.Single));
             while (!sc.isDone)
             {

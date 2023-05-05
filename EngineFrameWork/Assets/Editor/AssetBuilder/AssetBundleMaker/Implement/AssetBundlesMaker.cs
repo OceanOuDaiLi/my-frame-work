@@ -156,7 +156,7 @@ namespace Core.AssetBuilder
             ExcuteBuildStrategy(filter, false);
         }
 
-        [MenuItem("打包工具/快速构建AOT", priority = 220)]
+        [MenuItem("打包工具/Editor快速构建AOT", priority = 220)]
         /// <summary>
         ///  Gen Supplementary AOT Metadata 
         /// </summary>
@@ -235,7 +235,7 @@ namespace Core.AssetBuilder
             Debug.Log("### Application Build Completed ###");
         }
 
-        [MenuItem("打包工具/快速构建pkg", priority = 320)]
+        [MenuItem("打包工具/Editor快速构建pkg", priority = 320)]
         /// <summary>
         /// Building First Package By Platform.
         /// </summary>
@@ -258,6 +258,7 @@ namespace Core.AssetBuilder
             BuildFirstPkg = false;
         }
 
+        [MenuItem("打包工具/Editor快速构建热更", priority = 420)]
         /// <summary>
         /// Building Application hot-fix.
         /// </summary>

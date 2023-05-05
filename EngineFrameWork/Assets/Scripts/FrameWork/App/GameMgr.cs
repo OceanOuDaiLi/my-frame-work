@@ -47,6 +47,7 @@ public class GameMgr : MonoSingleton<GameMgr>
     void Start()
     {
         Inited = true;
+        ZDebug.Log("GameMgr Start");
     }
 
     void LowMemoryCallBack()

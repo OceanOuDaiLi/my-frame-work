@@ -14,7 +14,7 @@ namespace UI
         CanvasScaler scaler;
 
         private int SortOrder = 0;
-        private string CanvasName = "UICanvas";
+        private const string CanvasName = "UICanvas";
         private Vector2 ReferenceResolution = new Vector2(1920, 1080);
         private RenderMode CanvasRenderMode = RenderMode.ScreenSpaceOverlay;
         private CanvasScaler.ScaleMode UIScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
@@ -42,6 +42,10 @@ namespace UI
         #endregion
 
         #region Unity Calls
+        public void BindUICrossRoot()
+        {
+            self.AddComponent<UICrossRoot>();
+        }
 
         protected override void Init()
         {
@@ -74,16 +78,13 @@ namespace UI
 
             self.AddComponent<GraphicRaycaster>();
             self.name = CanvasName;
-
-            base.Init();
-
-
         }
 
         private void Start()
         {
             uiContainer = transform;
             Inited = true;
+            ZDebug.Log("UIMgr Start");
         }
 
         private void OnDestroy()

@@ -1,3 +1,4 @@
+using UI;
 
 namespace Model
 {
@@ -5,6 +6,7 @@ namespace Model
     {
         public static GlobalData instance = null;
 
+        public TcpService tcpService = null;
         public HttpService httpService = null;
 
         public GlobalData()

@@ -1,4 +1,5 @@
-﻿using strange.extensions.mediation.impl;
+﻿using Model;
+using strange.extensions.mediation.impl;
 
 namespace UI
 {
@@ -6,6 +7,9 @@ namespace UI
     {
         [Inject]
         public MVCSNameView view { get; set; }
+
+        [Inject]
+        public GlobalData globalData { get; set; }
 
         public override void OnRegister()
         {
