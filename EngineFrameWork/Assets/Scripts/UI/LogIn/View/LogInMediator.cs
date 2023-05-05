@@ -30,6 +30,8 @@ namespace UI
         {
             ZDebug.Log("LogIn Mediator :  OnRemove");
             view.dispatcher.RemoveListener(LogInEvent.ON_CLICK_LOGIN, OnClickLogIn);
+
+            dispatcher.RemoveListener(LogInEvent.RESPONSE_LOGIN_SUCCESS, OnResponseLoginSuccess);
         }
         #endregion
 
