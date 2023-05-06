@@ -1,8 +1,6 @@
 ﻿using Model;
 using strange.extensions.mediation.impl;
 using strange.extensions.dispatcher.eventdispatcher.impl;
-using strange.extensions.dispatcher.eventdispatcher.api;
-using System;
 
 namespace UI
 {
