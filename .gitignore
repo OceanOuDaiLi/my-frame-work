@@ -6,7 +6,15 @@ EngineFrameWork/HybridCLRData/
 EngineFrameWork/Package_Release/
 EngineFrameWork/Assets/StreamingAssets/
 
-EngineFrameWork/Packages/ml-agents-com.unity.ml-agents_1.0.8/
+EngineFrameWork_Server/obj
+EngineFrameWork_Server/.vsconfig
+EngineFrameWork_Server/Library/
+EngineFrameWork_Server/AOT-Release/
+EngineFrameWork_Server/HybridCLRData/
+EngineFrameWork_Server/Assets/
+EngineFrameWork_Server/Packages/
+EngineFrameWork_Server/ProjectSettings/
+
 [Tt]emp/
 [Oo]bj/
 [Bb]uild/
