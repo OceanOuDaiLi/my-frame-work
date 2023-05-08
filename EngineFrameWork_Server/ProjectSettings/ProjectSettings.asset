@@ -691,7 +691,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    1: 
+    1: __SERVER__
     4: FAIRYGUI_TOLUA;CROSS_PLATFORM_INPUT;MOBILE_INPUT
     7: __LOG__
     13: UNITY_POST_PROCESSING_STACK_V2

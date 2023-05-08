@@ -17,6 +17,17 @@ cd "Assets"
 rd /s /Q Scenes
 mklink /J Scenes "%~dp0../EngineFrameWork/Assets/Scenes"
 
+cd "Scripts/Engine/"
+rd /s /Q LockStep
+mklink /J LockStep "%~dp0../EngineFrameWork/Assets/Scripts/Engine/LockStep"
+
+
+
+
+REM cd "Assets"
+REM rd /s /Q Debug
+REM mklink /J Debug "%~dp0../EngineFrameWork/Assets/Scripts/Engine/LockStep/Debug/"
+
 
 REM cd ".."
 REM cd "ProjectSettings"
