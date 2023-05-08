@@ -4,7 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using Core.Utils.SevenZip;
 using Core.Utils.SevenZip.Compression.LZMA;
-using ICSharpCode.SharpZipLib.Zip.Compression;
+//using ICSharpCode.SharpZipLib.Zip.Compression;
 using UnityEngine;
 
 /********************************************************************
@@ -79,49 +79,49 @@ public static class ZipHelper
 
     #region Way 2 # ICSharpCode.SharpZipLib.Zip # 压缩/解压缩 [可选压缩格式]
 
-    public static byte[] Zip(byte[] content)
-    {
-        //return content;
-        Deflater compressor = new Deflater();
-        compressor.SetLevel(Deflater.BEST_COMPRESSION);
+    //public static byte[] Zip(byte[] content)
+    //{
+    //    //return content;
+    //    Deflater compressor = new Deflater();
+    //    compressor.SetLevel(Deflater.BEST_COMPRESSION);
 
-        compressor.SetInput(content);
-        compressor.Finish();
+    //    compressor.SetInput(content);
+    //    compressor.Finish();
 
-        using (MemoryStream bos = new MemoryStream(content.Length))
-        {
-            var buf = new byte[1024];
-            while (!compressor.IsFinished)
-            {
-                int n = compressor.Deflate(buf);
-                bos.Write(buf, 0, n);
-            }
-            return bos.ToArray();
-        }
-    }
+    //    using (MemoryStream bos = new MemoryStream(content.Length))
+    //    {
+    //        var buf = new byte[1024];
+    //        while (!compressor.IsFinished)
+    //        {
+    //            int n = compressor.Deflate(buf);
+    //            bos.Write(buf, 0, n);
+    //        }
+    //        return bos.ToArray();
+    //    }
+    //}
 
-    public static byte[] Unzip(byte[] content)
-    {
-        return Unzip(content, 0, content.Length);
-    }
+    //public static byte[] Unzip(byte[] content)
+    //{
+    //    return Unzip(content, 0, content.Length);
+    //}
 
-    public static byte[] Unzip(byte[] content, int offset, int count)
-    {
-        //return content;
-        Inflater decompressor = new Inflater();
-        decompressor.SetInput(content, offset, count);
+    //public static byte[] Unzip(byte[] content, int offset, int count)
+    //{
+    //    //return content;
+    //    Inflater decompressor = new Inflater();
+    //    decompressor.SetInput(content, offset, count);
 
-        using (MemoryStream bos = new MemoryStream(content.Length))
-        {
-            var buf = new byte[1024];
-            while (!decompressor.IsFinished)
-            {
-                int n = decompressor.Inflate(buf);
-                bos.Write(buf, 0, n);
-            }
-            return bos.ToArray();
-        }
-    }
+    //    using (MemoryStream bos = new MemoryStream(content.Length))
+    //    {
+    //        var buf = new byte[1024];
+    //        while (!decompressor.IsFinished)
+    //        {
+    //            int n = decompressor.Inflate(buf);
+    //            bos.Write(buf, 0, n);
+    //        }
+    //        return bos.ToArray();
+    //    }
+    //}
 
     #endregion
 
