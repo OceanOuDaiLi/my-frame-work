@@ -24,7 +24,6 @@ namespace Core.Network
         {
             Http,
             Tcp,
-            Udp,
             UnityWeb,
         }
 
@@ -61,8 +60,6 @@ namespace Core.Network
                     connector = new HttpWebRequest(); break;
                 case NetworkRequestType.Tcp:
                     connector = new TcpRequest(); break;
-                case NetworkRequestType.Udp:
-                    connector = new UdpRequest(); break;
                 case NetworkRequestType.UnityWeb:
                     connector = new WebRequest(); break;
             }
