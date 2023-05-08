@@ -5,14 +5,13 @@ rd /s /Q Packages
 mklink /J Packages "%~dp0../EngineFrameWork/Packages"
 
 	
-rd /s /Q ProjectSettings
-mklink /J ProjectSettings "%~dp0../EngineFrameWork/ProjectSettings"
-
-
 cd "Assets"
 rd /s /Q Launch
 mklink /J Launch "%~dp0../EngineFrameWork/Assets/Launch"
 
+cd "Assets"
+rd /s /Q Plugins
+mklink /J Plugins "%~dp0../EngineFrameWork/Assets/Plugins"
 
 cd "Assets"
 rd /s /Q Scenes
@@ -33,6 +32,9 @@ REM mklink DynamicsManager.asset "%~dp0../EngineFrameWork/ProjectSettings/Dynami
 
 REM del /f /Q EditorBuildSettings.asset
 REM mklink EditorBuildSettings.asset "%~dp0../EngineFrameWork/ProjectSettings/EditorBuildSettings.asset"
+
+REM rd /s /Q ProjectSettings
+REM mklink /J ProjectSettings "%~dp0../EngineFrameWork/ProjectSettings"
 
 echo "链接完成，按任意键退出...."
 

@@ -9,6 +9,7 @@ namespace FrameWork.Launch
 {
     public partial class HotLaunch : MonoBehaviour
     {
+#if __CLIENT__
         //先默认不加密
         bool IsCodeCrypt = false;
         bool IsAssetCrypt = false;
@@ -126,5 +127,6 @@ namespace FrameWork.Launch
             _updateFile = null;
             _versionFile = null;
         }
+#endif
     }
 }
