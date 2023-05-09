@@ -19,9 +19,8 @@ mklink /J Scenes "%~dp0../EngineFrameWork/Assets/Scenes"
 
 cd "Scripts/Engine/LockStep"
 
-
-rd /s /Q Common
-mklink /J Common "%~dp0../EngineFrameWork/Assets/Scripts/Engine/LockStep/Common"
+rd /s /Q Share
+mklink /J Share "%~dp0../EngineFrameWork/Assets/Scripts/Engine/LockStep/Share"
 
 rd /s /Q Debug
 mklink /J Debug "%~dp0../EngineFrameWork/Assets/Scripts/Engine/LockStep/Debug"
