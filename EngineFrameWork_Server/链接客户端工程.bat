@@ -17,10 +17,14 @@ cd "Assets"
 rd /s /Q Scenes
 mklink /J Scenes "%~dp0../EngineFrameWork/Assets/Scenes"
 
-cd "Scripts/Engine/"
-rd /s /Q LockStep
-mklink /J LockStep "%~dp0../EngineFrameWork/Assets/Scripts/Engine/LockStep"
+cd "Scripts/Engine/LockStep"
 
+
+rd /s /Q Common
+mklink /J Common "%~dp0../EngineFrameWork/Assets/Scripts/Engine/LockStep/Common"
+
+rd /s /Q Debug
+mklink /J Debug "%~dp0../EngineFrameWork/Assets/Scripts/Engine/LockStep/Debug"
 
 
 
