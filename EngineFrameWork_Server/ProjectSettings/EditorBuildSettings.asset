@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Launch.unity
     guid: 5dc696292d8f7c849aff55e04bbcb102
   - enabled: 1
-    path: Assets/Scenes/Server/Server_Room.unity
+    path: Assets/Scenes/Server/Server_Gate.unity
     guid: a0c6067d7cb89094c80d78a6eb87f26a
   - enabled: 1
     path: Assets/Scenes/Server/Server_Game.unity

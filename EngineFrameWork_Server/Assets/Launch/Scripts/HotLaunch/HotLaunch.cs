@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using System.Threading;
 
 #if UNITY_EDITOR
 using System.Linq;
@@ -126,6 +127,27 @@ namespace FrameWork.Launch
             _hotFixFile = null;
             _updateFile = null;
             _versionFile = null;
+        }
+#endif
+
+#if __SERVER__
+        void Start()
+        {
+            // 测试用直接启动
+#if UNITY_EDITOR
+            System.Reflection.Assembly cSharp = null;
+            cSharp = AppDomain.CurrentDomain.GetAssemblies().First(assembly => assembly.GetName().Name == "Assembly-CSharp");
+            System.Type appType = cSharp.GetType("Server.Http.HttpServer");
+
+            var mainMethod = appType.GetMethod("OnStart");
+            if (mainMethod == null)
+            {
+                UnityEngine.Debug.LogError($"[HotLaunch::HttpServer] OnStart is null");
+                return;
+            }
+
+            mainMethod.Invoke(null, null);
+#endif
         }
 #endif
     }

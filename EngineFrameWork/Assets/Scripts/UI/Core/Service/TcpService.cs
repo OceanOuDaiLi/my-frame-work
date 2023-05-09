@@ -285,7 +285,8 @@ namespace UI
                 if (heartbeat <= 1) heartbeatInterval = HEARTBEAT_INTERVAL;
                 else heartbeatInterval = HEARTBEAT_INTERVAL_SHORT;
 
-                yield return new UnityEngine.WaitForSeconds(heartbeatInterval);
+                yield return Yielders.GetWaitForSeconds(heartbeatInterval);
+                //yield return new UnityEngine.WaitForSeconds(heartbeatInterval);
 
                 if (heartbeat >= HEARTBEAT_MAX)
                 {
