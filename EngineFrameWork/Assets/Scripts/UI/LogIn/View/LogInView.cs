@@ -5,6 +5,19 @@ namespace UI
 {
     public class LogInView : EventView
     {
+        private LogInMediator mediator;
+
+        public void BindMediator(LogInMediator _mediator)
+        {
+            mediator = _mediator;
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+            ZDebug.Log("LogInView Awake");
+        }
+
         public void OnClickLogIn()
         {
             ZDebug.Log("OnClickLogIn View");
@@ -13,7 +26,9 @@ namespace UI
             logInModel.password = "password";
             logInModel.userName = "10001";
             logInModel.email = "chinanumone@163.com";
-            dispatcher.Dispatch(LogInEvent.ON_CLICK_LOGIN, logInModel);
+            mediator.OnClickLogIn(logInModel);
+
+            //dispatcher.Dispatch(LogInEvent.ON_CLICK_LOGIN, logInModel);
         }
     }
 }

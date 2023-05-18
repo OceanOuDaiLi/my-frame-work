@@ -61,8 +61,14 @@ namespace Core.Resources
         private string loadPath = string.Empty;
         #endregion
 
-        #region 异步加载
+        #region 异步加载资源
 
+        /// <summary>
+        /// 异步加载资源
+        /// </summary>
+        /// <param name="path">资源路径</param>
+        /// <param name="callback">回调</param>
+        /// <returns>ETTask</returns>
         public async ETTask TaskLoadAssetAsync(string path, System.Type type, System.Action<Object> callback)
         {
             LoadManifest();
@@ -317,6 +323,37 @@ namespace Core.Resources
                 await tcs;
                 tcs = null;
             }
+        }
+
+        #endregion
+
+        #region 异步加载AB资源包
+
+        public async ETTask LoadAssetBundleAsync(string path, System.Action<AssetBundle> callback)
+        {
+            LoadManifest();
+            var relPath = path;
+            AssetBundle assetTarget = null;
+
+            //加入保护的列表
+            if (!protectedList.ContainsKey(relPath))
+            {
+                protectedList.Add(relPath, 1);
+            }
+            else
+            {
+                protectedList[relPath]++;
+            }
+
+            await TaskLoadAssetBundleAsync(App.Env.AssetPath, relPath, (ab) =>
+             {
+                 assetTarget = ab;
+             });
+
+            callback(assetTarget);
+
+            protectedList[relPath]--;
+            if (protectedList[relPath] <= 0) { protectedList.Remove(relPath); }
         }
 
         #endregion

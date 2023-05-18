@@ -2,7 +2,6 @@
 using Core.Resources;
 using System.Collections.Generic;
 
-
 public static class TimeAwaitHelper
 {
     internal static readonly Queue<TimerAwait> TimerFactoryQueue = new Queue<TimerAwait>();

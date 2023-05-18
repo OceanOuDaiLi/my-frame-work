@@ -13,10 +13,15 @@ namespace UI
 
         public override void OnRegister()
         {
+            // 'OnRegister' excused order on this mono scripts: After -> 'Awake'、'OnEnable' && Before 'Start'.
+            view.BindMediator(this);
+
+            // binds global events below.
         }
 
         public override void OnRemove()
         {
+            // remove global events' binding below.
         }
     }
 }

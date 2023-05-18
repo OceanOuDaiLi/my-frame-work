@@ -255,8 +255,10 @@ namespace UI
                 }
                 else
                 {
-                    List<RequestTask> ls = new List<RequestTask>();
-                    ls.Add(new RequestTask { Action = action, Parameters = param, Callback = callback });
+                    List<RequestTask> ls = new List<RequestTask>
+                    {
+                        new RequestTask { Action = action, Parameters = param, Callback = callback }
+                    };
                     requestQueue.Add(action, ls);
                 }
             }
@@ -286,7 +288,6 @@ namespace UI
                 else heartbeatInterval = HEARTBEAT_INTERVAL_SHORT;
 
                 yield return Yielders.GetWaitForSeconds(heartbeatInterval);
-                //yield return new UnityEngine.WaitForSeconds(heartbeatInterval);
 
                 if (heartbeat >= HEARTBEAT_MAX)
                 {

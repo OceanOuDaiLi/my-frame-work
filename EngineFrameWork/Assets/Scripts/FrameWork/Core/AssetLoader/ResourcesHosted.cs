@@ -1,9 +1,7 @@
 ﻿using FrameWork;
 using System.IO;
-using FrameWork;
 using UnityEngine;
 using Core.Interface;
-using System.Collections;
 using Core.Interface.Resources;
 using System.Collections.Generic;
 
