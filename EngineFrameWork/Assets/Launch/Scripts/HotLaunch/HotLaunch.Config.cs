@@ -63,22 +63,6 @@ namespace FrameWork.Launch
 
         string _localVerCode = string.Empty;
         string _serverVerCode = string.Empty;
-
-        DownloadData downloadData { get; set; }
-        internal class DownloadData
-        {
-            public DownloadType downType;
-            public string zipFile;
-            public string updateFile;
-
-            public enum DownloadType
-            {
-                TOTAL_FILE = 0,
-                ZIP = 1,
-                TOTAL_PACKAGE = 2,
-            }
-        }
-
         #endregion
 
         #region Decompress Variables

@@ -13,7 +13,6 @@ namespace FrameWork.Application
         {
             ZDebug.EnableLog = true;
 
-            // CoreMgr StartUp.
             UIMgr.Ins.Startup();
             GameMgr.Ins.Startup();
 
@@ -87,6 +86,14 @@ namespace FrameWork.Application
                 yield return Yielders.EndOfFrame;
             }
 
+            //UIConfig loadingView = new UIConfig();
+            //loadingView.floaderName = "loading";
+            //loadingView.prefabName = "loading";
+            //UIMgr.Ins.OpenUI(loadingView, (s) =>
+            //{
+            //    ZDebug.Log("Loading View Opened");
+            //});
+
             UIConfig launchView = new UIConfig();
             launchView.floaderName = "login";
             launchView.prefabName = "login";
@@ -95,6 +102,7 @@ namespace FrameWork.Application
 
 
             });
+
         }
         #endregion
     }

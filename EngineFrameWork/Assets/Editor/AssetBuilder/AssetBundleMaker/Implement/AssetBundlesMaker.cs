@@ -40,27 +40,19 @@ namespace Core.AssetBuilder
         public static string _cdnDirName = string.Empty;
         public static string _chanelDirName = string.Empty;
         public static string _outPutFloderName = string.Empty;
-        public static string _zipName = "AssetZip";
         public static string _verFileName = "Version.ini";
         public static string _upLoadFloderName = "Res_UpLoad";
-        public static string _splitFloderName = "Split_Storage";
         public static string _rootFloderName = "Package_Release";
-        public static string _storageFloderName = "Total_Storage";
 
-        public static IFile _versionF;
         public static IDisk _rootDisk;
         public static IDirectory _cdnDir;
         public static IDisk _streamingDisk;
-        public static IDirectory _splitDir;
         public static IDirectory _upLoadDir;
         public static IDirectory _chanelDir;
-        public static IDirectory _storageDir;
         public static IDirectory _curBuildDir;
         public static IDirectory _platformDir;
         public static IDirectory _souceAssetDir;
         public static IDirectory _projectRootDir;
-        public static IDirectory _outPutCacheDir;
-        public static IDirectory _upLoadCachedDir;
 
         private static Core.IO.IO _io;
         public static Core.IO.IO IO
@@ -172,7 +164,7 @@ namespace Core.AssetBuilder
         /// </summary>
         public static void BuildApplication()
         {
-            string outputPath = _upLoadCachedDir.Path;
+            string outputPath = AssetBundlesMaker._curBuildDir.Path;
             var buildOptions = BuildOptions.CompressWithLz4;
             BuildPlayerOptions buildPlayerOptions;
 
@@ -233,6 +225,8 @@ namespace Core.AssetBuilder
                 Debug.LogError("UnKnow build target");
             }
             Debug.Log("### Application Build Completed ###");
+
+            CompleteStrategy.OpenBuildFloder(_upLoadDir.Path);
         }
 
         [MenuItem("打包工具/Editor快速构建pkg", priority = 320)]
@@ -275,6 +269,26 @@ namespace Core.AssetBuilder
             BuildHCLRCommand.BuildHybridCLRHotRes(EditorUserBuildSettings.activeBuildTarget);
 
             BuildAssetBundle();
+
+            CompleteStrategy.OpenBuildFloder(_upLoadDir.Path);
+        }
+
+        [MenuItem("test/setup")]
+        public static void TestSetUp()
+        {
+            Type[] filter = new Type[] {
+                typeof(ClearStrategy),
+                typeof(BuildStrategy),
+                typeof(ScanningStrategy),
+                typeof(EncryptionStrategy),
+                typeof(GenTableStrategy),
+                typeof(AutoUpdateGenPathStrategy),
+                typeof(SplitBundleStrategy),
+                typeof(ZipBundleStrategy),
+                typeof(GenVersionStrategy),
+                typeof(CompleteStrategy)
+            };
+            ExcuteBuildStrategy(filter, false);
         }
 
         #endregion
@@ -328,9 +342,9 @@ namespace Core.AssetBuilder
             strategys.Sort((left, right) => ((int)left.Process).CompareTo((int)right.Process));
 
             var context = new BuildContext();
-            context.IsAssetCrypt = _applicationBuildInfo == null ? false : _applicationBuildInfo.EncryptAsset;
-            context.IsCodeCrypt = _applicationBuildInfo == null ? false : _applicationBuildInfo.EncryptCode;
-            context.IsConfigCrypt = _applicationBuildInfo == null ? false : _applicationBuildInfo.EncryptCfgAsset;
+            context.IsAssetCrypt = false;//_applicationBuildInfo == null ? false : _applicationBuildInfo.EncryptAsset;
+            context.IsCodeCrypt = false;//_applicationBuildInfo == null ? false : _applicationBuildInfo.EncryptCode;
+            context.IsConfigCrypt = false;//_applicationBuildInfo == null ? false : _applicationBuildInfo.EncryptCfgAsset;
             context.ClearOldAssetBundleFlag = clearOldABFlag;
 
             foreach (var buildStrategy in strategys.ToArray())

@@ -1,5 +1,3 @@
-using FrameWork.Launch.Utils;
-
 namespace FrameWork.Launch
 {
     public partial class HotLaunch
@@ -7,12 +5,17 @@ namespace FrameWork.Launch
 
         void PrepareDownload()
         {
-            downloadData = new DownloadData();
+            //1.get local updatelist
+            //2.get server updatelist
+            //3.compare updatelist
 
-            int subVersion = !_hasLocalVer ? Utility.SubVersion("0.0.0", _serverVerCode) : Utility.SubVersion(_localVerCode, _serverVerCode);
-            downloadData.downType = subVersion > 1 ? DownloadData.DownloadType.TOTAL_FILE : DownloadData.DownloadType.ZIP;
-            downloadData.zipFile = _serverVer.Get("Version", "ZipFile");
-            downloadData.updateFile = _serverVer.Get("Version", "UpdateFile");
+
+            //downloadData = new DownloadData();
+
+            //int subVersion = !_hasLocalVer ? Utility.SubVersion("0.0.0", _serverVerCode) : Utility.SubVersion(_localVerCode, _serverVerCode);
+            //downloadData.downType = subVersion > 1 ? DownloadData.DownloadType.TOTAL_FILE : DownloadData.DownloadType.ZIP;
+            //downloadData.zipFile = _serverVer.Get("Version", "ZipFile");
+            //downloadData.updateFile = _serverVer.Get("Version", "UpdateFile");
         }
 
         //async ETTask StartDownload()

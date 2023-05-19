@@ -46,12 +46,13 @@ namespace FrameWork.Launch
         {
             // prepare decompress
             decompressInfo = new DecompressInfo();
-            int copyCount = 5;
+            int copyCount = 6;
             string _aotStreamingFile = FormatStreamingFilePath(_streamingReleaseDir.File(AOT_FILE).FullName);
             string _keyStreamingFile = FormatStreamingFilePath(_streamingReleaseDir.File(KEY_FILE).FullName);
             string _hostsStreamingFile = FormatStreamingFilePath(_streamingReleaseDir.File(HOSTS_FILE).FullName);
             string _updateStreamingFile = FormatStreamingFilePath(_streamingReleaseDir.File(UPDATE_FILE).FullName);
             string _hotFixStreamingFile = FormatStreamingFilePath(_streamingReleaseDir.File(HOT_FIX_FILE).FullName);
+            string _versionStreamingFile = FormatStreamingFilePath(_streamingReleaseDir.File(VERSION_FILE).FullName);
 
             // get source files.
             ETTask getTask = ETTask.Create(true);
@@ -80,14 +81,6 @@ namespace FrameWork.Launch
                 if (decompressInfo.DecompressDic.Count == copyCount)
                     getTask.SetResult();
             }).Coroutine();
-            UnityWebRequestGet(_hotFixStreamingFile, (data) =>
-            {
-                decompressInfo.CollectDecompressSize(data.LongLength);
-                decompressInfo.DecompressDic[_hotFixFile] = data;
-
-                if (decompressInfo.DecompressDic.Count == copyCount)
-                    getTask.SetResult();
-            }).Coroutine();
             UnityWebRequestGet(_updateStreamingFile, (data) =>
             {
                 decompressInfo.CollectDecompressSize(data.LongLength);
@@ -96,6 +89,23 @@ namespace FrameWork.Launch
                 if (decompressInfo.DecompressDic.Count == copyCount)
                     getTask.SetResult();
             }).Coroutine();
+            UnityWebRequestGet(_hotFixStreamingFile, (data) =>
+            {
+                decompressInfo.CollectDecompressSize(data.LongLength);
+                decompressInfo.DecompressDic[_hotFixFile] = data;
+
+                if (decompressInfo.DecompressDic.Count == copyCount)
+                    getTask.SetResult();
+            }).Coroutine();
+            UnityWebRequestGet(_versionStreamingFile, (data) =>
+            {
+                decompressInfo.CollectDecompressSize(data.LongLength);
+                decompressInfo.DecompressDic[_versionFile] = data;
+
+                if (decompressInfo.DecompressDic.Count == copyCount)
+                    getTask.SetResult();
+            }).Coroutine();
+
             await getTask;
             getTask = null;
         }

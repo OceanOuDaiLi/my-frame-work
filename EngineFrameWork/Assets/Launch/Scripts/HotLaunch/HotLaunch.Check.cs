@@ -35,6 +35,8 @@ namespace FrameWork.Launch
 
             _serverVerCode = _serverVer.Get("Version", "VersionCode");
             _localVerCode = _localVer.Get("Version", "VersionCode");
+            LogProgress($"LocalVerCode : {_localVerCode}");
+            LogProgress($"ServerVerCode : {_serverVerCode}");
             return Utility.CompareVersion(_localVerCode, _serverVerCode) >= 0;
         }
 
@@ -61,6 +63,7 @@ namespace FrameWork.Launch
 
         async ETTask GetServerVersion(string _serverVerURL)
         {
+            LogProgress("_serverVerURL. " + _serverVerURL);
             await UnityWebRequestGet(_serverVerURL, (data) =>
             {
                 _serverVer = IOHelper.Ini.Load(data);

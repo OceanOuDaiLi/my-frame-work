@@ -57,7 +57,6 @@ namespace Core.AssetBuilder
             {
                 EncryptFile(context, "key.ini");
                 EncryptFile(context, "hosts.ini");
-                //EncryptFile(context, "localdata.json");
             }
 
             context.ReleaseFiles = releaseFiles.ToArray();

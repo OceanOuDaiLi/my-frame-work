@@ -106,6 +106,7 @@
     <type fullname="System.Int16" preserve="all" />
     <type fullname="System.Int32" preserve="all" />
     <type fullname="System.Int64" preserve="all" />
+    <type fullname="System.IntPtr" preserve="all" />
     <type fullname="System.InvalidCastException" preserve="all" />
     <type fullname="System.InvalidOperationException" preserve="all" />
     <type fullname="System.IO.BinaryReader" preserve="all" />
@@ -149,7 +150,9 @@
     <type fullname="System.Runtime.CompilerServices.IteratorStateMachineAttribute" preserve="all" />
     <type fullname="System.Runtime.CompilerServices.RuntimeCompatibilityAttribute" preserve="all" />
     <type fullname="System.Runtime.CompilerServices.RuntimeHelpers" preserve="all" />
+    <type fullname="System.Runtime.InteropServices.CallingConvention" preserve="all" />
     <type fullname="System.Runtime.InteropServices.ComVisibleAttribute" preserve="all" />
+    <type fullname="System.Runtime.InteropServices.UnmanagedFunctionPointerAttribute" preserve="all" />
     <type fullname="System.Runtime.Serialization.FormatterServices" preserve="all" />
     <type fullname="System.Runtime.Serialization.SerializationInfo" preserve="all" />
     <type fullname="System.Runtime.Serialization.StreamingContext" preserve="all" />
@@ -203,7 +206,6 @@
     <type fullname="System.Net.Sockets.SocketError" preserve="all" />
     <type fullname="System.Net.Sockets.SocketType" preserve="all" />
     <type fullname="System.Net.Sockets.TcpClient" preserve="all" />
-    <type fullname="System.Net.Sockets.UdpClient" preserve="all" />
     <type fullname="System.Net.WebHeaderCollection" preserve="all" />
     <type fullname="System.Net.WebRequest" preserve="all" />
     <type fullname="System.Net.WebResponse" preserve="all" />
@@ -359,6 +361,8 @@
     <type fullname="UnityEngine.UI.CanvasScaler/ScaleMode" preserve="all" />
     <type fullname="UnityEngine.UI.Graphic" preserve="all" />
     <type fullname="UnityEngine.UI.GraphicRaycaster" preserve="all" />
+    <type fullname="UnityEngine.UI.Slider" preserve="all" />
+    <type fullname="UnityEngine.UI.Text" preserve="all" />
     <type fullname="UnityEngine.UI.VertexHelper" preserve="all" />
   </assembly>
   <assembly fullname="UnityEngine.UIModule">

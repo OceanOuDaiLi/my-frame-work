@@ -15,12 +15,11 @@ namespace UI
         [SerializeField] Text loadingText = null;
         [SerializeField] Text progressNum = null;
 
-        [SerializeField] GameObject dataLoadingView = null;     //透明遮罩层
-        [SerializeField] GameObject dataLoadingImg = null;      //菊花
+        //[SerializeField] GameObject dataLoadingView = null;     //透明遮罩层
+        //[SerializeField] GameObject dataLoadingImg = null;      //菊花
 
         // Private Variables
         private float dataLoadingTime;                          //开始dataLoading时间
-        private System.Random random = new System.Random();
         private Coroutine dotAnimationCRHandler = null;
 
         public float showLoadImgTime = 1.5f;
@@ -72,11 +71,11 @@ namespace UI
         /// </summary>
         public void ShowDataLoadingView()
         {
-            if (dataLoadingView.activeInHierarchy == false)
-            {
-                dataLoadingView.SetActive(true);
-                dataLoadingTime = Time.time;
-            }
+            //if (dataLoadingView.activeInHierarchy == false)
+            //{
+            //    dataLoadingView.SetActive(true);
+            //    dataLoadingTime = Time.time;
+            //}
         }
 
         /// <summary>
@@ -84,12 +83,12 @@ namespace UI
         /// </summary>
         public void HidenDataLoadingView()
         {
-            if (dataLoadingView.activeInHierarchy == true)
-            {
-                dataLoadingImg.SetActive(false);
-                dataLoadingView.SetActive(false);
-                dataLoadingTime = 0.0f;
-            }
+            //if (dataLoadingView.activeInHierarchy == true)
+            //{
+            //    dataLoadingImg.SetActive(false);
+            //    dataLoadingView.SetActive(false);
+            //    dataLoadingTime = 0.0f;
+            //}
         }
 
         /// <summary>
@@ -97,7 +96,7 @@ namespace UI
         /// </summary>
         public void ShowDataLoadimgImg()
         {
-            dataLoadingImg.SetActive(true);
+            //dataLoadingImg.SetActive(true);
         }
 
         /// <summary>
@@ -105,8 +104,8 @@ namespace UI
         /// </summary>
         public void ShowLoading()
         {
-            dataLoadingImg.SetActive(true);
-            dataLoadingView.SetActive(true);
+            //dataLoadingImg.SetActive(true);
+            //dataLoadingView.SetActive(true);
         }
         #endregion
 

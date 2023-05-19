@@ -27,27 +27,29 @@ namespace FrameWork.Launch
 #endif
         }
 
+        /// <summary>
+        /// Tips:首包全部使用StreamingAsset路径加载
+        /// </summary>
+        /// <returns></returns>
         async ETTask OnStart()
         {
+            // 资源解压检测
             bool decompressPass = CheckDecompress();
             if (!decompressPass)
             {
                 await AccompanyFilesDecompress();
             }
 
-            /* 
-             * test code.
-             * 首包全部使用StreamingAsset路径加载
-             * 跳过热更新流程
-                bool versionPass = await CheckVersionPass();
-                if (!versionPass)
-                {
-                    PrepareDownload();
+            // 资源更新检测
+            bool versionPass = await CheckVersionPass();
+            if (!versionPass)
+            {
+                //PrepareDownload();
 
-                    await StartDownload();
-                }
-            */
+                //await StartDownload();
+            }
 
+            // 热更启动
             await HybridClrStart();
         }
 

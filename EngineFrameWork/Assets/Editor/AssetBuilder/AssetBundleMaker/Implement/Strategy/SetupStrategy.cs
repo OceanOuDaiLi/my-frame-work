@@ -73,71 +73,69 @@ namespace Core.AssetBuilder
             if (!AssetBundlesMaker._projectRootDir.Exists()) { AssetBundlesMaker._projectRootDir.Create(); }
 
             // build chanel directory.
-            string tmpDirPath = AssetBundlesMaker._rootFloderName + Path.AltDirectorySeparatorChar + AssetBundlesMaker._chanelDirName;
-            AssetBundlesMaker._chanelDir = AssetBundlesMaker._rootDisk.Directory(tmpDirPath);
+            string chanelDirPath = AssetBundlesMaker._rootFloderName + Path.AltDirectorySeparatorChar + AssetBundlesMaker._chanelDirName;
+            AssetBundlesMaker._chanelDir = AssetBundlesMaker._rootDisk.Directory(chanelDirPath);
             if (!AssetBundlesMaker._chanelDir.Exists()) { AssetBundlesMaker._chanelDir.Create(); }
 
             // belong cdn directory.
-            tmpDirPath += Path.AltDirectorySeparatorChar + AssetBundlesMaker._cdnDirName;
-            AssetBundlesMaker._cdnDir = AssetBundlesMaker._rootDisk.Directory(tmpDirPath);
+            string cdnDirPath = chanelDirPath + Path.AltDirectorySeparatorChar + AssetBundlesMaker._cdnDirName;
+            AssetBundlesMaker._cdnDir = AssetBundlesMaker._rootDisk.Directory(cdnDirPath);
             if (!AssetBundlesMaker._cdnDir.Exists())
             {
                 AssetBundlesMaker._cdnDir.Create();
             }
 
             string ptName = App.Env.PlatformToName(App.Env.SwitchPlatform);
-            tmpDirPath += Path.AltDirectorySeparatorChar + ptName;
-            AssetBundlesMaker._platformDir = AssetBundlesMaker._rootDisk.Directory(tmpDirPath);
+            string platformDirPath = cdnDirPath + Path.AltDirectorySeparatorChar + ptName;
+            AssetBundlesMaker._platformDir = AssetBundlesMaker._rootDisk.Directory(platformDirPath);
+            if (AssetBundlesMaker.BuildFirstPkg)
+            {
+                AssetBundlesMaker._platformDir.Delete();
+            }
             if (!AssetBundlesMaker._platformDir.Exists())
             {
                 AssetBundlesMaker._platformDir.Create();
             }
 
-            // out put floder name.
-            string timeTips = UtilityExtension.GetYearMonthDayHour();
-            AssetBundlesMaker._outPutFloderName = AssetBundlesMaker.BuildFirstPkg
-                ?
-                string.Format($"Original_{AssetBundlesMaker._cdnDirName}_{AssetBundlesMaker._chanelDirName}_Cached")
-                :
-                string.Format($"HotFix_{AssetBundlesMaker._cdnDirName}_{AssetBundlesMaker._chanelDirName}_{timeTips}_Cached");
-
-            var upLoadPth = tmpDirPath + Path.AltDirectorySeparatorChar + AssetBundlesMaker._upLoadFloderName;
+            var upLoadPth = platformDirPath + Path.AltDirectorySeparatorChar + AssetBundlesMaker._upLoadFloderName;
             AssetBundlesMaker._upLoadDir = AssetBundlesMaker._rootDisk.Directory(upLoadPth);
             if (!AssetBundlesMaker._upLoadDir.Exists())
             {
                 AssetBundlesMaker._upLoadDir.Create();
             }
-            upLoadPth += Path.AltDirectorySeparatorChar + AssetBundlesMaker._outPutFloderName.Replace("_Cached", string.Empty);
-            AssetBundlesMaker._curBuildDir = AssetBundlesMaker._rootDisk.Directory(upLoadPth);
+
+            // set out put floder name.
+            string timeTips = UtilityExtension.GetYearMonthDayHour();
+            AssetBundlesMaker._outPutFloderName = AssetBundlesMaker.BuildFirstPkg
+                ?
+                string.Format($"Original_{AssetBundlesMaker._cdnDirName}_{AssetBundlesMaker._chanelDirName}")
+                :
+                string.Format($"HotFix_{AssetBundlesMaker._cdnDirName}_{AssetBundlesMaker._chanelDirName}_{timeTips}");
+
+            var curBuildPth = upLoadPth + Path.AltDirectorySeparatorChar + AssetBundlesMaker._outPutFloderName;
+            AssetBundlesMaker._curBuildDir = AssetBundlesMaker._rootDisk.Directory(curBuildPth);
             if (!AssetBundlesMaker._curBuildDir.Exists())
             {
                 AssetBundlesMaker._curBuildDir.Create();
             }
 
-            // outPut directory.
-            tmpDirPath += Path.AltDirectorySeparatorChar + AssetBundlesMaker._outPutFloderName;
-            AssetBundlesMaker._outPutCacheDir = AssetBundlesMaker._rootDisk.Directory(tmpDirPath);
-            if (AssetBundlesMaker._outPutCacheDir.Exists()) { AssetBundlesMaker._outPutCacheDir.Delete(); }
-            AssetBundlesMaker._outPutCacheDir.Create();
-
             // upload directory.
-            var dirPath = tmpDirPath + Path.AltDirectorySeparatorChar + AssetBundlesMaker._upLoadFloderName;
-            AssetBundlesMaker._upLoadCachedDir = AssetBundlesMaker._rootDisk.Directory(dirPath);
-            if (AssetBundlesMaker._upLoadCachedDir.Exists()) { AssetBundlesMaker._upLoadCachedDir.Delete(); }
-            AssetBundlesMaker._upLoadCachedDir.Create();
+            //var dirPath = chanelDirPath + Path.AltDirectorySeparatorChar + AssetBundlesMaker._upLoadFloderName;
+            //AssetBundlesMaker._upLoadCachedDir = AssetBundlesMaker._rootDisk.Directory(dirPath);
+            //if (AssetBundlesMaker._upLoadCachedDir.Exists()) { AssetBundlesMaker._upLoadCachedDir.Delete(); }
+            //AssetBundlesMaker._upLoadCachedDir.Create();
 
-            // listory storage directory.
-            tmpDirPath += Path.AltDirectorySeparatorChar + AssetBundlesMaker._storageFloderName;
-            AssetBundlesMaker._storageDir = AssetBundlesMaker._rootDisk.Directory(tmpDirPath);
-            if (AssetBundlesMaker._storageDir.Exists()) { AssetBundlesMaker._storageDir.Delete(); }
-            AssetBundlesMaker._storageDir.Create();
+            //// listory storage directory.
+            //chanelDirPath += Path.AltDirectorySeparatorChar + AssetBundlesMaker._storageFloderName;
+            //AssetBundlesMaker._storageDir = AssetBundlesMaker._rootDisk.Directory(chanelDirPath);
+            //if (AssetBundlesMaker._storageDir.Exists()) { AssetBundlesMaker._storageDir.Delete(); }
+            //AssetBundlesMaker._storageDir.Create();
 
-            // splited storage directory.
-            tmpDirPath = tmpDirPath.Replace(AssetBundlesMaker._storageFloderName, AssetBundlesMaker._splitFloderName);
-            AssetBundlesMaker._splitDir = AssetBundlesMaker._rootDisk.Directory(tmpDirPath);
-            if (AssetBundlesMaker._splitDir.Exists()) { AssetBundlesMaker._splitDir.Delete(); }
-            AssetBundlesMaker._splitDir.Create();
-
+            //// splited storage directory.
+            //chanelDirPath = chanelDirPath.Replace(AssetBundlesMaker._storageFloderName, AssetBundlesMaker._splitFloderName);
+            //AssetBundlesMaker._splitDir = AssetBundlesMaker._rootDisk.Directory(chanelDirPath);
+            //if (AssetBundlesMaker._splitDir.Exists()) { AssetBundlesMaker._splitDir.Delete(); }
+            //AssetBundlesMaker._splitDir.Create();
         }
 
         private BuildTarget PlatformToBuildTarget(RuntimePlatform platform)

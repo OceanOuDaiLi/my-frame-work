@@ -1,5 +1,5 @@
-﻿using Core.Interface.IO;
-using UnityEditor;
+﻿using UnityEditor;
+using Core.Interface.IO;
 
 namespace Core.Interface.AssetBuilder
 {
@@ -86,6 +86,6 @@ namespace Core.Interface.AssetBuilder
         /// <summary>
         /// 终止构建
         /// </summary>
-        bool StopBuild { get; set; }
+        //bool StopBuild { get; set; }
     }
 }
