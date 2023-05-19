@@ -24,8 +24,8 @@ namespace Core.AssetBuilder
             //if (context.StopBuild) { return; }
 
             // copy asset to upload floder.
-            AssetBundlesMaker._souceAssetDir.CopyTo(AssetBundlesMaker._curBuildDir.Path);
-            DeletaMateFiles(AssetBundlesMaker._curBuildDir);
+            //AssetBundlesMaker._souceAssetDir.CopyTo(AssetBundlesMaker._curBuildDir.Path);
+            //DeletaMateFiles(AssetBundlesMaker._curBuildDir);
 
 
             AssetBundleBuildInfo curBuildInfo = AssetBundlesMaker._curBuildInfo;

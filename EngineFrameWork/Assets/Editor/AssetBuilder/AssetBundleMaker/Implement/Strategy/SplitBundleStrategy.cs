@@ -31,18 +31,11 @@ namespace Core.AssetBuilder
             //    {
             //        StartSpliting();
             //    }
-            //    else
-            //    {
-            //        AssetBundlesMaker._souceAssetDir.CopyTo(AssetBundlesMaker._storageDir.Path);
-            //        DeletaMateFiles(AssetBundlesMaker._storageDir);
-            //    }
             //}
             //else
             //{
-
             //    SplitHotFixAssets();
             //}
-
         }
 
         //#region Spliting assets for build first package.
@@ -302,12 +295,14 @@ namespace Core.AssetBuilder
 
         //private void SplitHotFixAssets()
         //{
+        //    // copy hash changed res to upload floder with update-list.
+
         //    // copy total floder to cached floder & delete files on storage floder.
-        //    AssetBundlesMaker._souceAssetDir.CopyTo(AssetBundlesMaker._upLoadCachedDir.Path);
-        //    DeletaMateFiles(AssetBundlesMaker._upLoadCachedDir);
-        //    AssetBundlesMaker._splitDir.Delete();
-        //    AssetBundlesMaker._storageDir.Delete();
-        //    Debug.Log("### Split Hot Fix Assets Success ###");
+        //    //AssetBundlesMaker._souceAssetDir.CopyTo(AssetBundlesMaker._upLoadCachedDir.Path);
+        //    //DeletaMateFiles(AssetBundlesMaker._upLoadCachedDir);
+        //    //AssetBundlesMaker._splitDir.Delete();
+        //    //AssetBundlesMaker._storageDir.Delete();
+        //    //Debug.Log("### Split Hot Fix Assets Success ###");
         //}
 
         //#endregion
