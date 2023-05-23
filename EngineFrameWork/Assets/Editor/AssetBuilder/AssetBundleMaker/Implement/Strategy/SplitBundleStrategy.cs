@@ -26,14 +26,14 @@ namespace Core.AssetBuilder
         {
             if (context.FirstPkg)
             {
+                AssetBundlesMaker._souceAssetDir.CopyTo(AssetBundlesMaker._curBuildDir.Path);
+                DeletaMateFiles(AssetBundlesMaker._curBuildDir);
+
                 // Checking file before spliting.
                 if (CheckNeedSplit())
                 {
+                    // 1.删除StreamingAsset下非跟包资源
                     StartSpliting();
-                }
-                else
-                {
-                    CopyUpdateListFile();
                 }
             }
             else
@@ -122,49 +122,7 @@ namespace Core.AssetBuilder
 
         #endregion
 
-        private void DeletaMateFiles(IDirectory sourceDir)
-        {
-            IFile[] allFiles = sourceDir.GetFiles(SearchOption.AllDirectories);
-            List<IFile> deleteList = new List<IFile>();
-            // search all meta files and delete it.
-            foreach (IFile file in allFiles)
-            {
-                if (file.Extension.Contains(".meta"))
-                {
-                    deleteList.Add(file);
-                }
-            }
-            foreach (IFile file in deleteList)
-            {
-                file.Delete();
-            }
-        }
-
-        private void GetAccompanyFilesAndDirectory(out List<string> dirList, out List<string> filesList)
-        {
-            string fullPath = string.Empty;
-            string replaceHeader = "Assets/StreamingAssets/" + AssetBundlesMaker._curPlatformName + Path.AltDirectorySeparatorChar;
-
-            dirList = new List<string>();
-            filesList = new List<string>();
-            for (int i = 0; i < AssetBundlesMaker._accompanyFiles.Length; i++)
-            {
-                if (string.IsNullOrEmpty(AssetBundlesMaker._accompanyFiles[i])) { continue; }
-
-                fullPath = AssetBundlesMaker._accompanyFiles[i].Replace(replaceHeader, "");
-                filesList.Add(fullPath);
-            }
-
-            for (int i = 0; i < AssetBundlesMaker._accompanyDirectorys.Length; i++)
-            {
-                if (string.IsNullOrEmpty(AssetBundlesMaker._accompanyDirectorys[i])) { continue; }
-
-                fullPath = AssetBundlesMaker._accompanyDirectorys[i].Replace(replaceHeader, "");
-                dirList.Add(fullPath);
-            }
-        }
-
-        private void DeleteSplitFloderAccFiles(List<string> filesList, IFile[] targetFiles, bool deletaCache)
+        private void DeleteCurBuildAccFiles(List<string> filesList, IFile[] targetFiles, bool deletaCache)
         {
             List<IFile> deleteCachedFileList = new List<IFile>();
             foreach (IFile file in targetFiles)
@@ -183,7 +141,7 @@ namespace Core.AssetBuilder
             deleteCachedFileList.Clear();
         }
 
-        private void DeleteSplitFloderAccDirectoryes(List<string> dirList, string rootPath)
+        private void DeleteCurBuildAccDirectoryes(List<string> dirList, string rootPath)
         {
             List<IDirectory> deleteDirList = new List<IDirectory>();
             foreach (var item in dirList)
@@ -210,7 +168,7 @@ namespace Core.AssetBuilder
         private void DeleteStreamingFloderUnAccFiles(List<string> filesList)
         {
             IFile[] releaseFiles = AssetBundlesMaker._souceAssetDir.GetFiles(SearchOption.AllDirectories);
-            DeleteSplitFloderAccFiles(filesList, releaseFiles, false);
+            DeleteCurBuildAccFiles(filesList, releaseFiles, false);
         }
 
         private void DeleteStreamingFloderUnAccDirectoryes(List<string> dirList)
@@ -243,16 +201,52 @@ namespace Core.AssetBuilder
 
         }
 
+        private void GetAccompanyFilesAndDirectory(out List<string> dirList, out List<string> filesList)
+        {
+            string fullPath = string.Empty;
+            string replaceHeader = "Assets/StreamingAssets/" + AssetBundlesMaker._curPlatformName + Path.AltDirectorySeparatorChar;
+
+            dirList = new List<string>();
+            filesList = new List<string>();
+            for (int i = 0; i < AssetBundlesMaker._accompanyFiles.Length; i++)
+            {
+                if (string.IsNullOrEmpty(AssetBundlesMaker._accompanyFiles[i])) { continue; }
+
+                fullPath = AssetBundlesMaker._accompanyFiles[i].Replace(replaceHeader, "");
+                filesList.Add(fullPath);
+            }
+
+            for (int i = 0; i < AssetBundlesMaker._accompanyDirectorys.Length; i++)
+            {
+                if (string.IsNullOrEmpty(AssetBundlesMaker._accompanyDirectorys[i])) { continue; }
+
+                fullPath = AssetBundlesMaker._accompanyDirectorys[i].Replace(replaceHeader, "");
+                dirList.Add(fullPath);
+            }
+        }
+
         private void DeleteAccompanyAssets(List<string> dirList, List<string> filesList)
         {
-            // Delete accompany files on split floder.
-            IFile[] cachedFiles = AssetBundlesMaker._curBuildDir.GetFiles(SearchOption.AllDirectories);
-            DeleteSplitFloderAccFiles(filesList, cachedFiles, true);
+            /*
+             * 首包cdn默认包含total资源.
+             * 
+                // Delete accompany files on split floder.
+                IFile[] cachedFiles = AssetBundlesMaker._curBuildDir.GetFiles(SearchOption.AllDirectories);
+                DeleteCurBuildAccFiles(filesList, cachedFiles, true);
 
-            // Delete accompany directory on split floder.
-            string rootPath = AssetBundlesMaker._curBuildDir.Path.Replace(AssetBundlesMaker._rootDisk.Root.Path, "");
-            DeleteSplitFloderAccDirectoryes(dirList, rootPath);
+                // Delete accompany directory on split floder.
+                string rootPath = AssetBundlesMaker._curBuildDir.Path.Replace(AssetBundlesMaker._rootDisk.Root.Path, "");
+                DeleteCurBuildAccDirectoryes(dirList, rootPath);
+            */
 
+            // First package => delete accompany files on release floder.
+            DeleteStreamingFloderUnAccFiles(filesList);
+
+            // First package => delete directory files on release floder.
+            DeleteStreamingFloderUnAccDirectoryes(dirList);
+
+            /*
+             * Jenkins 构建时，删除StreamingAsset下跟包资源
             //While Jenkins Build, First package => delete accompany directory on release floder.
             if (AssetBundlesMaker._curBuildInfo.JenkinsBuildId > 1)
             {
@@ -262,6 +256,7 @@ namespace Core.AssetBuilder
                 // First package => delete directory files on release floder.
                 DeleteStreamingFloderUnAccDirectoryes(dirList);
             }
+            */
         }
 
         private void StartSpliting()
@@ -270,15 +265,9 @@ namespace Core.AssetBuilder
             List<string> filesList;
             GetAccompanyFilesAndDirectory(out dirList, out filesList);
 
-            AssetBundlesMaker._souceAssetDir.CopyTo(AssetBundlesMaker._curBuildDir.Path);
-            DeletaMateFiles(AssetBundlesMaker._curBuildDir);
-
             // delete accompany pkg assets on splited floder.
             DeleteAccompanyAssets(dirList, filesList);
             Debug.Log("### Split First Package AssetBundle Success ###");
-
-            // for local compare.
-            CopyUpdateListFile();
         }
 
         #endregion
@@ -290,7 +279,7 @@ namespace Core.AssetBuilder
             UpdateFile needUpdateLst;
             GetNeedUpdateList(out needUpdateLst);
 
-            CopyUpdateFilesToBuildDir(needUpdateLst);
+            CopyNeedUpdateFilesToBuildDir(needUpdateLst);
 
             Debug.Log("### Split Hot Fix Assets Success ###");
         }
@@ -319,7 +308,7 @@ namespace Core.AssetBuilder
             }
         }
 
-        private void CopyUpdateFilesToBuildDir(UpdateFile needUpdateLst)
+        private void CopyNeedUpdateFilesToBuildDir(UpdateFile needUpdateLst)
         {
             UpdateFileField[] needUpdateFields = needUpdateLst.Fields;
             if (needUpdateFields.Length < 1)
@@ -359,6 +348,24 @@ namespace Core.AssetBuilder
         }
 
         #endregion
+
+        private void DeletaMateFiles(IDirectory sourceDir)
+        {
+            IFile[] allFiles = sourceDir.GetFiles(SearchOption.AllDirectories);
+            List<IFile> deleteList = new List<IFile>();
+            // search all meta files and delete it.
+            foreach (IFile file in allFiles)
+            {
+                if (file.Extension.Contains(".meta"))
+                {
+                    deleteList.Add(file);
+                }
+            }
+            foreach (IFile file in deleteList)
+            {
+                file.Delete();
+            }
+        }
 
         private void CopyUpdateListFile()
         {

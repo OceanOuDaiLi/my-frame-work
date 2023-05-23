@@ -23,11 +23,6 @@ namespace Core.AssetBuilder
         {
             //if (context.StopBuild) { return; }
 
-            // copy asset to upload floder.
-            //AssetBundlesMaker._souceAssetDir.CopyTo(AssetBundlesMaker._curBuildDir.Path);
-            //DeletaMateFiles(AssetBundlesMaker._curBuildDir);
-
-
             AssetBundleBuildInfo curBuildInfo = AssetBundlesMaker._curBuildInfo;
             string title = "{0} ########## AssetBundle BuildInfo ########## {1}";
 #if UNITY_EDITOR
@@ -45,24 +40,6 @@ namespace Core.AssetBuilder
 
             AssetDatabase.Refresh();
             EditorUtility.ClearProgressBar();
-        }
-
-        private void DeletaMateFiles(IDirectory sourceDir)
-        {
-            IFile[] allFiles = sourceDir.GetFiles(SearchOption.AllDirectories);
-            List<IFile> deleteList = new List<IFile>();
-            // search all meta files and delete it.
-            foreach (IFile file in allFiles)
-            {
-                if (file.Extension.Contains(".meta"))
-                {
-                    deleteList.Add(file);
-                }
-            }
-            foreach (IFile file in deleteList)
-            {
-                file.Delete();
-            }
         }
 
         /// <summary>

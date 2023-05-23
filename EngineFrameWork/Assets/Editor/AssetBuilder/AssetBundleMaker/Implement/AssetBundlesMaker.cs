@@ -172,10 +172,15 @@ namespace Core.AssetBuilder
             PlayerSettings.companyName = _applicationBuildInfo.CompanyName;
             PlayerSettings.productName = _applicationBuildInfo.ProductName;
             // todo. add more playersettings info.
+            string floder = outputPath + Path.AltDirectorySeparatorChar + "A_Build_OutPut";
+            if (!Directory.Exists(floder))
+            {
+                Directory.CreateDirectory(floder);
+            }
 
             if (EditorUserBuildSettings.activeBuildTarget.Equals(BuildTarget.Android))
             {
-                string location = outputPath + Path.AltDirectorySeparatorChar + string.Format($"Original_{_cdnDirName}_{_chanelDirName}.apk");
+                string location = floder + Path.AltDirectorySeparatorChar + string.Format($"Original_{_cdnDirName}_{_chanelDirName}.apk");
 
                 //PlayerSettings
                 PlayerSettings.Android.keystorePass = "123456";
@@ -200,7 +205,7 @@ namespace Core.AssetBuilder
             }
             else if (EditorUserBuildSettings.activeBuildTarget.Equals(BuildTarget.iOS))
             {
-                outputPath += +Path.AltDirectorySeparatorChar + string.Format($"Original_XCode_{_cdnDirName}_{_chanelDirName}");
+                outputPath += Path.AltDirectorySeparatorChar + string.Format($"Original_XCode_{_cdnDirName}_{_chanelDirName}");
                 Directory.CreateDirectory(outputPath);
                 buildPlayerOptions = new BuildPlayerOptions()
                 {
