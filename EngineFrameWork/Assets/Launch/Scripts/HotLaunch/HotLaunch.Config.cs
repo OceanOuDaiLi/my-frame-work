@@ -40,8 +40,6 @@ namespace FrameWork.Launch
         IFile _versionFile = null;
         const string VERSION_FILE = "Version.ini";
 
-        const string DECOMPRESS_SUCCESS = "DecompressSuccess";
-
         #endregion
 
         #region Disk 

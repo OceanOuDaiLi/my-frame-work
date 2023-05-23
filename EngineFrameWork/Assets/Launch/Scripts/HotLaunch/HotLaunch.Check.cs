@@ -6,9 +6,19 @@ namespace FrameWork.Launch
     public partial class HotLaunch
     {
         // Check Version.
+        #region Check Update Version.
+
         async ETTask<bool> CheckVersionPass()
         {
             LogProgress("Asset Update Checking ... ");
+
+            // Get Local Version
+            _hasLocalVer = await GetLocalVersion();
+
+            if (!_hasLocalVer)
+            {
+                return false;
+            }
 
             // Asyns Read HostsFile. 
             ETTask tTask = ETTask.Create(true);
@@ -22,21 +32,15 @@ namespace FrameWork.Launch
 
             string cdnHosts = _hostIni.Get("Hosts", "CdnUrl");
 
-            // Request Get Server Version.ini
+            // Get Server Version
             string _serverVerURL = string.Format($"{cdnHosts}/{IOHelper.PlatformToName()}/{VERSION_FILE}");
             await GetServerVersion(_serverVerURL);
-            // Read Get Local Version.ini
-            _hasLocalVer = await GetLocalVersion();
-
-            if (!_hasLocalVer)
-            {
-                return false;
-            }
 
             _serverVerCode = _serverVer.Get("Version", "VersionCode");
             _localVerCode = _localVer.Get("Version", "VersionCode");
-            LogProgress($"LocalVerCode : {_localVerCode}");
-            LogProgress($"ServerVerCode : {_serverVerCode}");
+
+            LogProgress($"Version Got! [ LocalVersion : {_localVerCode} ] & [ServerVersion : {_serverVerCode}]");
+
             return Utility.CompareVersion(_localVerCode, _serverVerCode) >= 0;
         }
 
@@ -53,7 +57,6 @@ namespace FrameWork.Launch
                 _localVer = IOHelper.Ini.Load(data);
                 tTask.SetResult();
                 tTask = null;
-                LogProgress("Get Local Version Successed. -2");
             });
 
             await tTask;
@@ -63,15 +66,16 @@ namespace FrameWork.Launch
 
         async ETTask GetServerVersion(string _serverVerURL)
         {
-            LogProgress("_serverVerURL. " + _serverVerURL);
             await UnityWebRequestGet(_serverVerURL, (data) =>
             {
                 _serverVer = IOHelper.Ini.Load(data);
-                LogProgress("Get Server Version Successed. - 1");
             });
         }
 
-        // Check Decompress
+        #endregion
+
+        #region Check First Pkg Decompress
+
         bool CheckDecompress()
         {
             bool result = true;
@@ -83,13 +87,11 @@ namespace FrameWork.Launch
                 result = false;
             }
 
-            int decomSuccess = PlayerPrefs.GetInt(DECOMPRESS_SUCCESS);
-            if (decomSuccess < 1)
-            {
-                result = false;
-            }
+            // todo.整包更新时.删除持久化文件。重新解压。
 
             return result;
         }
+
+        #endregion
     }
 }
