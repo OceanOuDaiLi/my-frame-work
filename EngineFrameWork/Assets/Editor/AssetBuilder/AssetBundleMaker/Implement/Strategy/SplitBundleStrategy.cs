@@ -354,6 +354,8 @@ namespace Core.AssetBuilder
                 }
                 tarFile.Create(data);
             }
+
+            CopyUpdateListFile();
         }
 
         #endregion
