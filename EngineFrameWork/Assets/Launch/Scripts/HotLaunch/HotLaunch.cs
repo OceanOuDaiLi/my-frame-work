@@ -75,8 +75,6 @@ namespace FrameWork.Launch
         {
             ETTask tcs = ETTask.Create(true);
 
-            Debug.Log("HybridClrStart: " + _hotFixFile.Exists);
-
             var request = AssetBundle.LoadFromFileAsync(_hotFixFile.FullName);
 
             request.completed += (opt) =>

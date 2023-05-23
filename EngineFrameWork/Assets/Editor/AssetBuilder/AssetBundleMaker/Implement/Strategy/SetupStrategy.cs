@@ -118,24 +118,6 @@ namespace Core.AssetBuilder
             {
                 AssetBundlesMaker._curBuildDir.Create();
             }
-
-            // upload directory.
-            //var dirPath = chanelDirPath + Path.AltDirectorySeparatorChar + AssetBundlesMaker._upLoadFloderName;
-            //AssetBundlesMaker._upLoadCachedDir = AssetBundlesMaker._rootDisk.Directory(dirPath);
-            //if (AssetBundlesMaker._upLoadCachedDir.Exists()) { AssetBundlesMaker._upLoadCachedDir.Delete(); }
-            //AssetBundlesMaker._upLoadCachedDir.Create();
-
-            //// listory storage directory.
-            //chanelDirPath += Path.AltDirectorySeparatorChar + AssetBundlesMaker._storageFloderName;
-            //AssetBundlesMaker._storageDir = AssetBundlesMaker._rootDisk.Directory(chanelDirPath);
-            //if (AssetBundlesMaker._storageDir.Exists()) { AssetBundlesMaker._storageDir.Delete(); }
-            //AssetBundlesMaker._storageDir.Create();
-
-            //// splited storage directory.
-            //chanelDirPath = chanelDirPath.Replace(AssetBundlesMaker._storageFloderName, AssetBundlesMaker._splitFloderName);
-            //AssetBundlesMaker._splitDir = AssetBundlesMaker._rootDisk.Directory(chanelDirPath);
-            //if (AssetBundlesMaker._splitDir.Exists()) { AssetBundlesMaker._splitDir.Delete(); }
-            //AssetBundlesMaker._splitDir.Create();
         }
 
         private BuildTarget PlatformToBuildTarget(RuntimePlatform platform)

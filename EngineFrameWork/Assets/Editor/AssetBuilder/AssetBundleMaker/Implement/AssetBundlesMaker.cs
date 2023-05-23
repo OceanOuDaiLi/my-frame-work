@@ -45,8 +45,9 @@ namespace Core.AssetBuilder
         public static string _rootFloderName = "Package_Release";
 
         public static IDisk _rootDisk;
-        public static IDirectory _cdnDir;
         public static IDisk _streamingDisk;
+
+        public static IDirectory _cdnDir;
         public static IDirectory _upLoadDir;
         public static IDirectory _chanelDir;
         public static IDirectory _curBuildDir;
@@ -270,7 +271,8 @@ namespace Core.AssetBuilder
 
             BuildAssetBundle();
 
-            CompleteStrategy.OpenBuildFloder(_upLoadDir.Path);
+            if (!BuildFirstPkg)
+                CompleteStrategy.OpenBuildFloder(_upLoadDir.Path);
         }
 
         [MenuItem("test/setup")]
