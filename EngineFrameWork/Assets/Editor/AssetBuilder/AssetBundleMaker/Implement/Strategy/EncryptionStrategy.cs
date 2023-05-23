@@ -1,8 +1,6 @@
 ﻿using FrameWork;
 using Core.Interface.IO;
 using Core.Interface.AssetBuilder;
-using Core.Crypt;
-using SevenZip.Buffer;
 
 /********************************************************************
 	Copyright © 2018 - 2050 by DaiLi.Ou. All Rights Reserved. e-mail: odaili@163.com
