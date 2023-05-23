@@ -275,23 +275,23 @@ namespace Core.AssetBuilder
                 CompleteStrategy.OpenBuildFloder(_upLoadDir.Path);
         }
 
-        [MenuItem("test/setup")]
-        public static void TestSetUp()
-        {
-            Type[] filter = new Type[] {
-                typeof(ClearStrategy),
-                typeof(BuildStrategy),
-                typeof(ScanningStrategy),
-                typeof(EncryptionStrategy),
-                typeof(GenTableStrategy),
-                typeof(AutoUpdateGenPathStrategy),
-                typeof(SplitBundleStrategy),
-                typeof(ZipBundleStrategy),
-                typeof(GenVersionStrategy),
-                typeof(CompleteStrategy)
-            };
-            ExcuteBuildStrategy(filter, false);
-        }
+        //[MenuItem("test/setup")]
+        //public static void TestSetUp()
+        //{
+        //    Type[] filter = new Type[] {
+        //        typeof(ClearStrategy),
+        //        typeof(BuildStrategy),
+        //        typeof(ScanningStrategy),
+        //        typeof(EncryptionStrategy),
+        //        typeof(GenTableStrategy),
+        //        typeof(AutoUpdateGenPathStrategy),
+        //        typeof(SplitBundleStrategy),
+        //        typeof(ZipBundleStrategy),
+        //        typeof(GenVersionStrategy),
+        //        typeof(CompleteStrategy)
+        //    };
+        //    ExcuteBuildStrategy(filter, false);
+        //}
 
         #endregion
 
