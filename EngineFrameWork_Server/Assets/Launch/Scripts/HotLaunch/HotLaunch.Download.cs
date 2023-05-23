@@ -9,7 +9,6 @@ namespace FrameWork.Launch
             //2.get server updatelist
             //3.compare updatelist
 
-
             //downloadData = new DownloadData();
 
             //int subVersion = !_hasLocalVer ? Utility.SubVersion("0.0.0", _serverVerCode) : Utility.SubVersion(_localVerCode, _serverVerCode);

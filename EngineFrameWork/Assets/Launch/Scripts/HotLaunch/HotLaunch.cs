@@ -44,7 +44,7 @@ namespace FrameWork.Launch
             bool versionPass = await CheckVersionPass();
             if (!versionPass)
             {
-                //PrepareDownload();
+                PrepareDownload();
 
                 //await StartDownload();
             }
@@ -133,7 +133,6 @@ namespace FrameWork.Launch
 #if __SERVER__
         void Start()
         {
-            // 测试用直接启动
 #if UNITY_EDITOR
             System.Reflection.Assembly cSharp = null;
             cSharp = AppDomain.CurrentDomain.GetAssemblies().First(assembly => assembly.GetName().Name == "Assembly-CSharp");
