@@ -2,6 +2,7 @@
 using Core.Interface.IO;
 using Core.Interface.INI;
 using System.Collections.Generic;
+using System;
 
 namespace FrameWork.Launch
 {
@@ -54,13 +55,20 @@ namespace FrameWork.Launch
 
         #region HotFix Variables
 
+        string hostsUrl;
+        UpdateFile needUpdateLst, needDeleteLst;
+        UpdateFileField[] needUpdateFields;
+        UpdateFileField[] needDeleteFields;
+
         bool _hasLocalVer = false;
         IIniResult _hostIni = null;
         IIniResult _localVer = null;
         IIniResult _serverVer = null;
 
+        string cdnHosts;
         string _localVerCode = string.Empty;
         string _serverVerCode = string.Empty;
+
         #endregion
 
         #region Decompress Variables
@@ -100,6 +108,8 @@ namespace FrameWork.Launch
 
         #region Private Util Methods
 
+
+
         string GetBytesString(long bytes)
         {
             if (bytes >= 1073741824L)
@@ -127,18 +137,6 @@ namespace FrameWork.Launch
             tips = string.Format(tips, "<color=#FFFF00>", txt, "</color>");
 #else
             tips = string.Format(tips, "### Progress ###", txt, "");
-#endif
-
-            UnityEngine.Debug.LogFormat(tips);
-        }
-
-        void LogInfo(string txt)
-        {
-            string tips = "{0} \n {1} {2}";
-#if UNITY_EDITOR
-            tips = string.Format(tips, "<color=#7BE578>", txt, "</color>");
-#else
-            tips = string.Format(tips, "### Info ###", txt, "");
 #endif
 
             UnityEngine.Debug.LogFormat(tips);

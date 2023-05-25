@@ -1,6 +1,6 @@
 ﻿using UnityEditor;
-using Core.Interface.AssetBuilder;
 using Core.Interface.IO;
+using Core.Interface.AssetBuilder;
 
 namespace Core.AssetBuilder
 {
@@ -85,8 +85,8 @@ namespace Core.AssetBuilder
         public bool FirstPkg { get; set; }
 
         /// <summary>
-        /// 终止构建
+        /// 首包是否进行拆包
         /// </summary>
-        public bool StopBuild { get; set; }
+        public bool SplitPkg { get; set; }
     }
 }

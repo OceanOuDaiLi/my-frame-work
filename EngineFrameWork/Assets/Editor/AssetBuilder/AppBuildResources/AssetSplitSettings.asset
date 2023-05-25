@@ -25,10 +25,11 @@ MonoBehaviour:
     - 
   - BuildTarget: Android
     AccompanyFiles:
+    - Assets/StreamingAssets/Android/update-list.ini
+    - Assets/StreamingAssets/Android/hotupdatedlls
     - Assets/StreamingAssets/Android/aotdlls
     - Assets/StreamingAssets/Android/hosts.ini
-    - Assets/StreamingAssets/Android/hotupdatedlls
     - Assets/StreamingAssets/Android/key.ini
-    - Assets/StreamingAssets/Android/update-list.ini
+    - 
     AccompanyDirectorys:
     - 

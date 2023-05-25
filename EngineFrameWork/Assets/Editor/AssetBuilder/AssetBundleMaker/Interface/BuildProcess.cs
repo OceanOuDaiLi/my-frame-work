@@ -23,7 +23,7 @@ namespace Core.Interface.AssetBuilder
 
         GenTable = 60,
 
-        GenPath = 70,
+        GenUpdateFile = 70,
 
         SplitBundle = 80,
 

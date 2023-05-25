@@ -19,7 +19,7 @@ namespace Core.AutoUpdate
 
         public BuildProcess Process
         {
-            get { return BuildProcess.GenPath; }
+            get { return BuildProcess.GenUpdateFile; }
         }
 
         public void Build(IBuildContext context)

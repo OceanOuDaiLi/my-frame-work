@@ -7,19 +7,34 @@ using System.Linq;
 
 namespace FrameWork.Launch
 {
+
     public partial class HotLaunch : MonoBehaviour
     {
+
 #if __CLIENT__
+        [Header("跳过热更流程")]
+        public bool SkipHotFix = true;
+
+        /// <summary>
+        /// 每个线程下载资源大小(Mb)
+        /// </summary>
+        [HideInInspector]
+        public int TaskDownLoadSize = 200;
+
         void Start()
         {
-
+            if (SkipHotFix)
+            {
 #if UNITY_EDITOR
-            SkipCsharpHotFix();
-#else
-            Init();
-
-            OnStart().Coroutine();
+                SkipCsharpHotFix();
 #endif
+            }
+            else
+            {
+                Init();
+
+                OnStart().Coroutine();
+            }
         }
 
         /// <summary>
@@ -32,16 +47,16 @@ namespace FrameWork.Launch
             bool decompressPass = CheckDecompress();
             if (!decompressPass)
             {
-                await AccompanyFilesDecompress();
+                await CopyStreamingAssets();
             }
 
             // 资源更新检测
-            bool versionPass = await CheckVersionPass();
-            if (!versionPass)
+            bool needUpdate = await CheckHotFixVersion();
+            if (!needUpdate)
             {
-                PrepareDownload();
+                await PrepareDownload();
 
-                //await StartDownload();
+                await StartDownload();
             }
 
             // 热更启动
@@ -107,6 +122,8 @@ namespace FrameWork.Launch
 
         void OnDispose()
         {
+            cdnHosts = string.Empty;
+
             _assetDisk = null;
             _streamingDisk = null;
             _assetReleaseDir = null;

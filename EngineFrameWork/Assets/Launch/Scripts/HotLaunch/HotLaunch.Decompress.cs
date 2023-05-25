@@ -4,7 +4,7 @@ namespace FrameWork.Launch
 {
     public partial class HotLaunch
     {
-        async ETTask AccompanyFilesDecompress()
+        async ETTask CopyStreamingAssets()
         {
             LogProgress("Decompressing ... Start");
 

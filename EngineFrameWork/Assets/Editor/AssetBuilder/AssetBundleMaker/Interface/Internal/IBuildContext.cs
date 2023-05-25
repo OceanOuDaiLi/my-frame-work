@@ -84,8 +84,8 @@ namespace Core.Interface.AssetBuilder
         bool FirstPkg { get; set; }
 
         /// <summary>
-        /// 终止构建
+        /// 首包是否进行拆包
         /// </summary>
-        //bool StopBuild { get; set; }
+        bool SplitPkg { get; set; }
     }
 }

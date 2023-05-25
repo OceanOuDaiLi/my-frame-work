@@ -172,7 +172,7 @@ namespace Core.AssetBuilder
             PlayerSettings.companyName = _applicationBuildInfo.CompanyName;
             PlayerSettings.productName = _applicationBuildInfo.ProductName;
             // todo. add more playersettings info.
-            string floder = outputPath + Path.AltDirectorySeparatorChar + "A_Build_OutPut";
+            string floder = outputPath + Path.AltDirectorySeparatorChar + "Application_OutPut";
             if (!Directory.Exists(floder))
             {
                 Directory.CreateDirectory(floder);

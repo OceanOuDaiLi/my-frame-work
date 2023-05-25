@@ -1,8 +1,8 @@
-
 using System.Collections.Generic;
 
-namespace FrameWork
+namespace FrameWork.Launch
 {
+
     public class DownLoadData
     {
         public byte[] Data;
@@ -29,6 +29,29 @@ namespace FrameWork
         public static void ClearPool()
         {
             DownLoadData.ClearPool();
+        }
+    }
+
+    public class DownLoadHelper
+    {
+        List<UpdateFileField[]> distributeList;
+        Queue<UpdateFileField[]> downLoadTaskQueue;
+
+        public DownLoadHelper(List<UpdateFileField[]> distributeList)
+        {
+            this.distributeList = distributeList;
+            downLoadTaskQueue = new Queue<UpdateFileField[]>();
+        }
+
+        public async ETTask DownLoadUpdate()
+        {
+
+        }
+
+        public void OnDispose()
+        {
+            distributeList.Clear();
+            downLoadTaskQueue.Clear();
         }
     }
 }

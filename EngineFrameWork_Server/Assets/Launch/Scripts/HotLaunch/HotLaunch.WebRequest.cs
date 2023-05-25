@@ -13,7 +13,7 @@ namespace FrameWork.Launch
          *      
         */
 
-        async ETTask UnityWebRequestGet(string url, Action<byte[]> response)
+        async ETTask UnityWebRequestGet(string url, Action<byte[]> response, string errorTips = "", Action failed = null)
         {
             using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
             {
@@ -44,6 +44,7 @@ namespace FrameWork.Launch
             {
                 LogError(info);
                 // todo: show error ui.
+                //  "网络错误,重新开始?"
             }
         }
     }

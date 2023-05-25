@@ -7,6 +7,7 @@ using Core.Interface.INI;
 using Core.Interface.IO;
 using System.Collections.Generic;
 using Core.Interface.AssetBuilder;
+using NUnit.Framework;
 
 /********************************************************************
 Copyright © 2018 - 2050 by DaiLi.Ou. All Rights Reserved. e-mail: odaili@163.com
@@ -32,7 +33,7 @@ namespace Core.AssetBuilder
                 // Checking file before spliting.
                 if (CheckNeedSplit())
                 {
-                    // 1.删除StreamingAsset下非跟包资源
+                    context.SplitPkg = true;
                     StartSpliting();
                 }
             }
@@ -225,7 +226,7 @@ namespace Core.AssetBuilder
             }
         }
 
-        private void DeleteAccompanyAssets(List<string> dirList, List<string> filesList)
+        private void DeleteUnAccompanyAssets(List<string> dirList, List<string> filesList)
         {
             /*
              * 首包cdn默认包含total资源.
@@ -244,6 +245,8 @@ namespace Core.AssetBuilder
 
             // First package => delete directory files on release floder.
             DeleteStreamingFloderUnAccDirectoryes(dirList);
+
+
 
             /*
              * Jenkins 构建时，删除StreamingAsset下跟包资源
@@ -265,9 +268,22 @@ namespace Core.AssetBuilder
             List<string> filesList;
             GetAccompanyFilesAndDirectory(out dirList, out filesList);
 
-            // delete accompany pkg assets on splited floder.
-            DeleteAccompanyAssets(dirList, filesList);
-            Debug.Log("### Split First Package AssetBundle Success ###");
+            DeleteUnAccompanyAssets(dirList, filesList);
+
+            IFile _updateFile = AssetBundlesMaker._souceAssetDir.File("update-list.ini");
+            UpdateFileStore store = new UpdateFileStore();
+            UpdateFile oldFile = store.LoadFromBytes(_updateFile.Read()); ;
+            var oldFields = oldFile.Fields;
+            foreach (var field in oldFields)
+            {
+                IFile tmp = AssetBundlesMaker._souceAssetDir.File(field.Path);
+                if (!tmp.Exists)
+                {
+                    oldFile.Delete(field);
+                }
+            }
+
+            store.Save(AssetBundlesMaker._souceAssetDir.Path, oldFile);
         }
 
         #endregion

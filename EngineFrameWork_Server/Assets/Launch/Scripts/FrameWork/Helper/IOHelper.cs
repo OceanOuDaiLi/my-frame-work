@@ -15,6 +15,8 @@ namespace FrameWork.Launch
             }
         }
 
+        #region Crypt Disk
+
         private static LocalDisk _codeCryptDisk;
         public static LocalDisk CodeCryptDisk
         {
@@ -30,24 +32,6 @@ namespace FrameWork.Launch
             get
             {
                 return _assetCryptDisk ?? (_assetCryptDisk = new LocalDisk(UnityEngine.Application.persistentDataPath, AESCrypt));
-            }
-        }
-
-        private static LocalDisk _assetDisk;
-        public static LocalDisk AssetDisk
-        {
-            get
-            {
-                return _assetDisk ?? (_assetDisk = new LocalDisk(UnityEngine.Application.persistentDataPath));
-            }
-        }
-
-        private static LocalDisk _streamingDisk;
-        public static LocalDisk StreamingDisk
-        {
-            get
-            {
-                return _streamingDisk ?? (_streamingDisk = new LocalDisk(UnityEngine.Application.streamingAssetsPath));
             }
         }
 
@@ -82,6 +66,29 @@ namespace FrameWork.Launch
                 _teaCrypt = value;
             }
         }
+        #endregion
+
+        #region UnCrypt Disk
+
+        private static LocalDisk _assetDisk;
+        public static LocalDisk AssetDisk
+        {
+            get
+            {
+                return _assetDisk ?? (_assetDisk = new LocalDisk(UnityEngine.Application.persistentDataPath));
+            }
+        }
+
+        private static LocalDisk _streamingDisk;
+        public static LocalDisk StreamingDisk
+        {
+            get
+            {
+                return _streamingDisk ?? (_streamingDisk = new LocalDisk(UnityEngine.Application.streamingAssetsPath));
+            }
+        }
+
+        #endregion
 
         private static IniLoader _ini;
         public static IniLoader Ini

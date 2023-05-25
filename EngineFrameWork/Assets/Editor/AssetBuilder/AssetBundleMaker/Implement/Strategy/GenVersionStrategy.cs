@@ -30,7 +30,7 @@ public class GenVersionStrategy : IBuildStrategy
         }
         else
         {
-            CreateVersionFileFirstPackage(VersionFile);
+            CreateVersionFileFirstPackage(VersionFile, context.SplitPkg);
         }
 
         UnityEngine.Debug.Log("### Gen Version Strategy Successed ###");
@@ -69,12 +69,11 @@ public class GenVersionStrategy : IBuildStrategy
         VersionFile.CopyTo(AssetBundlesMaker._curBuildDir);
     }
 
-    private void CreateVersionFileFirstPackage(IFile VersionFile)
+    private void CreateVersionFileFirstPackage(IFile VersionFile, bool SplitPkg)
     {
         string zFileRelativelyPath;
         string uFileRelativelyPath;
         bool zipFileExists = GetVersionFileInfomation(out zFileRelativelyPath, out uFileRelativelyPath);
-
 
         string title = "[Version]";
         string vCode = "VersionCode=1.0.0.0";
@@ -83,11 +82,29 @@ public class GenVersionStrategy : IBuildStrategy
         string content = title + "\n" + vCode + "\n" + zFile + "\n" + uFile;
 
         VersionFile.Create(Encoding.UTF8.GetBytes(content));
-        VersionFile.CopyTo(AssetBundlesMaker._souceAssetDir);
+        //VersionFile.CopyTo(AssetBundlesMaker._souceAssetDir);
 
         IFile buildVerFile = AssetBundlesMaker._curBuildDir.File(AssetBundlesMaker._verFileName);
         if (buildVerFile.Exists) { buildVerFile.Delete(); }
         VersionFile.CopyTo(AssetBundlesMaker._curBuildDir);
+
+        IFile StreamingVersionFile = AssetBundlesMaker._souceAssetDir.File(AssetBundlesMaker._verFileName);
+        if (StreamingVersionFile.Exists)
+        {
+            StreamingVersionFile.Delete();
+        }
+        if (SplitPkg)
+        {
+            // 首包,拆包:【 Client -> 客户端版本号 < 服务端版本号 】
+            content = content.Replace("VersionCode=1.0.0.0", "VersionCode=0.0.0.0");
+            StreamingVersionFile.Create(Encoding.UTF8.GetBytes(content));
+        }
+        else
+        {
+            // 首包,整包跟包:【 Client -> 客户端版本号 == 服务端版本号 】
+            VersionFile.CopyTo(AssetBundlesMaker._souceAssetDir);
+        }
+
     }
 
     private bool GetVersionFileInfomation(out string zFileRelativelyPath, out string uFileRelativelyPath)

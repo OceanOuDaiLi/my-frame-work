@@ -156,6 +156,7 @@ namespace FrameWork.Launch
             needUpdate = new UpdateFile();
             needDelete = new UpdateFile();
 
+
             UpdateFileField oldField;
             foreach (UpdateFileField newField in newLst)
             {
