@@ -56,6 +56,9 @@ namespace FrameWork.Launch
         #region HotFix Variables
 
         string hostsUrl;
+        UpdateFileStore updateFileStore;
+
+        UpdateFile localLst, serverLst;
         UpdateFile needUpdateLst, needDeleteLst;
         UpdateFileField[] needUpdateFields;
         UpdateFileField[] needDeleteFields;

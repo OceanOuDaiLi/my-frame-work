@@ -7,7 +7,6 @@ using System.Linq;
 
 namespace FrameWork.Launch
 {
-
     public partial class HotLaunch : MonoBehaviour
     {
 
@@ -56,7 +55,9 @@ namespace FrameWork.Launch
             {
                 await PrepareDownload();
 
-                await StartDownload();
+                await DeleteOldAssets();
+
+                await DownLoadAssets();
             }
 
             // 热更启动
@@ -114,10 +115,12 @@ namespace FrameWork.Launch
                 mainMethod.Invoke(null, new object[] { _aotFile.FullName });
 
                 tcs.SetResult();
-                tcs = null;
             };
 
             await tcs;
+            tcs = null;
+
+            OnDispose();
         }
 
         void OnDispose()
@@ -126,8 +129,17 @@ namespace FrameWork.Launch
 
             _assetDisk = null;
             _streamingDisk = null;
+            updateFileStore = null;
             _assetReleaseDir = null;
             _streamingReleaseDir = null;
+
+
+            localLst = null;
+            serverLst = null;
+            needUpdateLst = null;
+            needDeleteLst = null;
+            needUpdateFields = null;
+            needDeleteFields = null;
 
             _hostIni = null;
             _localVer = null;
@@ -139,6 +151,8 @@ namespace FrameWork.Launch
             _hotFixFile = null;
             _updateFile = null;
             _versionFile = null;
+
+            GC.Collect();
         }
 #endif
 

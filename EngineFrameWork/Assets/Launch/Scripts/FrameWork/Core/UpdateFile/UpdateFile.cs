@@ -1,5 +1,4 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 
 namespace FrameWork.Launch
@@ -131,7 +130,11 @@ namespace FrameWork.Launch
         /// <returns></returns>
         public UpdateFile Delete(UpdateFileField lst)
         {
-            pkField.Remove(lst.Path);
+            if (pkField.ContainsKey(lst.Path))
+            {
+                pkField.Remove(lst.Path);
+            }
+
             fields = null;
             return this;
         }
@@ -155,7 +158,6 @@ namespace FrameWork.Launch
         {
             needUpdate = new UpdateFile();
             needDelete = new UpdateFile();
-
 
             UpdateFileField oldField;
             foreach (UpdateFileField newField in newLst)

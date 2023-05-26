@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace FrameWork.Launch
@@ -34,23 +35,31 @@ namespace FrameWork.Launch
 
     public class DownLoadHelper
     {
-        List<UpdateFileField[]> distributeList;
+        Action finished;
         Queue<UpdateFileField[]> downLoadTaskQueue;
 
-        public DownLoadHelper(List<UpdateFileField[]> distributeList)
+        public DownLoadHelper(Queue<UpdateFileField[]> downLoadTaskQueue)
         {
-            this.distributeList = distributeList;
-            downLoadTaskQueue = new Queue<UpdateFileField[]>();
+            this.downLoadTaskQueue = downLoadTaskQueue;
         }
 
-        public async ETTask DownLoadUpdate()
+        public void MultiThreadDownLoad(Action finished)
+        {
+            this.finished = finished;
+
+            foreach (var item in downLoadTaskQueue)
+            {
+                ExcuteOneDownLoadTask(item).Coroutine();
+            }
+        }
+
+        public async ETTask ExcuteOneDownLoadTask(UpdateFileField[] fileFields)
         {
 
         }
 
         public void OnDispose()
         {
-            distributeList.Clear();
             downLoadTaskQueue.Clear();
         }
     }

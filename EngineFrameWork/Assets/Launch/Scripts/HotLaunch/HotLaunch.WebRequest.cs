@@ -5,16 +5,10 @@ namespace FrameWork.Launch
 {
     public partial class HotLaunch
     {
-        /* 
-         *  #### 
-         *  1. WebRequest Task Supported.
-         *  2. Mult
-         *  ####
-         *      
-        */
 
         async ETTask UnityWebRequestGet(string url, Action<byte[]> response, string errorTips = "", Action failed = null)
         {
+            LogProgress(string.Format($"UnityWebRequest url£º {url} "));
             using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
             {
                 UnityWebRequestAsyncOperation webRequestAsync = webRequest.SendWebRequest();

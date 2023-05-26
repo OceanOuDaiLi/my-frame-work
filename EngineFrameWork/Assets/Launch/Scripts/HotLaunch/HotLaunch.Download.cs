@@ -1,43 +1,39 @@
+using System;
+using System.IO;
 using System.Text;
+using Core.Interface.IO;
+using UnityEngine.Networking;
 using System.Collections.Generic;
+using UnityEditor.PackageManager.Requests;
+using Unity.IO.LowLevel.Unsafe;
 
 namespace FrameWork.Launch
 {
     public partial class HotLaunch
     {
+        int downTask = 0;
+        int totalTask = 0;
+        Action downloadSuccess;
+        Queue<UpdateFileField[]> downLoadTaskQueue;
+
         async ETTask PrepareDownload()
         {
-            UpdateFile oldList = null;
-            UpdateFile newList = null;
-
+            updateFileStore = IOHelper.UpdateFileStore;
             //1. get local update-list.
-            oldList = new UpdateFile(Encoding.Default.GetString(_updateFile.Read()));
+            localLst = new UpdateFile(Encoding.Default.GetString(_updateFile.Read()));
             //2. get server update-list.
             string _serverUptateFileURL = string.Format($"{hostsUrl}/{UPDATE_FILE}");
             await UnityWebRequestGet(_serverUptateFileURL, (data) =>
             {
-                newList = new UpdateFile(Encoding.Default.GetString(data));
+                serverLst = new UpdateFile(Encoding.Default.GetString(data));
             });
-            //3. get need update-list.
-            oldList.Comparison(newList, out needUpdateLst, out needDeleteLst);
-
+            //3. get need update-list & delete-list.
+            localLst.Comparison(serverLst, out needUpdateLst, out needDeleteLst);
         }
-
-        async ETTask StartDownload()
-        {
-            //await DeleteOldAssets();
-
-            await DownLoadAssets();
-        }
-
-        //async ETTask DeleteOldAssets()
-        //{
-
-        //}
 
         async ETTask DownLoadAssets()
         {
-            // distribute donwload task.
+            // get donwload total size.
             needUpdateFields = needUpdateLst.Fields;
             long totalSize = 0;
             foreach (UpdateFileField field in needUpdateFields)
@@ -45,38 +41,130 @@ namespace FrameWork.Launch
                 totalSize += field.Size;
             }
 
-            DownLoadHelper downLoadHelper = new DownLoadHelper(DistributeDownloadTask(totalSize));
-            await downLoadHelper.DownLoadUpdate();
+            // do download.
+            ResetDownloadTask(totalSize);
+            ETTask downloadTask = ETTask.Create(true);
+            MultiThreadDownLoad(() =>
+            {
+                downloadTask.SetResult();
+            });
+
+            await downloadTask;
+            downloadTask = null;
+            //updateFileStore.Save(_assetReleaseDir.Path, localLst);
         }
 
-        List<UpdateFileField[]> DistributeDownloadTask(long bytes)
+        void ResetDownloadTask(long bytes)
         {
-
             long tmpSize = 0;
             long unitSize = 1048576L * TaskDownLoadSize;
             List<UpdateFileField> tmpFiled = new List<UpdateFileField>();
-            List<UpdateFileField[]> result = new List<UpdateFileField[]>();
+            downLoadTaskQueue = new Queue<UpdateFileField[]>();
 
-            for (int i = 0; i < needDeleteFields.Length; i++)
+            for (int i = 0; i < needUpdateFields.Length; i++)
             {
-                tmpSize += needDeleteFields[i].Size;
+                tmpSize += needUpdateFields[i].Size;
                 if (tmpSize < unitSize)
                 {
-                    tmpFiled.Add(needDeleteFields[i]);
+                    tmpFiled.Add(needUpdateFields[i]);
                 }
                 else
                 {
                     tmpSize = 0;
-                    result.Add(tmpFiled.ToArray());
+                    downLoadTaskQueue.Enqueue(tmpFiled.ToArray());
                     tmpFiled.Clear();
                 }
             }
 
-            LogProgress(string.Format($"HotFix Total Size: {0} / {GetBytesString(bytes)} & DownLoadTask Num: {result.Count}"));
+            tmpFiled.Clear();
+            totalTask = downLoadTaskQueue.Count;
+            LogProgress(string.Format($"HotFix Total Size: {0} / {GetBytesString(bytes)} & DownLoadTask Num: {totalTask}"));
+        }
 
-            return result;
+        public void MultiThreadDownLoad(Action finished)
+        {
+            downloadSuccess = finished;
+            foreach (var item in downLoadTaskQueue)
+            {
+                ExcuteDownLoadTask(item).Coroutine();
+            }
+        }
+
+        public async ETTask ExcuteDownLoadTask(UpdateFileField[] fileFields)
+        {
+            List<UpdateFileField> errorLs = new List<UpdateFileField>();
+            for (int i = 0; i < fileFields.Length; i++)
+            {
+                await ExcuteDownLoadOneData(fileFields[i], (field) =>
+                {
+                    errorLs.Add(field);
+                });
+            }
+            if (errorLs.Count > 0)
+            {
+                // FBIWarning: asset download error
+                // ExcuteDownLoadTask(errorLs.ToArray()).Coroutine();
+                // errorLs.Clear();
+                LogError("FBIWarning: Unbelieveable asset download error !!!!!!");
+            }
+            else
+            {
+                errorLs = null;
+                downTask++;
+            }
+
+            if (downTask.Equals(totalTask))
+            {
+                downloadSuccess?.Invoke();
+            }
+        }
+
+        public async ETTask ExcuteDownLoadOneData(UpdateFileField field, Action<UpdateFileField> failed)
+        {
+            // warning:
+            // There are serveral sring combine & io used.
+            // Need to profiler and opt.
+            string downloadUrl, savePath, saveDir;
+            downloadUrl = string.Format($"{hostsUrl}{Path.AltDirectorySeparatorChar}{field.Path}");
+            savePath = string.Format($"{_assetReleaseDir.Path}{Path.AltDirectorySeparatorChar}{field.Path}");
+            saveDir = savePath.Substring(0, savePath.LastIndexOf(Path.AltDirectorySeparatorChar));
+
+            // 1.request get.
+            using (UnityWebRequest webRequest = UnityWebRequest.Get(downloadUrl))
+            {
+                UnityWebRequestAsyncOperation webRequestAsync = webRequest.SendWebRequest();
+                ETTask waitDown = ETTask.Create(true);
+                webRequestAsync.completed += (asyncOperation) =>
+                {
+                    waitDown.SetResult();
+                };
+
+                await waitDown;
+                waitDown = null;
+
+#if UNITY_2020_1_OR_NEWER
+                if (webRequest.result != UnityWebRequest.Result.Success)
+#else
+                if (!string.IsNullOrEmpty(webRequest.error))
+#endif
+                {
+                    LogError(string.Format($"[Asset Update] -> Download failed. url: {downloadUrl}"));
+                    failed?.Invoke(field);
+                }
+
+                // 2.IO Create.
+                _assetDisk.Directory(saveDir, PathTypes.Absolute).Create();
+                var saveFile = _assetDisk.File(savePath, PathTypes.Absolute);
+                if (saveFile.Exists) saveFile.Delete();
+                saveFile.Create(webRequest.downloadHandler.data);
+
+                // 3.Refresh FileStore.
+                localLst.Append(field);
+                updateFileStore.Append(_updateFile, field);
+
+                webRequest.downloadHandler.Dispose();
+            }
+
         }
     }
-
-
 }

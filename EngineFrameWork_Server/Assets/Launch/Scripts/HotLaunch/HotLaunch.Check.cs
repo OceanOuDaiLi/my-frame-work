@@ -1,3 +1,4 @@
+using System.IO;
 using FrameWork.Launch.Utils;
 
 namespace FrameWork.Launch
@@ -15,8 +16,8 @@ namespace FrameWork.Launch
             await GetLocalHostFile();
 
             // Get Server Version
-            hostsUrl = string.Format($"{cdnHosts}/{IOHelper.PlatformToName()}");
-            await GetServerVersion(string.Format($"{hostsUrl}/{VERSION_FILE}"));
+            hostsUrl = string.Format($"{cdnHosts}{Path.AltDirectorySeparatorChar}{IOHelper.PlatformToName()}");
+            await GetServerVersion(string.Format($"{hostsUrl}{Path.AltDirectorySeparatorChar}{VERSION_FILE}"));
 
             // Get Local Version
             _hasLocalVer = await GetLocalVersion();
@@ -43,10 +44,10 @@ namespace FrameWork.Launch
             {
                 _localVer = IOHelper.Ini.Load(data);
                 tTask.SetResult();
-                tTask = null;
             });
 
             await tTask;
+            tTask = null;
 
             return true;
         }
@@ -60,9 +61,9 @@ namespace FrameWork.Launch
                 cdnHosts = _hostIni.Get("Hosts", "CdnUrl");
 
                 tTask.SetResult();
-                tTask = null;
             });
             await tTask;
+            tTask = null;
         }
 
         async ETTask GetServerVersion(string _serverVerURL)

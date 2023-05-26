@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1980908f6bcb91744b2fd10dc7b2a46b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SkipHotFix: 1
+  SkipHotFix: 0
   TaskDownLoadSize: 100
 --- !u!4 &521281317
 Transform:
