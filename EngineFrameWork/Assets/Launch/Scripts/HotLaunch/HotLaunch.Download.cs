@@ -1,11 +1,11 @@
+#if __CLIENT__
 using System;
 using System.IO;
 using System.Text;
 using Core.Interface.IO;
 using UnityEngine.Networking;
 using System.Collections.Generic;
-using UnityEditor.PackageManager.Requests;
-using Unity.IO.LowLevel.Unsafe;
+
 
 namespace FrameWork.Launch
 {
@@ -168,3 +168,4 @@ namespace FrameWork.Launch
         }
     }
 }
+#endif

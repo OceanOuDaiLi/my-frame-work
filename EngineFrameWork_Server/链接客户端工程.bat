@@ -1,22 +1,7 @@
 
 cd /d %~dp0
 
-rd /s /Q Packages
-mklink /J Packages "%~dp0../EngineFrameWork/Packages"
-
-	
 cd "Assets"
-rd /s /Q Launch
-mklink /J Launch "%~dp0../EngineFrameWork/Assets/Launch"
-
-cd "Assets"
-rd /s /Q Plugins
-mklink /J Plugins "%~dp0../EngineFrameWork/Assets/Plugins"
-
-cd "Assets"
-rd /s /Q Scenes
-mklink /J Scenes "%~dp0../EngineFrameWork/Assets/Scenes"
-
 cd "Scripts/Engine/LockStep"
 
 rd /s /Q Share
