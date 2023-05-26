@@ -1,4 +1,3 @@
-#if __CLIENT__
 using System;
 using System.IO;
 using System.Text;
@@ -168,4 +167,3 @@ namespace FrameWork.Launch
         }
     }
 }
-#endif

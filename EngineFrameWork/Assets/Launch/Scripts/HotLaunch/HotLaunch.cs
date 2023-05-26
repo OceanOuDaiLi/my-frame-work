@@ -10,7 +10,6 @@ namespace FrameWork.Launch
     public partial class HotLaunch : MonoBehaviour
     {
 
-#if __CLIENT__
         [Header("跳过热更流程")]
         public bool SkipHotFix = true;
 
@@ -154,26 +153,5 @@ namespace FrameWork.Launch
 
             GC.Collect();
         }
-#endif
-
-#if __SERVER__
-        void Start()
-        {
-#if UNITY_EDITOR
-            System.Reflection.Assembly cSharp = null;
-            cSharp = AppDomain.CurrentDomain.GetAssemblies().First(assembly => assembly.GetName().Name == "Assembly-CSharp");
-            System.Type appType = cSharp.GetType("Server.Http.HttpServer");
-
-            var mainMethod = appType.GetMethod("OnStart");
-            if (mainMethod == null)
-            {
-                UnityEngine.Debug.LogError($"[HotLaunch::HttpServer] OnStart is null");
-                return;
-            }
-
-            mainMethod.Invoke(null, null);
-#endif
-        }
-#endif
     }
 }
