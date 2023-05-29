@@ -125,5 +125,5 @@ Res :
 #### 启动流程重构 -> Launch 应该包含热更资源下载 ####
 
 #### Add ToDoList #### 2023.5.5
-1.Java - Hall FrameWork.
+1..Net - GateServer.(负载均衡、网络分配、攻防)
 2.Fight LockStep.
