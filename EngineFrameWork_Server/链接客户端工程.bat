@@ -7,8 +7,8 @@ cd "Scripts/Engine/LockStep"
 rd /s /Q Share
 mklink /J Share "%~dp0../EngineFrameWork/Assets/Scripts/Engine/LockStep/Share"
 
-rd /s /Q Debug
-mklink /J Debug "%~dp0../EngineFrameWork/Assets/Scripts/Engine/LockStep/Debug"
+REM rd /s /Q Debug
+REM mklink /J Debug "%~dp0../EngineFrameWork/Assets/Scripts/Engine/LockStep/Debug"
 
 
 REM cd "Assets"

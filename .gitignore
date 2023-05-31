@@ -9,9 +9,8 @@ EngineFrameWork/Assets/StreamingAssets/
 EngineFrameWork_Server/obj
 EngineFrameWork_Server/.vsconfig
 EngineFrameWork_Server/Library/
-EngineFrameWork_Server/AOT-Release/
 EngineFrameWork_Server/HybridCLRData/
-EngineFrameWork_Server/Packages/
+
 
 
 [Tt]emp/

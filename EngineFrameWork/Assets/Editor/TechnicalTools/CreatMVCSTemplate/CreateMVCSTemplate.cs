@@ -18,7 +18,7 @@ namespace CreateMVCSTemplate
             Mediator
         }
 
-        [MenuItem("Assets/Create/程序工具/Create MVCS Floder")]
+        [MenuItem("Assets/Create/程序工具/Create UI-MVCS Floder")]
         public static void CreateMVCSTEvent()
         {
             CreateMVCSFolderEndNameEditAction folderEndNameEditAction = ScriptableObject.CreateInstance<CreateMVCSFolderEndNameEditAction>();
