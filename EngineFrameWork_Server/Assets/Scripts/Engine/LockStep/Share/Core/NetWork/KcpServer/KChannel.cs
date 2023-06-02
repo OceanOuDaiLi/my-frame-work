@@ -1,5 +1,8 @@
 
-public class KChannel
+namespace FrameWork.Service
 {
+    public class KChannel
+    {
 
+    }
 }
