@@ -1,7 +1,7 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Net;
+using System.Linq;
 using System.Net.Sockets;
 using System.Collections.Generic;
 
@@ -196,6 +196,21 @@ namespace FrameWork.Service
 
         protected override void Send(long channelId, long actorId, MemoryStream stream)
         {
+            try
+            {
+                TChannel aChannel = Get(channelId);
+                if (aChannel == null)
+                {
+                    base.OnError(channelId, ErrorCore.ERR_SendMessageNotFoundTChannel);
+                    return;
+                }
+                aChannel.Send(actorId, stream);
+            }
+            catch (Exception e)
+            {
+
+                SDebug.LogError(e);
+            }
         }
         #endregion
 
