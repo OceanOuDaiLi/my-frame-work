@@ -6,7 +6,7 @@ namespace FrameWork.Service
 {
     public enum ServiceType
     {
-        Outer,      //ÍâÍø
+        Outer,
         Inner,
     }
 

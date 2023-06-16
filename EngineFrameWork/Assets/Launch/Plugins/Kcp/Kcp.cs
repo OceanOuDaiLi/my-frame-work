@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace ET
+namespace FrameWork.Service
 {
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate int KcpOutput(IntPtr buf, int len, IntPtr kcp, IntPtr user);
-    
+
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void KcpLog(IntPtr buf, int len, IntPtr kcp, IntPtr user);
 
@@ -14,54 +14,54 @@ namespace ET
         public const int OneM = 1024 * 1024;
         public const int InnerMaxWaitSize = 1024 * 1024;
         public const int OuterMaxWaitSize = 1024 * 1024;
-        
-        
+
+
         private static KcpOutput KcpOutput;
         private static KcpLog KcpLog;
-        
+
 #if UNITY_IPHONE && !UNITY_EDITOR
         const string KcpDLL = "__Internal";
 #else
         const string KcpDLL = "kcp";
 #endif
-        
-        [DllImport(KcpDLL, CallingConvention=CallingConvention.Cdecl)]
+
+        [DllImport(KcpDLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern uint ikcp_check(IntPtr kcp, uint current);
-        [DllImport(KcpDLL, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(KcpDLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr ikcp_create(uint conv, IntPtr user);
-        [DllImport(KcpDLL, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(KcpDLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ikcp_flush(IntPtr kcp);
-        [DllImport(KcpDLL, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(KcpDLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern uint ikcp_getconv(IntPtr ptr);
-        [DllImport(KcpDLL, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(KcpDLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern int ikcp_input(IntPtr kcp, byte[] data, int offset, int size);
-        [DllImport(KcpDLL, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(KcpDLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern int ikcp_nodelay(IntPtr kcp, int nodelay, int interval, int resend, int nc);
-        [DllImport(KcpDLL, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(KcpDLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern int ikcp_peeksize(IntPtr kcp);
-        [DllImport(KcpDLL, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(KcpDLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern int ikcp_recv(IntPtr kcp, byte[] buffer, int index, int len);
-        [DllImport(KcpDLL, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(KcpDLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ikcp_release(IntPtr kcp);
-        [DllImport(KcpDLL, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(KcpDLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern int ikcp_send(IntPtr kcp, byte[] buffer, int offset, int len);
-        [DllImport(KcpDLL, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(KcpDLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ikcp_setminrto(IntPtr ptr, int minrto);
-        [DllImport(KcpDLL, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(KcpDLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern int ikcp_setmtu(IntPtr kcp, int mtu);
-        [DllImport(KcpDLL, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(KcpDLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ikcp_setoutput(KcpOutput output);
-        
-        [DllImport(KcpDLL, CallingConvention=CallingConvention.Cdecl)]
+
+        [DllImport(KcpDLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ikcp_setlog(KcpLog log);
-        
-        [DllImport(KcpDLL, CallingConvention=CallingConvention.Cdecl)]
+
+        [DllImport(KcpDLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ikcp_update(IntPtr kcp, uint current);
-        [DllImport(KcpDLL, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(KcpDLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern int ikcp_waitsnd(IntPtr kcp);
-        [DllImport(KcpDLL, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(KcpDLL, CallingConvention = CallingConvention.Cdecl)]
         private static extern int ikcp_wndsize(IntPtr kcp, int sndwnd, int rcvwnd);
-        
+
         public static uint KcpCheck(IntPtr kcp, uint current)
         {
             if (kcp == IntPtr.Zero)
@@ -71,7 +71,7 @@ namespace ET
             uint ret = ikcp_check(kcp, current);
             return ret;
         }
-        
+
         public static IntPtr KcpCreate(uint conv, IntPtr user)
         {
             return ikcp_create(conv, user);
@@ -139,7 +139,7 @@ namespace ET
             {
                 throw new Exception($"kcp error, KcpRecv error: {index} {len}");
             }
-            
+
             int ret = ikcp_recv(kcp, buffer, index, len);
             return ret;
         }
@@ -164,7 +164,7 @@ namespace ET
             {
                 throw new Exception($"kcp error, KcpSend {buffer.Length} {offset} {len}");
             }
-            
+
             int ret = ikcp_send(kcp, buffer, offset, len);
             return ret;
         }
@@ -192,7 +192,7 @@ namespace ET
             KcpOutput = output;
             ikcp_setoutput(KcpOutput);
         }
-        
+
         public static void KcpSetLog(KcpLog kcpLog)
         {
             KcpLog = kcpLog;
