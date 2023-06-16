@@ -55,10 +55,11 @@ namespace HybridCLR.Editor
             "System",
             "System.Core",
             "ETTask",
-            //"SimpleDB",
+            //"AIAOT",
+            //"LockStepAot"
+
             //"Animancer",
             //"MagicaCloth",
-            //"AIAOT",
             //....
             //....
             //AOT相关DLL的构建
@@ -178,7 +179,8 @@ namespace HybridCLR.Editor
                     continue;
                 }
 
-                //crypt sour dll file.
+                //crypt source dll file.
+
                 //byte[] cryptByte = File.ReadAllBytes(surDllPath);
                 //cryptByte = GameMain.Utils.XXTEA.Encrypt(cryptByte, "password_hotfix_dll");
                 //File.WriteAllBytes(destDllPath, cryptByte);
@@ -208,7 +210,8 @@ namespace HybridCLR.Editor
                     continue;
                 }
 
-                //crypt sour dll file.
+                //crypt source dll file.
+
                 //byte[] cryptByte = File.ReadAllBytes(surDllPath);
                 //cryptByte = GameMain.Utils.XXTEA.Encrypt(cryptByte, "password_aot_dll");
                 //File.WriteAllBytes(destDllPath, cryptByte);

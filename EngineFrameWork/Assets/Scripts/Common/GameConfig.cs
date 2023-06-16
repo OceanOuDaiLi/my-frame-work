@@ -1,5 +1,5 @@
 ﻿
-public class Config
+public class GameConfig
 {
     #region Global Pool Name
     public const string PROP_POOL_NAME = "PropPool";

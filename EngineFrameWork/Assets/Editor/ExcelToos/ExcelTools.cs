@@ -72,9 +72,9 @@ public class ExcelTools : EditorWindow
 
     public static string typeScriptTemplet = "//文件由工具生成,修改可能会产生意外的问题,并且任何改动将在文件重新生成时丢失"
     + "\n"
-    + "using Broent.Model;"
+    + "using Model;"
     + "\n"
-    + "namespace lo {"
+    + "namespace DB {"
     ;
 
 
@@ -262,8 +262,12 @@ public class ExcelTools : EditorWindow
     /// </summary>
     private static void LoadExcel()
     {
-        if (excelList == null) excelList = new List<string>();
+        if (excelList == null)
+        {
+            excelList = new List<string>();
+        }
         excelList.Clear();
+
         //获取选中的对象
         object[] selection = (object[])Selection.objects;
         //判断是否有对象被选中

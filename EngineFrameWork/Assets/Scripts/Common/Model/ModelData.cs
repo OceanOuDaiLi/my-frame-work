@@ -18,6 +18,8 @@ namespace Model
 
         public void Update(Dictionary<string, object> dict)
         {
+            // reflection get properties & scripts field crypt.
+
             object obj;
             Type dataType = GetType();
             PropertyInfo[] objectProperties = dataType.GetProperties();

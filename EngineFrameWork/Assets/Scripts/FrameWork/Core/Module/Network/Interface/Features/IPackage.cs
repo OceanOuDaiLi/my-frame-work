@@ -8,12 +8,12 @@ namespace Core.Interface.Network
     public interface IPackage
     {
         /// <summary>
-        /// 数据包
+        /// 数据包
         /// </summary>
         object Package { get; }
 
         /// <summary>
-        /// 数据包字节流
+        /// 数据包字节流
         /// </summary>
         byte[] ToByte();
     }

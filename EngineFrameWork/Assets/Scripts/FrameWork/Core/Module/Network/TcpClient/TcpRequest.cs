@@ -107,7 +107,6 @@ namespace Core.Network
         /// <param name="bytes"></param>
         public void Send(IPackage package)
         {
-
             lock (locker)
             {
                 byte[] data;
@@ -121,7 +120,6 @@ namespace Core.Network
                 }
                 Send(data);
             }
-
         }
 
         /// <summary>
@@ -178,7 +176,7 @@ namespace Core.Network
                     }
                     else { break; }
                 }
-                yield return new WaitForEndOfFrame();
+                yield return Yielders.EndOfFrame;
             }
         }
 

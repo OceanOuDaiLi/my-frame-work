@@ -79,11 +79,4 @@ public static class UtilityExtension
         return result;
     }
 
-    public static string VersionAdd(string oldVersio)
-    {
-        float newVer = float.Parse(oldVersio);
-        newVer++;
-
-        return string.Format("{0}.0", newVer);
-    }
 }

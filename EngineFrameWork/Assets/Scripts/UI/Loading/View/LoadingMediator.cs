@@ -15,7 +15,7 @@ namespace UI
         public LoadingView view { get; set; }
 
         private string lastSceneBundle = string.Empty;
-        private string lastScene = "" + "/" + Config.Scene_Launch;
+        private string lastScene = "" + "/" + GameConfig.Scene_Launch;
 
         public override void OnRegister()
         {

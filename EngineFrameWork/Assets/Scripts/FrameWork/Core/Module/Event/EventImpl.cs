@@ -20,6 +20,9 @@ namespace Core.Event
     /// </summary>
     public sealed class EventImpl : IEventImpl
     {
+        private const string HandleException = "handler";
+        private const string EventException = "eventName";
+
         /// <summary>
         /// 事件句柄
         /// </summary>
@@ -63,7 +66,7 @@ namespace Core.Event
         public void Trigger(string eventName, object sender, EventArgs e)
         {
             Guard.Requires<NullReferenceException>(App.Instance != null);
-            Guard.NotEmptyOrNull(eventName, "eventName");
+            Guard.NotEmptyOrNull(eventName, EventException);
 
             if (!App.Instance.IsMainThread)
             {
@@ -96,8 +99,8 @@ namespace Core.Event
         /// <returns>事件句柄</returns>
         public IEventHandler On(string eventName, System.EventHandler handler, int life = 0)
         {
-            Guard.NotEmptyOrNull(eventName, "eventName");
-            Guard.NotNull(handler, "handler");
+            Guard.NotEmptyOrNull(eventName, EventException);
+            Guard.NotNull(handler, HandleException);
             Guard.Requires<ArgumentOutOfRangeException>(life >= 0);
 
             var callHandler = new EventHandler(this, eventName, handler, life);
@@ -130,7 +133,7 @@ namespace Core.Event
         /// <param name="handler">操作句柄</param>
         internal void Off(EventHandler handler)
         {
-            Guard.NotNull(handler, "handler");
+            Guard.NotNull(handler, HandleException);
 
             if (!App.Instance.IsMainThread)
             {

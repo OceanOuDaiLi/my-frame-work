@@ -1,9 +1,7 @@
-﻿
-using Core.Interface.Network;
+﻿using Core.Interface.Network;
 
 namespace Core.NetPackage
 {
-
     public class ByteProtocol : IProtocol
     {
 
@@ -14,21 +12,17 @@ namespace Core.NetPackage
         /// <returns></returns>
         public IPackage Decode(byte[] bytes)
         {
-
             return new BasePackage(bytes);
-
         }
 
         /// <summary>
-        /// 协议序列化
+        /// 协议序列化
         /// </summary>
         /// <param name="package">协议包</param>
         /// <returns></returns>
         public byte[] Encode(IPackage package)
         {
-
             return package.ToByte();
-
         }
 
     }

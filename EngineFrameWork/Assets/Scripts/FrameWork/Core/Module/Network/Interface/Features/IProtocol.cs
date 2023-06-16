@@ -15,7 +15,7 @@ namespace Core.Interface.Network
         IPackage Decode(byte[] bytes);
 
         /// <summary>
-        /// 协议序列化
+        /// 协议序列化
         /// </summary>
         /// <param name="package">协议包</param>
         /// <returns>序列化后的数据</returns>
