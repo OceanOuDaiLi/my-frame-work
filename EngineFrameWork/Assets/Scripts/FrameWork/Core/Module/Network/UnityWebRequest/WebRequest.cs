@@ -5,6 +5,7 @@ using System.Collections;
 using UnityEngine.Networking;
 using Core.Interface.Network;
 using System.Collections.Generic;
+using System.Net;
 
 /********************************************************************
 	Copyright © 2018 - 2050 by DaiLi.Ou. All Rights Reserved. e-mail: odaili@163.com
@@ -185,7 +186,8 @@ namespace Core.Network
                                 request.SetRequestHeader(kv.Key, kv.Value);
                             }
                         }
-                        yield return request.Send();
+
+                        yield return request.SendWebRequest();
 
                         var args = new WebRequestEventArgs(request);
 

@@ -53,7 +53,6 @@ namespace UnityEngine.Rendering.Universal.Internal
         // Misc
         const int k_MaxPyramidSize = 16;
         readonly GraphicsFormat m_DefaultHDRFormat;
-        bool m_UseRGBM;
         readonly GraphicsFormat m_SMAAEdgeFormat;
         readonly GraphicsFormat m_GaussianCoCFormat;
         Matrix4x4[] m_PrevViewProjM = new Matrix4x4[2];
@@ -99,14 +98,12 @@ namespace UnityEngine.Rendering.Universal.Internal
             if (SystemInfo.IsFormatSupported(GraphicsFormat.B10G11R11_UFloatPack32, FormatUsage.Linear | FormatUsage.Render))
             {
                 m_DefaultHDRFormat = GraphicsFormat.B10G11R11_UFloatPack32;
-                m_UseRGBM = false;
             }
             else
             {
                 m_DefaultHDRFormat = QualitySettings.activeColorSpace == ColorSpace.Linear
                     ? GraphicsFormat.R8G8B8A8_SRGB
                     : GraphicsFormat.R8G8B8A8_UNorm;
-                m_UseRGBM = true;
             }
 
             // Only two components are needed for edge render texture, but on some vendors four components may be faster.

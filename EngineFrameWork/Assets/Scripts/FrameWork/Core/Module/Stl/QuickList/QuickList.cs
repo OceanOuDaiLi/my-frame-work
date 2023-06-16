@@ -51,10 +51,10 @@ namespace Core.Stl
             /// </summary>
             private readonly QuickList<TElement> quickList;
 
-            /// <summary>
-            /// 迭代下标
-            /// </summary>
-            private int index;
+            ///// <summary>
+            ///// 迭代下标
+            ///// </summary>
+            //private int index;
 
             /// <summary>
             /// 是否是向前遍历
@@ -74,7 +74,7 @@ namespace Core.Stl
             internal Enumerator(QuickList<TElement> quickList, bool forward)
             {
                 this.quickList = quickList;
-                index = 0;
+                //index = 0;
                 this.forward = forward;
                 version = quickList.version;
             }

@@ -187,6 +187,7 @@ namespace UI
 
             //tcp restart.
             //if (onTcpRestartGame != null) onTcpRestartGame();
+            onTcpRestartGame?.Invoke();
 
             //change scene
             //if (!dataVO.CurrentScene.Equals(Config.Scene_Start))
