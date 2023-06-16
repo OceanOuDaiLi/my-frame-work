@@ -95,7 +95,7 @@ namespace FrameWork.Service
         public TChannel(long id, Socket socket, TService service)
         {
             base.Id = id;
-            base.ChannelType = ChannelType.Accetp;
+            base.ChannelType = ChannelType.Accept;
             base.RemoteAddress = (IPEndPoint)socket.RemoteEndPoint;
 
             this.Service = service;

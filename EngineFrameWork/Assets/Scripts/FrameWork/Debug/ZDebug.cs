@@ -13,7 +13,6 @@ public class ZDebug
     public static bool EnableLog;
     public static bool EnableError;
     public static bool EnableWarning;
-    public static bool EnableZeusLogStartUp;
 
     public static void Log(object message)
     {
@@ -86,23 +85,6 @@ public class ZDebug
             Debug.LogFormat(logType, logOptions, context, format, args);
         }
     }
-
-    public static void LogStartUp(string title, string txt)
-    {
-        if (EnableLog || EnableZeusLogStartUp)
-        {
-            Debug.LogFormat($"<color=#ACE98E> {title}£º {txt}</color>");
-        }
-    }
-
-    public static void LogHotFix(string title, string txt) 
-    {
-        if (EnableLog || EnableZeusLogStartUp)
-        {
-            Debug.LogFormat($"<color=#7BE578> {title}£º {txt}</color>");
-        }
-    }
-
     #endregion
 
     #region BehaviourTree Log

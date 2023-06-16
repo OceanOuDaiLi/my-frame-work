@@ -6,6 +6,16 @@ using System.Text;
 
 public class ExcelTools : EditorWindow
 {
+    private static string excelType = ".xlsx"; //xls
+
+    private static string outPutPath = "";
+
+    //Excel文件夹名
+    private static string excelFlodName = "Excel";
+
+    //Jsob文件夹名
+    private static string jsonFlodName = "NotAssetBundle";
+
     /// <summary>
     /// 当前编辑器窗口实例
     /// </summary>
@@ -34,7 +44,7 @@ public class ExcelTools : EditorWindow
     /// <summary>
     /// 输出格式
     /// </summary>
-    private static string[] formatOption = new string[] { "JSON", "CSV", "XML" };
+    private static string[] formatOption = new string[] { "JSON", "CSV", "XML", "LUA" };
 
     /// <summary>
     /// 编码索引
@@ -44,17 +54,36 @@ public class ExcelTools : EditorWindow
     /// <summary>
     /// 编码选项
     /// </summary>
-    private static string[] encodingOption = new string[] { "UTF-8", "GB2312" };
+    private static string[] encodingOption = new string[] { "ASCII" };
 
     /// <summary>
     /// 是否保留原始文件
     /// </summary>
     private static bool keepSource = true;
 
+
+    /// <summary>
+    /// 是否生成到同一个文件
+    /// </summary>
+    private static bool isCommonJsonConvert = false;
+
+    /// <summary>
+    /// 是否生成到BaseDataDefine
+    /// </summary>
+    private static bool createBaseDefine = false;
+
+    public static string typeScriptTemplet = "//文件由工具生成,修改可能会产生意外的问题,并且任何改动将在文件重新生成时丢失"
+    + "\n"
+    + "using Broent.Model;"
+    + "\n"
+    + "namespace lo {"
+    ;
+
+
     /// <summary>
     /// 显示当前窗口	
     /// </summary>
-    [MenuItem("公共工具/导表工具")]
+    [MenuItem("Tools/配置表转Json")]
     static void ShowExcelTools()
     {
         Init();
@@ -74,17 +103,30 @@ public class ExcelTools : EditorWindow
     /// </summary>
     private void DrawOptions()
     {
+        GUILayout.Space(20);
+
         GUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("请选择格式类型:", GUILayout.Width(85));
         indexOfFormat = EditorGUILayout.Popup(indexOfFormat, formatOption, GUILayout.Width(125));
         GUILayout.EndHorizontal();
+
+        GUILayout.Space(20);
 
         GUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("请选择编码类型:", GUILayout.Width(85));
         indexOfEncoding = EditorGUILayout.Popup(indexOfEncoding, encodingOption, GUILayout.Width(125));
         GUILayout.EndHorizontal();
 
-        keepSource = GUILayout.Toggle(keepSource, "保留Excel源文件");
+        GUILayout.Space(20);
+        GUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("Tips:默认输出路径 ABAssets/NotAssetBundle/Json", GUILayout.Width(300));
+        GUILayout.EndHorizontal();
+
+        GUILayout.Space(20);
+
+        isCommonJsonConvert = GUILayout.Toggle(isCommonJsonConvert, "生成一个LocalData.json");
+
+        createBaseDefine = GUILayout.Toggle(createBaseDefine, "生成BaseDataDefine");
     }
 
     /// <summary>
@@ -95,7 +137,9 @@ public class ExcelTools : EditorWindow
         if (excelList == null) return;
         if (excelList.Count < 1)
         {
+            GUILayout.Space(30);
             EditorGUILayout.LabelField("目前没有Excel文件被选中哦!");
+            EditorGUILayout.LabelField("请在Unity中单个或多个选中需要转换的Excel文档！");
         }
         else
         {
@@ -119,46 +163,82 @@ public class ExcelTools : EditorWindow
         }
     }
 
+    private static void CreateJson(ExcelUtility excel, Encoding encoding, string excelPath, int i)
+    {
+        excelPath = excelPath.Replace(excelFlodName, jsonFlodName);
+        outPutPath = excelPath.Replace(excelType, ".json");
+
+        //表名称
+        int lastIndex = excelList[i].LastIndexOf('/');
+        string xlsx = excelList[i].Substring(lastIndex).ToString();
+        xlsx = xlsx.Remove(0, 1);
+        xlsx = xlsx.Remove(xlsx.IndexOf('.'));
+
+        bool isEnd = i == excelList.Count - 1;
+
+        if (createBaseDefine)
+        {
+            excel.CreateBaseDataDefine(xlsx, isEnd);
+        }
+
+        if (!isCommonJsonConvert)
+        {
+            excel.ConvertToJson(outPutPath, encoding);
+        }
+        else
+        {
+            excel.ConvertToOneTempJson(outPutPath, encoding, xlsx, isEnd);
+        }
+    }
+
+
     /// <summary>
     /// 转换Excel文件
     /// </summary>
     private static void Convert()
     {
-        foreach (string assetsPath in excelList)
+        if (createBaseDefine)
+        {
+            ExcelUtility.InitTypeScript();
+        }
+
+        ExcelUtility.targetClass = new Dictionary<string, object>();
+        for (int i = 0; i < excelList.Count; i++)
         {
             //获取Excel文件的绝对路径
-            string excelPath = pathRoot + "/" + assetsPath;
+            string excelPath = System.Environment.CurrentDirectory + "/" + excelList[i];
+
             //构造Excel工具类
             ExcelUtility excel = new ExcelUtility(excelPath);
 
-            //判断编码类型
-            Encoding encoding = null;
-            if (indexOfEncoding == 0)
+            //编码类型
+            Encoding encoding = Encoding.GetEncoding("utf-8");
+
+            switch (indexOfFormat)
             {
-                encoding = Encoding.GetEncoding("utf-8");
-            }
-            else if (indexOfEncoding == 1)
-            {
-                encoding = Encoding.GetEncoding("gb2312");
+                case 0:
+                    CreateJson(excel, encoding, excelPath, i);
+                    break;
+                case 1:
+                    outPutPath = excelPath.Replace(excelType, ".csv");
+                    excel.ConvertToCSV(outPutPath, encoding);
+                    break;
+                case 2:
+                    outPutPath = excelPath.Replace(excelType, ".xml");
+                    excel.ConvertToXml(outPutPath);
+                    break;
+                case 3:
+                    outPutPath = excelPath.Replace(excelType, ".lua");
+                    excel.ConvertToLua(outPutPath, encoding);
+                    break;
+                default:
+                    Debug.LogError("indexOfFormat" + indexOfFormat);
+                    break;
             }
 
-            //判断输出类型
-            string output = "";
-            if (indexOfFormat == 0)
-            {
-                output = excelPath.Replace(".xlsx", ".json");
-                excel.ConvertToJson(output, encoding);
-            }
-            else if (indexOfFormat == 1)
-            {
-                output = excelPath.Replace(".xlsx", ".csv");
-                excel.ConvertToCSV(output, encoding);
-            }
-            else if (indexOfFormat == 2)
-            {
-                output = excelPath.Replace(".xlsx", ".xml");
-                excel.ConvertToXml(output);
-            }
+            var _outPutPath = isCommonJsonConvert ? outPutPath : "NotAssetBundle/Json/localdata.json";
+            Debug.Log("outPutPath:        " + _outPutPath);
+
 
             //判断是否保留源文件
             if (!keepSource)
@@ -173,8 +253,10 @@ public class ExcelTools : EditorWindow
         //转换完后关闭插件
         //这样做是为了解决窗口
         //再次点击时路径错误的Bug
-        instance.Close();
-
+        if (instance)
+        {
+            instance.Close();
+        }
     }
 
     /// <summary>
@@ -193,7 +275,7 @@ public class ExcelTools : EditorWindow
         foreach (Object obj in selection)
         {
             string objPath = AssetDatabase.GetAssetPath(obj);
-            if (objPath.EndsWith(".xlsx"))
+            if (objPath.EndsWith(excelType))
             {
                 excelList.Add(objPath);
             }

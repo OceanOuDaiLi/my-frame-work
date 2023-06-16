@@ -16,7 +16,7 @@ using strange.extensions.dispatcher.eventdispatcher.api;
 	Filename: 	TcpStateException.cs
 	Author:		DaiLi.Ou
 
-	Descriptions: TCP service for client.
+	Descriptions: TCP/IP socket service for client.
 *********************************************************************/
 namespace UI
 {
@@ -49,7 +49,7 @@ namespace UI
         [Inject(ContextKeys.CONTEXT_DISPATCHER)]
         public virtual IEventDispatcher dispatcher { get; set; }
         //[Inject]
-        //public virtual DataVO dataVO { get; set; }
+        //public virtual GlobalData dataVO { get; set; }
 
         public event Action onTcpConnected = null;
         public event Action onTcpDisconnected = null;
@@ -270,7 +270,7 @@ namespace UI
             byte[] originalBytes = System.Text.Encoding.UTF8.GetBytes(request);
             byte[] encryptBytes = App.Crypt.Encrypt(originalBytes);                 //Error warning: Todo =》 SetCrypy Iv & key. by daili.ou 2023.03.08
 #if UNITY_EDITOR
-            UnityEngine.Debug.LogFormat("Tcp 服务器请求：{0}", request);
+            ZDebug.LogFormat("Tcp 服务器请求：{0}", request);
 #endif
             tcp.Send(encryptBytes);
 
@@ -382,8 +382,14 @@ namespace UI
             string json = response.Substring(seperateIdx + 1, response.Length - seperateIdx - 1);
 
 #if UNITY_EDITOR
-            if (string.IsNullOrEmpty(action)) UnityEngine.Debug.LogErrorFormat("Tcp 服务器返回: {0} {1}", action, json);
-            else UnityEngine.Debug.LogFormat("Tcp 服务器返回: {0} {1}", action, json);
+            if (string.IsNullOrEmpty(action))
+            {
+                ZDebug.LogError(string.Format("Tcp 服务器返回: {0} {1}", action, json));
+            }
+            else
+            {
+                ZDebug.LogFormat("Tcp 服务器返回: {0} {1}", action, json);
+            }
 #endif
 
             Dictionary<string, object> dict = App.Json.Decode<Dictionary<string, object>>(json);
@@ -423,7 +429,7 @@ namespace UI
                 catch (Exception e) //捕捉callback里面的异常，避免网络卡死游戏进程
                 {
 #if UNITY_EDITOR
-                    UnityEngine.Debug.LogError(e);
+                    ZDebug.LogError(e);
 #endif
                 }
                 if (clear)
@@ -458,7 +464,7 @@ namespace UI
                 catch (Exception e) //捕捉callback里面的异常，避免网络卡死游戏进程
                 {
 #if UNITY_EDITOR
-                    UnityEngine.Debug.LogError(e);
+                    ZDebug.LogError(e);
 #endif
                 }
                 if (clear) ls.Clear();
@@ -470,8 +476,14 @@ namespace UI
         {
             ExceptionEventArgs args = e as ExceptionEventArgs;
 #if UNITY_EDITOR
-            if (!args.Exception.GetType().Equals(typeof(TcpStateException))) UnityEngine.Debug.LogError(args.Exception);
-            else ZDebug.Log(args.Exception);
+            if (!args.Exception.GetType().Equals(typeof(TcpStateException)))
+            {
+                ZDebug.LogError(args.Exception);
+            }
+            else
+            {
+                ZDebug.Log(args.Exception);
+            }
 #endif
 
             //show restart ui.

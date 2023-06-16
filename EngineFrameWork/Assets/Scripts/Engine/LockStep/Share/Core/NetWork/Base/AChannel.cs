@@ -13,7 +13,7 @@ namespace FrameWork.Service
     public enum ChannelType
     {
         Connect,
-        Accetp,
+        Accept,
     }
 
     public struct Packet
@@ -25,7 +25,7 @@ namespace FrameWork.Service
 
         public const int KcpOpcodeIndex = 0;
 
-        public const int ActorIdIndex = 0;
+        public const int ActorIdLength = 0;
         public const int ActorILength = 8;
 
         public const int MessageIndex = 10;
