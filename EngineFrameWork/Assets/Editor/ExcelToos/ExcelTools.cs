@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using System.Collections;
-using System.Collections.Generic;
 using System.Text;
+using System.Collections.Generic;
 
 public class ExcelTools : EditorWindow
 {
@@ -13,7 +12,6 @@ public class ExcelTools : EditorWindow
     //Excel文件夹名
     private static string excelFlodName = "Excel";
 
-    //Jsob文件夹名
     private static string jsonFlodName = "NotAssetBundle";
 
     /// <summary>

@@ -121,7 +121,7 @@ namespace FrameWork.Launch
         public async ETTask ExcuteDownLoadOneData(UpdateFileField field, Action<UpdateFileField> failed)
         {
             // warning:
-            // There are serveral sring combine & io used.
+            // There are serveral sring combine & io memory used.
             // Need to profiler and opt.
             string downloadUrl, savePath, saveDir;
             downloadUrl = string.Format($"{hostsUrl}{Path.AltDirectorySeparatorChar}{field.Path}");

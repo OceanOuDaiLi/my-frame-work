@@ -1,13 +1,12 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using Excel;
-using System.Data;
-using System.IO;
-using Newtonsoft.Json;
-using System.Text;
-using System.Reflection;
+﻿using Excel;
 using System;
+using System.IO;
+using UnityEngine;
+using System.Data;
+using System.Text;
+using Newtonsoft.Json;
+using System.Reflection;
+using System.Collections.Generic;
 
 public class ExcelUtility
 {
@@ -20,8 +19,6 @@ public class ExcelUtility
     /// 表格数据集合
     /// </summary>
     private DataSet mResultSet;
-
-    static List<Dictionary<string, object>> oneJsonTable = null;
 
 
     /// <summary>
@@ -133,6 +130,7 @@ public class ExcelUtility
                 }
                 else
                 {
+                    // 自定义的数据类型。
                     switch (mSheet.Rows[1][j] as string)
                     {
                         case "int":
