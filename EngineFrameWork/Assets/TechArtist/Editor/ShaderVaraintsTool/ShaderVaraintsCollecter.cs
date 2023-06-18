@@ -64,6 +64,7 @@ public class ShaderVaraintsCollecter
     {
         ShaderVariantCollection svc = new ShaderVariantCollection();
 
+        // collecting dir.
         string[] allGuids = AssetDatabase.FindAssets("t:Material", new string[] { "Assets/Art/Effect", "Assets/Art/Shaders", "Assets/TResources", "Assets/TechArtist" });
         string assetPath;
         Material material;
