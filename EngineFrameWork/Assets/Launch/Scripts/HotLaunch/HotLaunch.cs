@@ -35,10 +35,6 @@ namespace FrameWork.Launch
             }
         }
 
-        /// <summary>
-        /// Tips:首包全部使用StreamingAsset路径加载
-        /// </summary>
-        /// <returns></returns>
         async ETTask OnStart()
         {
             // 资源解压检测
