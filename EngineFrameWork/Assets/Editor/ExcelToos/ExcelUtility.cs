@@ -13,7 +13,7 @@ public class ExcelUtility
     public static Dictionary<string, object> targetClass = new Dictionary<string, object>();
 
     //cs脚本生成路径
-    private static string CSharpSctiptPath = Application.dataPath + @"\ABAssets\Export\BaseDataDefine.txt";
+    private static string CSharpSctiptPath = Application.dataPath + @"\Scripts\Common\Model\TableData.cs";
 
     /// <summary>
     /// 表格数据集合
@@ -82,7 +82,7 @@ public class ExcelUtility
         System.IO.File.WriteAllText(CSharpSctiptPath, string.Empty);
     }
 
-    public void ConvertToOneTempJson(string JsonPath, Encoding encoding, string excelName, bool isEnd)
+    public void ConvertToOneTempJson(string jsonPath, Encoding encoding, string excelName, bool isEnd)
     {
         //判断Excel文件中是否存在数据表
         if (mResultSet.Tables.Count < 1)
@@ -159,12 +159,12 @@ public class ExcelUtility
             //生成Json字符串
             string json = JsonConvert.SerializeObject(targetClass, Newtonsoft.Json.Formatting.None);
 
-            JsonPath = JsonPath.Remove(JsonPath.LastIndexOf('/'));
-            JsonPath = JsonPath + "/localdata.json";
+            jsonPath = jsonPath.Remove(jsonPath.LastIndexOf('/'));
+            jsonPath = jsonPath + "/localdata.json";
             //写入文件
-            using (FileStream fileStream = new FileStream(JsonPath, FileMode.Create, FileAccess.Write))
+            using (FileStream fileStream = new FileStream(jsonPath, FileMode.Create, FileAccess.Write))
             {
-                using (TextWriter textWriter = new StreamWriter(fileStream, new UTF8Encoding(false)))
+                using (TextWriter textWriter = new StreamWriter(fileStream, encoding))
                 {
                     textWriter.Write(json);
                 }
@@ -172,7 +172,7 @@ public class ExcelUtility
         }
     }
 
-    public void CreateBaseDataDefine(string excelName, bool isEnd)
+    public void CreateCSharpBaseDateFile(string excelName, bool isEnd)
     {
         //判断Excel文件中是否存在数据表
         if (mResultSet.Tables.Count < 1)
@@ -185,9 +185,9 @@ public class ExcelUtility
         if (mSheet.Rows.Count < 1)
             return;
 
-        ExcelTools.typeScriptTemplet += "\n";
-        ExcelTools.typeScriptTemplet += "//" + excelName + "\n";
-        ExcelTools.typeScriptTemplet += "public class " + excelName + " : ModelName" + "{" + "\n";
+        ExcelTools.cSharpTemplet += "\n";
+        ExcelTools.cSharpTemplet += "//" + excelName + "\n";
+        ExcelTools.cSharpTemplet += "public class " + excelName + " : ModelName" + "{" + "\n";
 
         //读取数据表行数和列数
         int rowCount = mSheet.Rows.Count;
@@ -214,7 +214,7 @@ public class ExcelUtility
             table.Add(row);
         }
 
-        //写入ts
+        //写入cs
         for (int j = 1; j < colCount; j++)
         {
             string paramName = mSheet.Rows[0][j].ToString();
@@ -225,15 +225,15 @@ public class ExcelUtility
                 continue;
             }
 
-            RecordTypeScriptFile(excelName, paramType, paramName, paramComment);
+            RecordCSharpFile(excelName, paramType, paramName, paramComment);
         }
 
-        ExcelTools.typeScriptTemplet += "\n" + "}";
+        ExcelTools.cSharpTemplet += "\n" + "}";
 
         if (isEnd)
         {
-            ExcelTools.typeScriptTemplet += "\n" + "}";
-            System.IO.File.WriteAllText(CSharpSctiptPath, ExcelTools.typeScriptTemplet);
+            ExcelTools.cSharpTemplet += "\n" + "}";
+            System.IO.File.WriteAllText(CSharpSctiptPath, ExcelTools.cSharpTemplet);
         }
     }
 
@@ -282,7 +282,7 @@ public class ExcelUtility
         }
 
         //生成Json字符串
-        string json = JsonConvert.SerializeObject(table, Newtonsoft.Json.Formatting.Indented);
+        string json = JsonConvert.SerializeObject(table, Formatting.Indented);
         //写入文件
         using (FileStream fileStream = new FileStream(JsonPath, FileMode.Create, FileAccess.Write))
         {
@@ -293,16 +293,16 @@ public class ExcelUtility
         }
     }
 
-    private void RecordTypeScriptFile(string className, string paramType, string paramName, string paramComment)
+    private void RecordCSharpFile(string className, string paramType, string paramName, string paramComment)
     {
         if (paramComment.Length > 0)
         {
-            ExcelTools.typeScriptTemplet += "    /// <summary>\n";
+            ExcelTools.cSharpTemplet += "    /// <summary>\n";
             //注释，每一行都增加注释
-            ExcelTools.typeScriptTemplet += "    /// " + paramComment.Replace("\n", "\n///") + "\n";
-            ExcelTools.typeScriptTemplet += "    /// <summary>\n";
+            ExcelTools.cSharpTemplet += "    /// " + paramComment.Replace("\n", "\n///") + "\n";
+            ExcelTools.cSharpTemplet += "    /// <summary>\n";
         }
-        ExcelTools.typeScriptTemplet += "    public " + paramType + " " + paramName + ";" + "\n";
+        ExcelTools.cSharpTemplet += "    public " + paramType + " " + paramName + ";" + "\n";
     }
 
     /// <summary>
@@ -498,10 +498,6 @@ public class ExcelUtility
             }
         }
     }
-
-
-
-
 }
 
 
