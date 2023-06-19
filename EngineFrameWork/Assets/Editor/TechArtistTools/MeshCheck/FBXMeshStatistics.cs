@@ -1,12 +1,13 @@
 ﻿#if UNITY_EDITOR
+
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using UnityEngine;
 using UnityEditor;
 using System.Linq;
+using System.Diagnostics;
 using System.Collections;
+using System.Collections.Generic;
 
 public static class FBXMeshStatistics
 {
@@ -16,13 +17,13 @@ public static class FBXMeshStatistics
         Vertex,
     };
 
-    [MenuItem("公共工具/TATools/统计Mesh面数与顶点数/面数Top20")]
+    [MenuItem("公共工具/资源检测/统计Mesh面数与顶点数/面数Top20")]
     public static void CheckTriangles()
     {
         _Counting(StatType.Triangle, 20);
     }
 
-    [MenuItem("公共工具/TATools/统计Mesh面数与顶点数/顶点数Top20")]
+    [MenuItem("公共工具/资源检测/统计Mesh面数与顶点数/顶点数Top20")]
     public static void CheckVertex()
     {
         _Counting(StatType.Vertex, 20);
@@ -43,9 +44,9 @@ public static class FBXMeshStatistics
         var searchPath = Application.dataPath + "/";
         var dirInfo = new DirectoryInfo(searchPath);
         var allFBXFiles = GetAllFiles(dirInfo, "*.FBX");
-//#if !UNITY_EDITOR_WIN && !UNITY_STANDALONE_WIN
-//        allFBXFiles.AddRange(AutoExportProduct.GetAllFiles(dirInfo, "*.fbx"));
-//#endif
+        //#if !UNITY_EDITOR_WIN && !UNITY_STANDALONE_WIN
+        //        allFBXFiles.AddRange(AutoExportProduct.GetAllFiles(dirInfo, "*.fbx"));
+        //#endif
         var allCount = allFBXFiles.Count;
 
         s_meshList = new Dictionary<int, List<string>>(1024);
@@ -209,4 +210,5 @@ public static class FBXMeshStatistics
     }
 
 }
+
 #endif

@@ -201,7 +201,7 @@ public class OptimizeFBX : EditorWindow
     //待保存文件路径
     public static List<string> waitToSaveListfilePaths = new List<string>();
 
-    [MenuItem("公共工具/OptimizeFBX")]
+    [MenuItem("公共工具/资源优化/OptimizeFBX")]
     static void Init()
     {
         GetWindow(typeof(OptimizeFBX));

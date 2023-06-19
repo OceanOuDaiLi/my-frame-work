@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -59,7 +61,7 @@ public class CompressUIAtlasCommand : EditorWindow
     public static List<string> whiteListfolderNames = new List<string>();
     public static List<CompressLevel> whiteListFileObjsLevels = new List<CompressLevel>();
     static Dictionary<string, CompressLevel> whiteListLevels = new Dictionary<string, CompressLevel>();
-    //和合法性检测
+    //合法性检测
     public static List<string> illegalAlphafilePaths = new List<string>();
     public static List<string> illegalWidthHeightfilePaths_IOS = new List<string>();
     public static List<string> illegalWidthHeightfilePaths_Android = new List<string>();
@@ -67,7 +69,7 @@ public class CompressUIAtlasCommand : EditorWindow
     static Dictionary<int, TextureImporterFormat> platformFormat = new Dictionary<int, TextureImporterFormat>();
     static string configSOPath = "Assets/Editor/AssetBuilder/AppBuildResources/CompressAtlasSettings.asset";
 
-    [MenuItem("公共工具/图片MaxSize压缩工具")]
+    [MenuItem("公共工具/资源优化/纹理&图集优化工具")]
     static void Init()
     {
         GetWindow(typeof(CompressUIAtlasCommand));
@@ -717,5 +719,4 @@ public class CompressUIAtlasCommand : EditorWindow
     }
 }
 
-
-
+#endif

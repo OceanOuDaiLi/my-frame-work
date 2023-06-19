@@ -65,7 +65,14 @@ public class ShaderVaraintsCollecter
         ShaderVariantCollection svc = new ShaderVariantCollection();
 
         // collecting dir.
-        string[] allGuids = AssetDatabase.FindAssets("t:Material", new string[] { "Assets/Art/Effect", "Assets/Art/Shaders", "Assets/TResources", "Assets/TechArtist" });
+        string[] allGuids = AssetDatabase.FindAssets("t:Material", new string[]
+        {
+            "Assets/Art/Effect",
+            "Assets/Art/Shaders",
+            "Assets/TechArtist/Shaders",
+            "Assets/ABAssets/AssetBundle",
+        });
+
         string assetPath;
         Material material;
         Shader shader;
@@ -115,8 +122,8 @@ public class ShaderVaraintsCollecter
         EditorUtility.ClearProgressBar();
         AssetDatabase.Refresh();
 
-        string prefabPath = "Assets/TechArtist/Shaders/ShaderVariantsPrefab.prefab";
-        string path = "Assets/TechArtist/Shaders/ShaderVariants.shadervariants";
+        string prefabPath = "Assets/ABAssets/AssetBundle/shadervariants/ShaderVariantsPrefab.prefab";
+        string path = "Assets/ABAssets/AssetBundle/shadervariants/ShaderVariants.shadervariants";
         if (path != "")
         {
             path = path.Substring(path.IndexOf("/Assets/") + 1);
@@ -130,7 +137,8 @@ public class ShaderVaraintsCollecter
 
     private bool ShaderFilter(Shader shader, string shaderPath)
     {
-        if (shader.name.ToLower().Contains("nba") && shaderPath.Contains("TechArtist/Shaders"))
+        // command by daili.ou on 2022/08/18
+        if (shader.name.ToLower().Contains("SpecialShaderName") && shaderPath.Contains("TechArtist/Shaders"))
             return true;
         return false;
     }

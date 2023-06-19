@@ -1,30 +1,76 @@
 ﻿#if UNITY_EDITOR
+
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using UnityEngine;
 using UnityEditor;
 using System.Text;
+using System.Diagnostics;
+using System.Collections.Generic;
 
 public static class FBXRepeatMechChecker
 {
-    [MenuItem("公共工具/TATools/统计重复Mesh/统计Asset所有FBX")]
+    static Dictionary<string, List<Mesh2FBXData>> s_mesh2FBXList = null;            // key:mesh.name
+    static Dictionary<string, MeshDataList> s_fbx2MeshDataList = null;              // key:fbx path
+    static Dictionary<MeshDataList, List<string>> s_mutlMesh2FBXList = null;        // value:fbx path
+
+    /// <summary>
+    /// 目前Mesh是否相同，只比较顶点和三角形
+    /// </summary>
+    class MeshCompareData
+    {
+        public string nameMesh;
+        public Vector3[] vertices;
+        public int[] triangles;
+        public long memSize;
+    }
+
+    class Mesh2FBXData
+    {
+        public List<string> listFBXPath;
+        public MeshCompareData meshData;
+    }
+
+    class MeshDataList
+    {
+        public List<MeshCompareData> listMeshData = new List<MeshCompareData>();
+        public override int GetHashCode()
+        {
+            int code = listMeshData[0].GetHashCode();
+            for (int i = 1; i < listMeshData.Count; ++i)
+                code ^= listMeshData[i].GetHashCode();
+            return code;
+        }
+        public override bool Equals(object obj)
+        {
+            MeshDataList keyToCmp = obj as MeshDataList;
+            var listMeshDataToCmp = keyToCmp.listMeshData;
+            if (listMeshData.Count != listMeshDataToCmp.Count)
+                return false;
+
+            for (int i = 0; i < listMeshData.Count; ++i)
+                if (!listMeshDataToCmp.Contains(listMeshData[i]))
+                    return false;
+            return true;
+        }
+    }
+
+    [MenuItem("公共工具/资源检测/统计重复Mesh/统计Asset所有FBX")]
     public static void CheckAll()
     {
         Check();
     }
 
-    [MenuItem("公共工具/TATools/统计重复Mesh/统计Asset所有FBX-前100项（测试用）")]
-    public static void Check1()
-    {
-        Check(false, 100);
-    }
-
-    [MenuItem("公共工具/TATools/统计重复Mesh/统计TResources所有FBX")]
+    [MenuItem("公共工具/资源检测/统计重复Mesh/统计打包路径下所有FBX")]
     public static void CheckAllTResources()
     {
         Check(true);
+    }
+
+    [MenuItem("公共工具/资源检测/统计重复Mesh/统计Asset所有FBX-前100项（测试用）")]
+    public static void Check1()
+    {
+        Check(false, 100);
     }
 
     public static void Check(bool isTres = false, int checkCount = 0)
@@ -42,7 +88,7 @@ public static class FBXRepeatMechChecker
         var searchPath = Application.dataPath + "/";
         if (isTres)
         {
-            searchPath += "/TResources";
+            searchPath += "/ABAssets/AssetBundle";
         }
 
         var dirInfo = new DirectoryInfo(searchPath);
@@ -78,23 +124,23 @@ public static class FBXRepeatMechChecker
             {
                 var fbx2MeshData = new MeshDataList();
                 s_fbx2MeshDataList.Add(assetPath, fbx2MeshData);
-                _ClassifyFBXByOneMesh(assetPath, fbx, fbx2MeshData);
+                ClassifyFBXByOneMesh(assetPath, fbx, fbx2MeshData);
             }
             else
                 UnityEngine.Debug.LogErrorFormat("AssetDatabase.LoadAssetAtPath({0}) faield.", assetPath);
         }
 
-        _ClassifyFBXByMutilMesh();
+        ClassifyFBXByMutilMesh();
 
-        _OutputMsg(streamWriter, "-----目录 \"{0}\" 下相同mesh查找开始 -------- 需要搜索{1}个FBX文件", searchPath, allCount);
+        OutputMsg(streamWriter, "-----目录 \"{0}\" 下相同mesh查找开始 -------- 需要搜索{1}个FBX文件", searchPath, allCount);
 
-        var count = _OutputHasExactlySameMeshFBX(streamWriter);
-        _OutputMsg(streamWriter, "-----目录 \"{0}\" 下相同mesh查找结果 -------- 共{1}个完全相同的mesh.", searchPath, count);
+        var count = OutputHasExactlySameMeshFBX(streamWriter);
+        OutputMsg(streamWriter, "-----目录 \"{0}\" 下相同mesh查找结果 -------- 共{1}个完全相同的mesh.", searchPath, count);
 
-        _OutputLine(streamWriter);
+        OutputLine(streamWriter);
 
-        count = _OutputHasOneSameMeshFBX(streamWriter);
-        _OutputMsg(streamWriter, "-----目录 \"{0}\" 下相同mesh查找结果 -------- 共{1}个部分或全部相同的mesh. cost time={2}", searchPath, count, stopwatch.Elapsed.ToString());
+        count = OutputHasOneSameMeshFBX(streamWriter);
+        OutputMsg(streamWriter, "-----目录 \"{0}\" 下相同mesh查找结果 -------- 共{1}个部分或全部相同的mesh. cost time={2}", searchPath, count, stopwatch.Elapsed.ToString());
 
         streamWriter.Flush();
         streamWriter.Close();
@@ -103,7 +149,7 @@ public static class FBXRepeatMechChecker
         EditorUtility.ClearProgressBar();
     }
 
-    static void _ClassifyFBXByOneMesh(string fbxPath, GameObject asset, MeshDataList fbx2MeshData)
+    static void ClassifyFBXByOneMesh(string fbxPath, GameObject asset, MeshDataList fbx2MeshData)
     {
         var meshFilter = asset.GetComponentsInChildren<MeshFilter>();
         var meshRenderSkinned = asset.GetComponentsInChildren<SkinnedMeshRenderer>();
@@ -111,19 +157,19 @@ public static class FBXRepeatMechChecker
         {
             foreach (var render in meshFilter)
             {
-                _CheckMesh(fbxPath, render.sharedMesh, fbx2MeshData);
+                CheckMesh(fbxPath, render.sharedMesh, fbx2MeshData);
             }
         }
         if (meshRenderSkinned != null && meshRenderSkinned.Length > 0)
         {
             foreach (var render in meshRenderSkinned)
             {
-                _CheckMesh(fbxPath, render.sharedMesh, fbx2MeshData);
+                CheckMesh(fbxPath, render.sharedMesh, fbx2MeshData);
             }
         }
     }
 
-    static void _CheckMesh(string fbxPath, Mesh mesh, MeshDataList fbx2MeshData)
+    static void CheckMesh(string fbxPath, Mesh mesh, MeshDataList fbx2MeshData)
     {
         var nameMesh = mesh.name;
         var vertices = mesh.vertices;
@@ -190,7 +236,7 @@ public static class FBXRepeatMechChecker
         fbx2MeshData.listMeshData.Add(meshDataNew.meshData);
     }
 
-    static void _ClassifyFBXByMutilMesh()
+    static void ClassifyFBXByMutilMesh()
     {
         foreach (var pair in s_mesh2FBXList)
         {
@@ -226,12 +272,13 @@ public static class FBXRepeatMechChecker
         }
     }
 
-    static void _OutputLine(StreamWriter streamWriter)
+    static void OutputLine(StreamWriter streamWriter)
     {
         if (streamWriter != null)
             streamWriter.WriteLine();
     }
-    static void _OutputMsg(StreamWriter streamWriter, string format, params object[] args)
+
+    static void OutputMsg(StreamWriter streamWriter, string format, params object[] args)
     {
         if (streamWriter != null)
             streamWriter.WriteLine(format, args);
@@ -239,9 +286,9 @@ public static class FBXRepeatMechChecker
             UnityEngine.Debug.LogFormat(format, args);
     }
 
-    static int _OutputHasOneSameMeshFBX(StreamWriter streamWriter)
+    static int OutputHasOneSameMeshFBX(StreamWriter streamWriter)
     {
-        _OutputMsg(streamWriter, "index,meshName,tvertexCount,triangleCount,memSize,count,fbxpath");
+        OutputMsg(streamWriter, "index,meshName,tvertexCount,triangleCount,memSize,count,fbxpath");
         int count = 0;
         foreach (var pair in s_mesh2FBXList)
         {
@@ -261,16 +308,16 @@ public static class FBXRepeatMechChecker
                         sbPath.AppendFormat("{0};  ", fbxPath);
 
                     sbData.Append(sbPath);
-                    _OutputMsg(streamWriter, "{0}", sbData.ToString());
+                    OutputMsg(streamWriter, "{0}", sbData.ToString());
                 }
             }
         }
         return count;
     }
 
-    static int _OutputHasExactlySameMeshFBX(StreamWriter streamWriter)
+    static int OutputHasExactlySameMeshFBX(StreamWriter streamWriter)
     {
-        _OutputMsg(streamWriter, "index,meshName,tvertexCount,triangleCount,memSize,count,fbxpath");
+        OutputMsg(streamWriter, "index,meshName,tvertexCount,triangleCount,memSize,count,fbxpath");
         int count = 0;
         foreach (var pair in s_mutlMesh2FBXList)
         {
@@ -292,53 +339,12 @@ public static class FBXRepeatMechChecker
 
                     sbData.Append(sbPath);
 
-                    _OutputMsg(streamWriter, "{0}", sbData.ToString());
+                    OutputMsg(streamWriter, "{0}", sbData.ToString());
                 }
             }
         }
         return count;
     }
 
-    class MeshCompareData  // 目前Mesh是否相同，只比较顶点和三角形
-    {
-        public string nameMesh;
-        public Vector3[] vertices;
-        public int[] triangles;
-        public long memSize;
-    }
-
-    class Mesh2FBXData
-    {
-        public List<string> listFBXPath;
-        public MeshCompareData meshData;
-    }
-
-    class MeshDataList
-    {
-        public List<MeshCompareData> listMeshData = new List<MeshCompareData>();
-        public override int GetHashCode()
-        {
-            int code = listMeshData[0].GetHashCode();
-            for (int i = 1; i < listMeshData.Count; ++i)
-                code ^= listMeshData[i].GetHashCode();
-            return code;
-        }
-        public override bool Equals(object obj)
-        {
-            MeshDataList keyToCmp = obj as MeshDataList;
-            var listMeshDataToCmp = keyToCmp.listMeshData;
-            if (listMeshData.Count != listMeshDataToCmp.Count)
-                return false;
-
-            for (int i = 0; i < listMeshData.Count; ++i)
-                if (!listMeshDataToCmp.Contains(listMeshData[i]))
-                    return false;
-            return true;
-        }
-    }
-
-    static Dictionary<string, List<Mesh2FBXData>> s_mesh2FBXList = null;            // key:mesh.name
-    static Dictionary<string, MeshDataList> s_fbx2MeshDataList = null;              // key:fbx path
-    static Dictionary<MeshDataList, List<string>> s_mutlMesh2FBXList = null;        // value:fbx path
 }
 #endif
