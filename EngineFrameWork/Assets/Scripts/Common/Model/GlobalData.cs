@@ -13,7 +13,7 @@ namespace Model
         {
             if (instance != null)
             {
-                ZDebug.LogError("More than one GlobalData existed");
+                CDebug.LogError("More than one GlobalData existed");
                 instance = null;
             }
 

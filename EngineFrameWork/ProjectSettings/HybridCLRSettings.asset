@@ -19,6 +19,7 @@ MonoBehaviour:
   hotUpdateAssemblyDefinitions: []
   hotUpdateAssemblies:
   - Assembly-CSharp
+  - TechArtist
   preserveHotUpdateAssemblies:
   - PreHotFix_1
   - PreHotFix_2

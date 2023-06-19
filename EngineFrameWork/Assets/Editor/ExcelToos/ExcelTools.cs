@@ -81,7 +81,7 @@ public class ExcelTools : EditorWindow
     /// <summary>
     /// 显示当前窗口	
     /// </summary>
-    [MenuItem("Tools/配置表转Json")]
+    [MenuItem("公共工具/配置转表")]
     static void ShowExcelTools()
     {
         Init();
@@ -136,7 +136,7 @@ public class ExcelTools : EditorWindow
         if (excelList.Count < 1)
         {
             GUILayout.Space(30);
-            EditorGUILayout.LabelField("目前没有Excel文件被选中哦!");
+            EditorGUILayout.LabelField("目前没有Excel文件被选中!");
             EditorGUILayout.LabelField("请在Unity中单个或多个选中需要转换的Excel文档！");
         }
         else
@@ -197,7 +197,7 @@ public class ExcelTools : EditorWindow
     {
         if (createBaseDefine)
         {
-            ExcelUtility.InitTypeScript();
+            ExcelUtility.InitCSharpScript();
         }
 
         ExcelUtility.targetClass = new Dictionary<string, object>();

@@ -11,7 +11,7 @@ namespace UI
 
         protected override void mapBindings()
         {
-            ZDebug.Log("UICrossContext Bind");
+            CDebug.Log("UICrossContext Bind");
             TcpService tcpService = new TcpService();
             injectionBinder.Bind<TcpService>().ToValue(tcpService).ToSingleton().CrossContext();
 

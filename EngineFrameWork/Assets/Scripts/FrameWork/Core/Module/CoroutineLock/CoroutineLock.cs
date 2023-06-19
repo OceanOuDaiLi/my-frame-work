@@ -33,7 +33,7 @@ namespace Core.Resources
         {
             if (_isDispose)
             {
-                ZDebug.LogError("协程锁重复释放");
+                CDebug.LogError("协程锁重复释放");
                 return;
             }
             _waitTask = null;

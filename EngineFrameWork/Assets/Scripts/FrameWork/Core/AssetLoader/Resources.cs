@@ -63,7 +63,7 @@ namespace Core.Resources
             {
                 if (obj == null)
                 {
-                    ZDebug.LogError(string.Format("Res '{0}' is not found", path));
+                    CDebug.LogError(string.Format("Res '{0}' is not found", path));
                 }
 
                 result = obj;

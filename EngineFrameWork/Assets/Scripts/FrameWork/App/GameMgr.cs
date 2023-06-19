@@ -47,14 +47,14 @@ public class GameMgr : MonoSingleton<GameMgr>
     void Start()
     {
         Inited = true;
-        ZDebug.Log("GameMgr Start");
+        CDebug.Log("GameMgr Start");
     }
 
     void LowMemoryCallBack()
     {
         GC.Collect();
         Resources.UnloadUnusedAssets();
-        ZDebug.LogError("### Low memory ### ");
+        CDebug.LogError("### Low memory ### ");
     }
 
     #endregion

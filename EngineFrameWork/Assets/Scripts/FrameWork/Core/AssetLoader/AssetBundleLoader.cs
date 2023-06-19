@@ -182,7 +182,7 @@ namespace Core.Resources
             AssetBundleCreateRequest assetTargetBundleRequest;
 
             /*
-             * Changed by daili.ou on 2023.5.2
+             * Command by daili.ou on 2022.5.2
              * 1.暂时不考虑加密。
              * 2.适配首包StreamingAsset加载 => persistentData Disk 不存在文件， 则 使用 StreamingDisk 进行加载。
              * 
@@ -198,12 +198,12 @@ namespace Core.Resources
             */
 
             loadPath = Path.Combine(envPath, App.Env.PlatformToName(App.Env.SwitchPlatform), relPath);
-            Debug.Log(string.Format($"### 加载主包 start . loadPath: {loadPath} ###"));
+            CDebug.Log(string.Format($"### 加载主包 start . loadPath: {loadPath} ###"));
             if (!File.Exists(loadPath))
             {
                 loadPath = Path.Combine(UnityEngine.Application.streamingAssetsPath, App.Env.PlatformToName(App.Env.SwitchPlatform), relPath);
             }
-            Debug.Log(string.Format($"### 加载主包 end . loadPath: {loadPath} ###"));
+            CDebug.Log(string.Format($"### 加载主包 end . loadPath: {loadPath} ###"));
             assetTargetBundleRequest = AssetBundle.LoadFromFileAsync(loadPath);
 
             //等待主包加载完成
@@ -281,7 +281,7 @@ namespace Core.Resources
                 AssetBundleCreateRequest assetBundleDependencies;
 
                 /*
-                 * Changed by daili.ou on 2023.5.2
+                 * Changed by daili.ou on 2022.5.2
                  * 1.暂时不考虑加密。
                  * 2.适配首包StreamingAsset加载 => persistentData Disk 不存在文件， 则 使用 StreamingDisk 进行加载。
                  * 
@@ -297,12 +297,12 @@ namespace Core.Resources
                 */
 
                 loadPath = Path.Combine(envPath, App.Env.PlatformToName(App.Env.SwitchPlatform), dependencies);
-                Debug.Log(string.Format($"### 加载资源依赖 start . loadPath: {loadPath} ###"));
+                CDebug.Log(string.Format($"### 加载资源依赖 start . loadPath: {loadPath} ###"));
                 if (!File.Exists(loadPath))
                 {
                     loadPath = Path.Combine(UnityEngine.Application.streamingAssetsPath, dependencies);
                 }
-                Debug.Log(string.Format($"### 加载资源依赖 end . loadPath: {loadPath} ###"));
+                CDebug.Log(string.Format($"### 加载资源依赖 end . loadPath: {loadPath} ###"));
                 assetBundleDependencies = AssetBundle.LoadFromFileAsync(loadPath);
 
                 //等待请求完成
@@ -397,9 +397,9 @@ namespace Core.Resources
             if (!loadAssetBundles.ContainsKey(relPath) || loadAssetBundles[relPath].Bundle == null)
             {
                 /*
-                 * Changed by daili.ou on 2023.5.2
+                 * Changed by daili.ou on 2022.5.2
                  * 1.暂时不考虑加密。
-                 * 2.适配首包StreamingAsset加载 => persistentData Disk 不存在文件， 则 使用 StreamingDisk 进行加载。
+                 * 2.适配首包StreamingAsset加载 => persistentData Disk 不存在文件， 则使用 StreamingDisk 进行加载。
                  * This is crypt code.
                  * 
                 if (Disk.IsCrypt)
@@ -414,12 +414,12 @@ namespace Core.Resources
                 */
 
                 loadPath = Path.Combine(envPath, App.Env.PlatformToName(App.Env.SwitchPlatform), relPath);
-                Debug.Log(string.Format($"### start . loadPath: {loadPath} ###"));
+                CDebug.Log(string.Format($"### start . loadPath: {loadPath} ###"));
                 if (!File.Exists(loadPath))
                 {
                     loadPath = Path.Combine(UnityEngine.Application.streamingAssetsPath, relPath, relPath);
                 }
-                Debug.Log(string.Format($"### end . loadPath: {loadPath} ###"));
+                CDebug.Log(string.Format($"### end . loadPath: {loadPath} ###"));
                 assetTarget = AssetBundle.LoadFromFile(loadPath);
 
                 loadAssetBundles.Remove(relPath);
@@ -452,7 +452,7 @@ namespace Core.Resources
                 if (!dependenciesBundles.ContainsKey(_dependencies) || dependenciesBundles[_dependencies].Bundle == null)
                 {
                     /*
-                     * Changed by daili.ou on 2023.5.2
+                     * Changed by daili.ou on 2022.5.2
                      * 1.暂时不考虑加密。
                      * 2.适配首包StreamingAsset加载 => persistentData Disk 不存在文件， 则 使用 StreamingDisk 进行加载。
                      * 
@@ -468,12 +468,12 @@ namespace Core.Resources
                     */
 
                     loadPath = Path.Combine(envPath, App.Env.PlatformToName(App.Env.SwitchPlatform), _dependencies);
-                    Debug.Log(string.Format($"Dependencies: ### start . loadPath: {loadPath} ###"));
+                    CDebug.Log(string.Format($"Dependencies: ### start . loadPath: {loadPath} ###"));
                     if (!File.Exists(loadPath))
                     {
                         loadPath = Path.Combine(UnityEngine.Application.streamingAssetsPath, App.Env.PlatformToName(App.Env.SwitchPlatform), _dependencies);
                     }
-                    Debug.Log(string.Format($"Dependencies: ### end . loadPath: {loadPath} ###"));
+                    CDebug.Log(string.Format($"Dependencies: ### end . loadPath: {loadPath} ###"));
                     assetTarget = AssetBundle.LoadFromFile(loadPath);
 
                     dependenciesBundles.Add(_dependencies, new DependenciesBundle(assetTarget));

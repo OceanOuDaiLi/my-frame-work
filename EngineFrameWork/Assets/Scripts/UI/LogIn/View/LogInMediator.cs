@@ -18,7 +18,7 @@ namespace UI
 
         public override void OnRegister()
         {
-            ZDebug.Log("LogIn Mediator :  OnRegister");
+            CDebug.Log("LogIn Mediator :  OnRegister");
             view.BindMediator(this);
 
             view.dispatcher.AddListener(LogInEvent.ON_CLICK_LOGIN, OnClickLogIn);
@@ -28,7 +28,7 @@ namespace UI
 
         public override void OnRemove()
         {
-            ZDebug.Log("LogIn Mediator :  OnRemove");
+            CDebug.Log("LogIn Mediator :  OnRemove");
             view.dispatcher.RemoveListener(LogInEvent.ON_CLICK_LOGIN, OnClickLogIn);
 
             dispatcher.RemoveListener(LogInEvent.RESPONSE_LOGIN_SUCCESS, OnResponseLoginSuccess);
@@ -39,26 +39,26 @@ namespace UI
 
         private void OnEnable()
         {
-            ZDebug.Log("LogIn Mediator :  OnEnable");
+            CDebug.Log("LogIn Mediator :  OnEnable");
         }
 
         private void Awake()
         {
-            ZDebug.Log("LogIn Mediator :  Awake");
+            CDebug.Log("LogIn Mediator :  Awake");
         }
 
         private void Start()
         {
-            ZDebug.Log("LogIn Mediator :  Start");
+            CDebug.Log("LogIn Mediator :  Start");
 
-            ZDebug.Log("LogIn Mediator :  globalData == null ; " + globalData == null);
+            CDebug.Log("LogIn Mediator :  globalData == null ; " + globalData == null);
         }
 
         #endregion
 
         public void OnClickLogIn(LogInModel logInModel)
         {
-            ZDebug.Log("OnClickLogIn Mediator 1");
+            CDebug.Log("OnClickLogIn Mediator 1");
 
             // todo check account/password/mail_regex_check len.
             //loginModel = (evt as TmEvent).data as LogInModel;
@@ -67,7 +67,7 @@ namespace UI
 
         private void OnClickLogIn(object evt)
         {
-            ZDebug.Log("OnClickLogIn Mediator 2");
+            CDebug.Log("OnClickLogIn Mediator 2");
 
             // todo check account/password/mail_regex_check len.
             //loginModel = (evt as TmEvent).data as LogInModel;
@@ -77,7 +77,7 @@ namespace UI
         private void OnResponseLoginSuccess(object evt)
         {
             string token = (evt as TmEvent).data as string;
-            ZDebug.Log("OnResponseLoginSuccess: result = > " + token);
+            CDebug.Log("OnResponseLoginSuccess: result = > " + token);
         }
     }
 }

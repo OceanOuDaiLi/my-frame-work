@@ -85,15 +85,26 @@ namespace FrameWork.Launch
 
             request.completed += (opt) =>
             {
-                AssetBundle dllAB = request.assetBundle;
-                byte[] csBytes = dllAB.LoadAsset<TextAsset>("Assembly-CSharp.bytes").bytes;
+                /* Tips:
+                 * 加载顺序遵循规则：先加载依赖的Assembly，再加载本体的Assembly。
+                 * 例如：
+                 * 你有A, B, C, D四个dll，
+                 * A需要B，D
+                 * C需要D
+                 * 那么，加载顺序就是D, C, B, A
+                */
 
-                // 先加载依赖的，再加载本体
-                //你有A, B, C, D四个dll
-                //A需要B，D
-                //C需要D
-                //那么，加载顺序就是D, C, B, A
+                AssetBundle dllAB = request.assetBundle;
+                // load bytes.
+                byte[] csBytes = dllAB.LoadAsset<TextAsset>("Assembly-CSharp.bytes").bytes;
+                byte[] techArtistBytes = dllAB.LoadAsset<TextAsset>("TechArtist.bytes").bytes;
+
+                // load assembly.
                 System.Reflection.Assembly GameAsset = System.Reflection.Assembly.Load(csBytes);
+                LogProgress("[HotLaunch:CSharp Assembly Loaded] : " + (GameAsset != null).ToString());
+
+                System.Reflection.Assembly TechArtisttAsset = System.Reflection.Assembly.Load(techArtistBytes);
+                LogProgress("[HotLaunch:TechArtist Assembly Loaded] : " + (TechArtisttAsset != null).ToString());
 
                 var appType = GameAsset.GetType("FrameWork.Application.Main");
                 if (appType == null)

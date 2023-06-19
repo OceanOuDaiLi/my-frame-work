@@ -104,7 +104,7 @@ public class HttpService : IDisposable
         if (param == null)
         {
 #if UNITY_EDITOR
-            UnityEngine.Debug.Log("Http Get 发起请求: " + url + action);
+            CDebug.Log("Http Get 发起请求: " + url + action);
 #endif
             request = http.Get(action);
         }
@@ -112,7 +112,7 @@ public class HttpService : IDisposable
         {
             string jsonData = App.Json.Encode(param);
 #if UNITY_EDITOR
-            UnityEngine.Debug.Log("Http Post 发起请求: " + url + action + "\n" + "ParamData:" + "\n" + jsonData);
+            CDebug.Log("Http Post 发起请求: " + url + action + "\n" + "ParamData:" + "\n" + jsonData);
 #endif
 
             //先加密再转byte
@@ -133,7 +133,7 @@ public class HttpService : IDisposable
         HttpRequestEventArgs response = e as HttpRequestEventArgs;
 
 #if UNITY_EDITOR
-        ZDebug.Log("Http 服务器返回: " + response.Text);
+        CDebug.Log("Http 服务器返回: " + response.Text);
 #endif
 
         HttpResponseExtraInfo extraInfo = null;

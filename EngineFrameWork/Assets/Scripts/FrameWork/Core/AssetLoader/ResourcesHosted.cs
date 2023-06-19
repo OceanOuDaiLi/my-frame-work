@@ -2,6 +2,7 @@
 using System.IO;
 using UnityEngine;
 using Core.Interface;
+using UnityEngine.Profiling;
 using Core.Interface.Resources;
 using System.Collections.Generic;
 
@@ -73,7 +74,11 @@ namespace Core.Resources
         /// </summary>
         public ResourcesHosted()
         {
+            //Profiler.BeginSample("Auto UnLoad AssetBundle");
+
             UnLoad().Coroutine();
+
+            //Profiler.EndSample();
         }
 
         /// <summary>
@@ -223,7 +228,7 @@ namespace Core.Resources
                         var isSuccess = App.AssetBundleLoader.UnloadAssetBundle(info.AssetBundle);
                         if (isSuccess)
                         {
-                            //ZDebug.Log($"Auto Unload AssetBundle Success: {info.AssetBundle}");
+                            //CDebug.Log($"Auto Unload AssetBundle Success: {info.AssetBundle}");
 
                             foreach (var val in tmpDict.Values)
                             {
@@ -234,7 +239,7 @@ namespace Core.Resources
                         }
                         else
                         {
-                            //ZDebug.Log($"Auto Unload AssetBundle Failed: {info.AssetBundle}");
+                            //CDebug.Log($"Auto Unload AssetBundle Failed: {info.AssetBundle}");
 
                             //如果释放失败则重新丢入队尾
                             destroyQueue.Enqueue(info);

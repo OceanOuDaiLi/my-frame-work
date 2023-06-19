@@ -11,7 +11,7 @@ namespace FrameWork.Application
     {
         public static void HotFixStart(string aotDllPath)
         {
-            ZDebug.EnableLog = true;
+            CDebug.EnableLog = true;
 
             UIMgr.Ins.Startup();
             GameMgr.Ins.Startup();
@@ -47,22 +47,22 @@ namespace FrameWork.Application
                     LoadImageErrorCode err = RuntimeApi.LoadMetadataForAOTAssembly(dllBytes, mode);
                     if (!err.Equals(LoadImageErrorCode.OK))
                     {
-                        Debug.Log($"[Main::LoadMetadataForAotAssembly error] load {aotDllName} ret:{err.ToString()}");
+                        CDebug.Log($"[Main::LoadMetadataForAotAssembly error] load {aotDllName} ret:{err.ToString()}");
                     }
                     else
                     {
-                        Debug.Log($"[Main::LoadMetadataForAotAssembly] load {aotDllName} ret:{err}");
+                        CDebug.Log($"[Main::LoadMetadataForAotAssembly] load {aotDllName} ret:{err}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    Debug.Log($"[Main::LoadMetadataForAotAssembly error] load {aotDllName} exception");
-                    Debug.LogException(ex);
+                    CDebug.Log($"[Main::LoadMetadataForAotAssembly error] load {aotDllName} exception");
+                    CDebug.LogError(ex);
                     throw;
                 }
             }
 
-            Debug.Log($"[Main::LoadMetadataForAotAssembly] finished!");
+            CDebug.Log($"[Main::LoadMetadataForAotAssembly] finished!");
 
             FrameWork.Launch.Utils.Utility.ResolveVolumeManager();
 
@@ -91,7 +91,7 @@ namespace FrameWork.Application
             //loadingView.prefabName = "loading";
             //UIMgr.Ins.OpenUI(loadingView, (s) =>
             //{
-            //    ZDebug.Log("Loading View Opened");
+            //    CCDebug.Log("Loading View Opened");
             //});
 
             UIConfig launchView = new UIConfig();

@@ -15,12 +15,12 @@ namespace UI
         protected override void Awake()
         {
             base.Awake();
-            ZDebug.Log("LogInView Awake");
+            CDebug.Log("LogInView Awake");
         }
 
         public void OnClickLogIn()
         {
-            ZDebug.Log("OnClickLogIn View");
+            CDebug.Log("OnClickLogIn View");
             LogInModel logInModel = new LogInModel();
             // test data.
             logInModel.password = "password";

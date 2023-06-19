@@ -12,8 +12,8 @@ public class ExcelUtility
 {
     public static Dictionary<string, object> targetClass = new Dictionary<string, object>();
 
-    //ts脚本生成路径
-    private static string typeSctiptPath = Application.dataPath + @"\ABAssets\Export\BaseDataDefine.txt";
+    //cs脚本生成路径
+    private static string CSharpSctiptPath = Application.dataPath + @"\ABAssets\Export\BaseDataDefine.txt";
 
     /// <summary>
     /// 表格数据集合
@@ -77,9 +77,9 @@ public class ExcelUtility
         return list;
     }
 
-    public static void InitTypeScript()
+    public static void InitCSharpScript()
     {
-        System.IO.File.WriteAllText(typeSctiptPath, string.Empty);
+        System.IO.File.WriteAllText(CSharpSctiptPath, string.Empty);
     }
 
     public void ConvertToOneTempJson(string JsonPath, Encoding encoding, string excelName, bool isEnd)
@@ -233,7 +233,7 @@ public class ExcelUtility
         if (isEnd)
         {
             ExcelTools.typeScriptTemplet += "\n" + "}";
-            System.IO.File.WriteAllText(typeSctiptPath, ExcelTools.typeScriptTemplet);
+            System.IO.File.WriteAllText(CSharpSctiptPath, ExcelTools.typeScriptTemplet);
         }
     }
 

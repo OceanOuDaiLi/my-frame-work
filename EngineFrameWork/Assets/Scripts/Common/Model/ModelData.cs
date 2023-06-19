@@ -18,7 +18,7 @@ namespace Model
 
         public void Update(Dictionary<string, object> dict)
         {
-            // reflection get properties & scripts field crypt.
+            // warning: reflection get properties for scripts field crypt.
 
             object obj;
             Type dataType = GetType();

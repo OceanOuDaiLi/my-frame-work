@@ -85,7 +85,7 @@ namespace UI
         {
             uiContainer = transform;
             Inited = true;
-            ZDebug.Log("UIMgr Start");
+            CDebug.Log("UIMgr Start");
         }
 
         private void OnDestroy()
@@ -246,7 +246,7 @@ namespace UI
 
             if (!cachesUI.ContainsKey(target.prefabName))
             {
-                ZDebug.LogError(string.Format("未打开过ui：{0}", target.prefabName));
+                CDebug.LogError(string.Format("未打开过ui：{0}", target.prefabName));
                 return;
             }
             else

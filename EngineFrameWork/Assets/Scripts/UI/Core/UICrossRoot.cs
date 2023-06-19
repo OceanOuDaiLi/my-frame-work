@@ -6,7 +6,7 @@ namespace UI
     {
         protected void Awake()
         {
-            ZDebug.Log("Cross Root Awake");
+            CDebug.Log("Cross Root Awake");
             context = new UICrossContext(this);
             GameMgr.Ins.CrossDispatcher = (context as UICrossContext).dispatcher;
         }

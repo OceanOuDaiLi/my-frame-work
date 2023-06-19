@@ -10,8 +10,8 @@ using System.Collections.Generic;
 
 public static class FBXRepeatMechChecker
 {
-    static Dictionary<string, List<Mesh2FBXData>> s_mesh2FBXList = null;            // key:mesh.name
     static Dictionary<string, MeshDataList> s_fbx2MeshDataList = null;              // key:fbx path
+    static Dictionary<string, List<Mesh2FBXData>> s_mesh2FBXList = null;            // key:mesh.name
     static Dictionary<MeshDataList, List<string>> s_mutlMesh2FBXList = null;        // value:fbx path
 
     /// <summary>
