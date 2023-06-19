@@ -12,19 +12,12 @@ public class ExcelUtility
 {
     public static Dictionary<string, object> targetClass = new Dictionary<string, object>();
 
-    //cs脚本生成路径
+    // cs脚本生成路径
     private static string CSharpSctiptPath = Application.dataPath + @"\Scripts\Common\Model\TableData.cs";
 
-    /// <summary>
-    /// 表格数据集合
-    /// </summary>
+    // 表格数据集合
     private DataSet mResultSet;
 
-
-    /// <summary>
-    /// 构造函数
-    /// </summary>
-    /// <param name="excelFile">Excel file.</param>
     public ExcelUtility(string excelFile)
     {
         FileStream mStream = File.Open(excelFile, FileMode.Open, FileAccess.Read);
@@ -32,56 +25,149 @@ public class ExcelUtility
         mResultSet = mExcelReader.AsDataSet();
     }
 
-    /// <summary>
-    /// 转换为实体类列表
-    /// </summary>
-    public List<T> ConvertToList<T>()
-    {
-        //判断Excel文件中是否存在数据表
-        if (mResultSet.Tables.Count < 1)
-            return null;
-        //默认读取第一个数据表
-        DataTable mSheet = mResultSet.Tables[0];
-
-        //判断数据表内是否存在数据
-        if (mSheet.Rows.Count < 1)
-            return null;
-
-        //读取数据表行数和列数
-        int rowCount = mSheet.Rows.Count;
-        int colCount = mSheet.Columns.Count;
-
-        //准备一个列表以保存全部数据
-        List<T> list = new List<T>();
-
-        //读取数据
-        for (int i = 1; i < rowCount; i++)
-        {
-            //创建实例
-            Type t = typeof(T);
-            ConstructorInfo ct = t.GetConstructor(System.Type.EmptyTypes);
-            T target = (T)ct.Invoke(null);
-            for (int j = 0; j < colCount; j++)
-            {
-                //读取第1行数据作为表头字段
-                string field = mSheet.Rows[0][j].ToString();
-                object value = mSheet.Rows[i][j];
-                //设置属性值
-                SetTargetProperty(target, field, value);
-            }
-
-            //添加至列表
-            list.Add(target);
-        }
-
-        return list;
-    }
 
     public static void InitCSharpScript()
     {
         System.IO.File.WriteAllText(CSharpSctiptPath, string.Empty);
     }
 
+    public void RecordCSharpFile(string className, string paramType, string paramName, string paramComment)
+    {
+        if (paramComment.Length > 0)
+        {
+            ExcelTools.cSharpTemplet += "    /// <summary>\n";
+            //注释，每一行都增加注释
+            ExcelTools.cSharpTemplet += "    /// " + paramComment.Replace("\n", "\n///") + "\n";
+            ExcelTools.cSharpTemplet += "    /// <summary>\n";
+        }
+        ExcelTools.cSharpTemplet += "    public " + paramType + " " + paramName + ";" + "\n";
+    }
+
+    public void CreateCSharpBaseDateFile(string excelName, bool isEnd)
+    {
+        //判断Excel文件中是否存在数据表
+        if (mResultSet.Tables.Count < 1)
+            return;
+
+        //默认读取第一个数据表
+        DataTable mSheet = mResultSet.Tables[0];
+
+        //判断数据表内是否存在数据
+        if (mSheet.Rows.Count < 1)
+            return;
+
+        ExcelTools.cSharpTemplet += "\n";
+        ExcelTools.cSharpTemplet += "//" + excelName + "\n";
+        ExcelTools.cSharpTemplet += "public class " + excelName + " : ModelName" + "{" + "\n";
+
+        //读取数据表行数和列数
+        int rowCount = mSheet.Rows.Count;
+        int colCount = mSheet.Columns.Count;
+
+        //准备一个列表存储整个表的数据
+        List<Dictionary<string, object>> table = new List<Dictionary<string, object>>();
+
+        //读取数据
+        for (int i = 3; i < rowCount; i++)
+        {
+            //准备一个字典存储每一行的数据
+            Dictionary<string, object> row = new Dictionary<string, object>();
+            for (int j = 1; j < colCount; j++)
+            {
+                //读取第1行数据作为表头字段
+                string field = mSheet.Rows[0][j].ToString();
+                //Key-Value对应
+                if (!string.IsNullOrEmpty(field))
+                    row[field] = mSheet.Rows[i][j];
+            }
+
+            //添加到表数据中
+            table.Add(row);
+        }
+
+        //写入cs
+        for (int j = 1; j < colCount; j++)
+        {
+            string paramName = mSheet.Rows[0][j].ToString();
+            string paramType = mSheet.Rows[1][j].ToString();
+            string paramComment = mSheet.Rows[2][j].ToString();
+            if (string.IsNullOrEmpty(paramType) || string.IsNullOrEmpty(paramName))
+            {
+                continue;
+            }
+
+            RecordCSharpFile(excelName, paramType, paramName, paramComment);
+        }
+
+        ExcelTools.cSharpTemplet += "\n" + "}";
+
+        if (isEnd)
+        {
+            ExcelTools.cSharpTemplet += "\n" + "}";
+            System.IO.File.WriteAllText(CSharpSctiptPath, ExcelTools.cSharpTemplet);
+        }
+    }
+
+    #region Convert Methods
+
+    /// <summary>
+    /// 转换为Json.
+    /// 分表: 一张配置表, 一个Json.
+    /// </summary>
+    public void ConvertToJson(string jsonPath, Encoding encoding)
+    {
+        //判断Excel文件中是否存在数据表
+        if (mResultSet.Tables.Count < 1)
+            return;
+
+        //默认读取第一个数据表
+        DataTable mSheet = mResultSet.Tables[0];
+
+        //判断数据表内是否存在数据
+        if (mSheet.Rows.Count < 1)
+            return;
+
+        //读取数据表行数和列数
+        int rowCount = mSheet.Rows.Count;
+        int colCount = mSheet.Columns.Count;
+
+        //准备一个列表存储整个表的数据
+        List<Dictionary<string, object>> table = new List<Dictionary<string, object>>();
+
+        //读取数据
+        for (int i = 3; i < rowCount; i++)
+        {
+            //准备一个字典存储每一行的数据
+            Dictionary<string, object> row = new Dictionary<string, object>();
+            for (int j = 1; j < colCount; j++)
+            {
+                //读取第1行数据作为表头字段
+                string field = mSheet.Rows[0][j].ToString();
+                //Key-Value对应
+                if (!string.IsNullOrEmpty(field))
+                    row[field] = mSheet.Rows[i][j];
+            }
+
+            //添加到表数据中
+            table.Add(row);
+        }
+
+        //生成Json字符串
+        string json = JsonConvert.SerializeObject(table, Formatting.Indented);
+        //写入文件
+        using (FileStream fileStream = new FileStream(jsonPath, FileMode.Create, FileAccess.Write))
+        {
+            using (TextWriter textWriter = new StreamWriter(fileStream, encoding))
+            {
+                textWriter.Write(json);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 转化为Json.
+    /// 整表: 所有配置表, 一个Json文件.
+    /// </summary>
     public void ConvertToOneTempJson(string jsonPath, Encoding encoding, string excelName, bool isEnd)
     {
         //判断Excel文件中是否存在数据表
@@ -172,141 +258,8 @@ public class ExcelUtility
         }
     }
 
-    public void CreateCSharpBaseDateFile(string excelName, bool isEnd)
-    {
-        //判断Excel文件中是否存在数据表
-        if (mResultSet.Tables.Count < 1)
-            return;
-
-        //默认读取第一个数据表
-        DataTable mSheet = mResultSet.Tables[0];
-
-        //判断数据表内是否存在数据
-        if (mSheet.Rows.Count < 1)
-            return;
-
-        ExcelTools.cSharpTemplet += "\n";
-        ExcelTools.cSharpTemplet += "//" + excelName + "\n";
-        ExcelTools.cSharpTemplet += "public class " + excelName + " : ModelName" + "{" + "\n";
-
-        //读取数据表行数和列数
-        int rowCount = mSheet.Rows.Count;
-        int colCount = mSheet.Columns.Count;
-
-        //准备一个列表存储整个表的数据
-        List<Dictionary<string, object>> table = new List<Dictionary<string, object>>();
-
-        //读取数据
-        for (int i = 3; i < rowCount; i++)
-        {
-            //准备一个字典存储每一行的数据
-            Dictionary<string, object> row = new Dictionary<string, object>();
-            for (int j = 1; j < colCount; j++)
-            {
-                //读取第1行数据作为表头字段
-                string field = mSheet.Rows[0][j].ToString();
-                //Key-Value对应
-                if (!string.IsNullOrEmpty(field))
-                    row[field] = mSheet.Rows[i][j];
-            }
-
-            //添加到表数据中
-            table.Add(row);
-        }
-
-        //写入cs
-        for (int j = 1; j < colCount; j++)
-        {
-            string paramName = mSheet.Rows[0][j].ToString();
-            string paramType = mSheet.Rows[1][j].ToString();
-            string paramComment = mSheet.Rows[2][j].ToString();
-            if (string.IsNullOrEmpty(paramType) || string.IsNullOrEmpty(paramName))
-            {
-                continue;
-            }
-
-            RecordCSharpFile(excelName, paramType, paramName, paramComment);
-        }
-
-        ExcelTools.cSharpTemplet += "\n" + "}";
-
-        if (isEnd)
-        {
-            ExcelTools.cSharpTemplet += "\n" + "}";
-            System.IO.File.WriteAllText(CSharpSctiptPath, ExcelTools.cSharpTemplet);
-        }
-    }
-
-
     /// <summary>
-    /// 转换为Json多张表
-    /// </summary>
-    /// <param name="JsonPath">Json文件路径</param>
-    /// <param name="Header">表头行数</param>
-    public void ConvertToJson(string JsonPath, Encoding encoding)
-    {
-        //判断Excel文件中是否存在数据表
-        if (mResultSet.Tables.Count < 1)
-            return;
-
-        //默认读取第一个数据表
-        DataTable mSheet = mResultSet.Tables[0];
-
-        //判断数据表内是否存在数据
-        if (mSheet.Rows.Count < 1)
-            return;
-
-        //读取数据表行数和列数
-        int rowCount = mSheet.Rows.Count;
-        int colCount = mSheet.Columns.Count;
-
-        //准备一个列表存储整个表的数据
-        List<Dictionary<string, object>> table = new List<Dictionary<string, object>>();
-
-        //读取数据
-        for (int i = 3; i < rowCount; i++)
-        {
-            //准备一个字典存储每一行的数据
-            Dictionary<string, object> row = new Dictionary<string, object>();
-            for (int j = 1; j < colCount; j++)
-            {
-                //读取第1行数据作为表头字段
-                string field = mSheet.Rows[0][j].ToString();
-                //Key-Value对应
-                if (!string.IsNullOrEmpty(field))
-                    row[field] = mSheet.Rows[i][j];
-            }
-
-            //添加到表数据中
-            table.Add(row);
-        }
-
-        //生成Json字符串
-        string json = JsonConvert.SerializeObject(table, Formatting.Indented);
-        //写入文件
-        using (FileStream fileStream = new FileStream(JsonPath, FileMode.Create, FileAccess.Write))
-        {
-            using (TextWriter textWriter = new StreamWriter(fileStream, encoding))
-            {
-                textWriter.Write(json);
-            }
-        }
-    }
-
-    private void RecordCSharpFile(string className, string paramType, string paramName, string paramComment)
-    {
-        if (paramComment.Length > 0)
-        {
-            ExcelTools.cSharpTemplet += "    /// <summary>\n";
-            //注释，每一行都增加注释
-            ExcelTools.cSharpTemplet += "    /// " + paramComment.Replace("\n", "\n///") + "\n";
-            ExcelTools.cSharpTemplet += "    /// <summary>\n";
-        }
-        ExcelTools.cSharpTemplet += "    public " + paramType + " " + paramName + ";" + "\n";
-    }
-
-    /// <summary>
-	/// 转换为lua
+	/// 转换为lua.
 	/// </summary>
 	/// <param name="luaPath">lua文件路径</param>
 	public void ConvertToLua(string luaPath, Encoding encoding)
@@ -378,9 +331,8 @@ public class ExcelUtility
         }
     }
 
-
     /// <summary>
-    /// 转换为CSV
+    /// 转换为CSV.
     /// </summary>
     public void ConvertToCSV(string CSVPath, Encoding encoding)
     {
@@ -425,7 +377,7 @@ public class ExcelUtility
     }
 
     /// <summary>
-    /// 导出为Xml
+    /// 导出为XML.
     /// </summary>
     public void ConvertToXml(string XmlFile)
     {
@@ -481,6 +433,55 @@ public class ExcelUtility
         }
     }
 
+    #endregion
+
+    #region ExcelToList<T>
+
+    /// <summary>
+    /// 转换为实体类列表
+    /// </summary>
+    private List<T> ConvertToList<T>()
+    {
+        //判断Excel文件中是否存在数据表
+        if (mResultSet.Tables.Count < 1)
+            return null;
+        //默认读取第一个数据表
+        DataTable mSheet = mResultSet.Tables[0];
+
+        //判断数据表内是否存在数据
+        if (mSheet.Rows.Count < 1)
+            return null;
+
+        //读取数据表行数和列数
+        int rowCount = mSheet.Rows.Count;
+        int colCount = mSheet.Columns.Count;
+
+        //准备一个列表以保存全部数据
+        List<T> list = new List<T>();
+
+        //读取数据
+        for (int i = 1; i < rowCount; i++)
+        {
+            //创建实例
+            Type t = typeof(T);
+            ConstructorInfo ct = t.GetConstructor(System.Type.EmptyTypes);
+            T target = (T)ct.Invoke(null);
+            for (int j = 0; j < colCount; j++)
+            {
+                //读取第1行数据作为表头字段
+                string field = mSheet.Rows[0][j].ToString();
+                object value = mSheet.Rows[i][j];
+                //设置属性值
+                SetTargetProperty(target, field, value);
+            }
+
+            //添加至列表
+            list.Add(target);
+        }
+
+        return list;
+    }
+
     /// <summary>
     /// 设置目标实例的属性
     /// </summary>
@@ -498,8 +499,6 @@ public class ExcelUtility
             }
         }
     }
+
+    #endregion
 }
-
-
-
-
