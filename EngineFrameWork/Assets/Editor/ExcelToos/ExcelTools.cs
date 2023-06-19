@@ -66,7 +66,7 @@ public class ExcelTools : EditorWindow
         }
         else
         {
-            excel.ConvertToOneTempJson(outPutPath, encoding, xlsx, isEnd);
+            excel.ConvertToOneFileJson(outPutPath, encoding, xlsx, isEnd);
         }
     }
 

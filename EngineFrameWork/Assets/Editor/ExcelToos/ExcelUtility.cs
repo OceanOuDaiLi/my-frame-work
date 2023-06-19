@@ -45,14 +45,14 @@ public class ExcelUtility
 
     public void CreateCSharpBaseDateFile(string excelName, bool isEnd)
     {
-        //判断Excel文件中是否存在数据表
+        // 判断Excel文件中是否存在数据表
         if (mResultSet.Tables.Count < 1)
             return;
 
-        //默认读取第一个数据表
+        // 默认读取第一个sheet数据表
         DataTable mSheet = mResultSet.Tables[0];
 
-        //判断数据表内是否存在数据
+        // 判断数据表内是否存在数据
         if (mSheet.Rows.Count < 1)
             return;
 
@@ -168,7 +168,7 @@ public class ExcelUtility
     /// 转化为Json.
     /// 整表: 所有配置表, 一个Json文件.
     /// </summary>
-    public void ConvertToOneTempJson(string jsonPath, Encoding encoding, string excelName, bool isEnd)
+    public void ConvertToOneFileJson(string jsonPath, Encoding encoding, string excelName, bool isEnd)
     {
         //判断Excel文件中是否存在数据表
         if (mResultSet.Tables.Count < 1)
