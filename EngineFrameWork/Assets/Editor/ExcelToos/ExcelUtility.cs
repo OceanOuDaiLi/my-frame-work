@@ -13,7 +13,7 @@ public class ExcelUtility
     public static Dictionary<string, object> targetClass = new Dictionary<string, object>();
 
     // cs脚本生成路径
-    private static string CSharpSctiptPath = Application.dataPath + @"\Scripts\Common\Data\BaseData\GenTableData.cs";
+    private static string CSharpSctiptPath = Application.dataPath + @"\Scripts\Common\Model\Base\GenTableData.cs";
 
     // 表格数据集合
     private DataSet mResultSet;
