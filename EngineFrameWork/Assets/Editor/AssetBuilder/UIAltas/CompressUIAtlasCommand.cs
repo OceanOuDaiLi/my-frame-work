@@ -69,7 +69,7 @@ public class CompressUIAtlasCommand : EditorWindow
     static Dictionary<int, TextureImporterFormat> platformFormat = new Dictionary<int, TextureImporterFormat>();
     static string configSOPath = "Assets/Editor/AssetBuilder/AppBuildResources/CompressAtlasSettings.asset";
 
-    [MenuItem("公共工具/资源优化/纹理&图集优化工具")]
+    [MenuItem("公共工具/资源优化/纹理&图集优化工具", false, 700)]
     static void Init()
     {
         GetWindow(typeof(CompressUIAtlasCommand));

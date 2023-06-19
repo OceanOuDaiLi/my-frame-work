@@ -6,7 +6,7 @@ namespace TerrainXEditor.ShaderVaraintsTool
     [System.Reflection.Obfuscation(Exclude = true)]
     class ShaderVaraintsToolWindow : EditorWindow
     {
-        [MenuItem("公共工具/TATools/ShaderVaraints收集工具")]
+        [MenuItem("公共工具/TATools/ShaderVaraints收集工具", false, 600)]
         private static void ShowWindow()
         {
             ShaderVaraintsToolWindow window = GetWindow(typeof(ShaderVaraintsToolWindow), false, "ShaderVaraints收集工具") as ShaderVaraintsToolWindow;

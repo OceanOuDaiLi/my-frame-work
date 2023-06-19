@@ -17,13 +17,13 @@ public static class FBXMeshStatistics
         Vertex,
     };
 
-    [MenuItem("公共工具/资源检测/统计Mesh面数与顶点数/面数Top20")]
+    [MenuItem("公共工具/资源检测/统计Mesh面数与顶点数/面数Top20", false, 800)]
     public static void CheckTriangles()
     {
         _Counting(StatType.Triangle, 20);
     }
 
-    [MenuItem("公共工具/资源检测/统计Mesh面数与顶点数/顶点数Top20")]
+    [MenuItem("公共工具/资源检测/统计Mesh面数与顶点数/顶点数Top20", false, 801)]
     public static void CheckVertex()
     {
         _Counting(StatType.Vertex, 20);

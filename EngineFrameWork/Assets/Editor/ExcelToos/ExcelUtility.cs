@@ -13,7 +13,7 @@ public class ExcelUtility
     public static Dictionary<string, object> targetClass = new Dictionary<string, object>();
 
     // cs脚本生成路径
-    private static string CSharpSctiptPath = Application.dataPath + @"\Scripts\Common\Model\TableData.cs";
+    private static string CSharpSctiptPath = Application.dataPath + @"\Scripts\Common\Data\BaseData\GenTableData.cs";
 
     // 表格数据集合
     private DataSet mResultSet;
@@ -58,25 +58,25 @@ public class ExcelUtility
 
         ExcelTools.cSharpTemplet += "\n";
         ExcelTools.cSharpTemplet += "//" + excelName + "\n";
-        ExcelTools.cSharpTemplet += "public class " + excelName + " : ModelName" + "{" + "\n";
+        ExcelTools.cSharpTemplet += "public class " + excelName + " : ModelData" + "{" + "\n";
 
-        //读取数据表行数和列数
+        // 读取数据表行数和列数
         int rowCount = mSheet.Rows.Count;
         int colCount = mSheet.Columns.Count;
-
-        //准备一个列表存储整个表的数据
+        // 存储整个表的数据
         List<Dictionary<string, object>> table = new List<Dictionary<string, object>>();
 
-        //读取数据
+        // 读取数据
         for (int i = 3; i < rowCount; i++)
         {
-            //准备一个字典存储每一行的数据
+            // 准备一个字典存储每一行的数据
             Dictionary<string, object> row = new Dictionary<string, object>();
             for (int j = 1; j < colCount; j++)
             {
-                //读取第1行数据作为表头字段
+                // 读取第1行数据作为表头字段
                 string field = mSheet.Rows[0][j].ToString();
-                //Key-Value对应
+
+                // Key-Value对应
                 if (!string.IsNullOrEmpty(field))
                     row[field] = mSheet.Rows[i][j];
             }
@@ -91,7 +91,9 @@ public class ExcelUtility
             string paramName = mSheet.Rows[0][j].ToString();
             string paramType = mSheet.Rows[1][j].ToString();
             string paramComment = mSheet.Rows[2][j].ToString();
-            if (string.IsNullOrEmpty(paramType) || string.IsNullOrEmpty(paramName))
+
+            // ModelData 默认带id.这里过滤下.
+            if (string.IsNullOrEmpty(paramType) || string.IsNullOrEmpty(paramName) || paramName.ToLower().Equals("id"))
             {
                 continue;
             }
@@ -245,7 +247,7 @@ public class ExcelUtility
             //生成Json字符串
             string json = JsonConvert.SerializeObject(targetClass, Newtonsoft.Json.Formatting.None);
 
-            jsonPath = jsonPath.Remove(jsonPath.LastIndexOf('/'));
+            jsonPath = jsonPath.Remove(jsonPath.LastIndexOf(@"\"));
             jsonPath = jsonPath + "/localdata.json";
             //写入文件
             using (FileStream fileStream = new FileStream(jsonPath, FileMode.Create, FileAccess.Write))
