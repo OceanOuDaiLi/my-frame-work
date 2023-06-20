@@ -19,7 +19,7 @@ MonoBehaviour:
   job: cfg --
   define_xml: ../LubanProject/DesignerConfigs/Defines/__root__.xml
   input_data_dir: ../LubanProject/DesignerConfigs/Datas
-  gen_types: 1028
+  gen_types: 65600
   service: client
   output_data_dir: Assets/ABAssets/NotAssetBundle
   output_code_dir: Assets/Scripts/Common/Model/Base

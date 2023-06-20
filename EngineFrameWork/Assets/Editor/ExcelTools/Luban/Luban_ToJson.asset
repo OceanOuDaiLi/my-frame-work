@@ -20,13 +20,13 @@ MonoBehaviour:
   define_xml: ../LubanProject/DesignerConfigs/Defines/__root__.xml
   input_data_dir: ../LubanProject/DesignerConfigs/Datas
   gen_types: 1028
-  service: client
-  output_data_dir: Assets/ABAssets/NotAssetBundle
+  service: all
+  output_data_dir: Assets/ABAssets/NotAssetBundle/db
   output_code_dir: Assets/Scripts/Common/Model/Base
   output_data_resources_list_file: 
   output_exclude_tags: 
   output_data_file_extension: 
-  output_data_compact_json: 0
+  output_data_compact_json: 1
   output_data_json_monolithic_file: 
   i10n_timezone: 
   i10n_input_text_files: 
@@ -37,5 +37,5 @@ MonoBehaviour:
   naming_convertion_module: 3
   naming_convertion_bean_member: 3
   naming_convertion_enum_member: 3
-  cs_use_unity_vestor: 0
+  cs_use_unity_vestor: 1
   external_selectors: 
