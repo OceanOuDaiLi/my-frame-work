@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 118719470, guid: 4e372a9b74529834d90ded2729df7548, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SkipHotFix: 1
+  UnityEditor: 1
   TaskDownLoadSize: 100
 --- !u!4 &521281317
 Transform:
@@ -186,7 +186,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &654942600
 RectTransform:
   m_ObjectHideFlags: 0
@@ -372,7 +372,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 3221227383
 --- !u!114 &969641508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -435,7 +435,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1084999610
 RectTransform:
   m_ObjectHideFlags: 0
