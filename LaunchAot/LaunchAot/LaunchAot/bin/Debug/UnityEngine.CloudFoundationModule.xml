@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<doc>
+  <members>
+    <assembly>
+      <name>UnityEngine.CloudFoundationModule</name>
+    </assembly>
+    <member name="T:UnityEngine.Cloud.CloudAPISubsystem">
+      <summary>
+        <para>CloudAPISubsystem
+Instance is used to enable and disable cloud API.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEngine.Cloud.CloudAPISubsystemDescriptor">
+      <summary>
+        <para>Information about an CloudAPI subsystem.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEngine.Cloud.CloudStorageSubsystem">
+      <summary>
+        <para>CloudStorageSubsystem
+Instance is used to enable and disable cloud bucket</para>
+      </summary>
+    </member>
+    <member name="T:UnityEngine.Cloud.CloudStorageSubsystemDescriptor">
+      <summary>
+        <para>Information about an cloud storage subsystem.</para>
+      </summary>
+    </member>
+  </members>
+</doc>

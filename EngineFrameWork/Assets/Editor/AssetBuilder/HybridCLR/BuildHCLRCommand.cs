@@ -51,13 +51,13 @@ namespace HybridCLR.Editor
 
         public static List<string> AOTMetaAssemblyNames { get; } = new List<string>()
         {
-            "mscorlib",
             "System",
-            "System.Core",
             "ETTask",
-            //"AIAOT",
-            //"LockStepAot"
+            "mscorlib",
+            "LaunchAot",
+            "System.Core",
 
+            //"LockStepAot"
             //"Animancer",
             //"MagicaCloth",
             //....

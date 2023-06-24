@@ -1,8 +1,8 @@
 #### Schedule Pre-Research #### 2023.March.
-1.ET FrameWork Study.
-2.GPU/CPU hardware Infomation Study.
+1.ET FrameWork Research.
+2.GPU/CPU hardware Infomation Research.
 3.MyFrameWork Develop.
-4.Base Shadeing Study.
+4.Base Shadeing Research.
 5.GamePlay research.
 
 

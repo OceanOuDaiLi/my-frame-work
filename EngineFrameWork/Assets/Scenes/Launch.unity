@@ -149,10 +149,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 521281315}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1980908f6bcb91744b2fd10dc7b2a46b, type: 3}
+  m_Script: {fileID: 118719470, guid: 4e372a9b74529834d90ded2729df7548, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SkipHotFix: 0
+  SkipHotFix: 1
   TaskDownLoadSize: 100
 --- !u!4 &521281317
 Transform:
