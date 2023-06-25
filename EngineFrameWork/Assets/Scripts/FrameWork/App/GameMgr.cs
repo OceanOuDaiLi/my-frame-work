@@ -62,6 +62,7 @@ public class GameMgr : MonoSingleton<GameMgr>
     public IFile LoadINIFile(string fileName)
     {
         IFile file = null;
+        
 #if UNITY_EDITOR
         if (App.Env.DebugLevel == DebugLevels.Auto || App.Env.DebugLevel == DebugLevels.Develop)
         {
