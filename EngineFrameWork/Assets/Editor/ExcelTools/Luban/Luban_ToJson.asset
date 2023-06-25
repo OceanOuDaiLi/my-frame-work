@@ -22,7 +22,7 @@ MonoBehaviour:
   gen_types: 1028
   service: all
   output_data_dir: Assets/ABAssets/NotAssetBundle/db
-  output_code_dir: Assets/Scripts/Common/Model/Base
+  output_code_dir: Assets/Scripts/UI/TableData/Base
   output_data_resources_list_file: 
   output_exclude_tags: 
   output_data_file_extension: 
