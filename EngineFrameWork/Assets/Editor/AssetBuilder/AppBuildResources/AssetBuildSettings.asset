@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AssetBuildSettings
   m_EditorClassIdentifier: 
   applicationBuildInfo:
-    CompanyName: "\u6DF1\u5733\u5E02\u8303\u7279\u897F\u79D1\u6280\u6709\u9650\u8D23\u4EFB\u516C\u53F8"
+    CompanyName: "\u6DF1\u5733\u5E02MyCompany\u6709\u9650\u8D23\u4EFB\u516C\u53F8"
     ProductName: Engine-Frame-Work
     Version: 1.0.0
     PackageName: com.ftx.zeus

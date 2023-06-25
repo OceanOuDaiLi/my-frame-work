@@ -20,6 +20,8 @@ MonoBehaviour:
   hotUpdateAssemblies:
   - Assembly-CSharp
   - TechArtist
+  - GameUI
+  - FrameWotk
   preserveHotUpdateAssemblies:
   - PreHotFix_1
   - PreHotFix_2

@@ -133,8 +133,9 @@ GameObject:
   m_Component:
   - component: {fileID: 521281317}
   - component: {fileID: 521281316}
+  - component: {fileID: 521281318}
   m_Layer: 0
-  m_Name: HotLaunch
+  m_Name: GameStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152,7 +153,8 @@ MonoBehaviour:
   m_Script: {fileID: 118719470, guid: 4e372a9b74529834d90ded2729df7548, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnityEditor: 1
+  UnityEditor: 0
+  SkipDownLoadAsset: 0
   TaskDownLoadSize: 100
 --- !u!4 &521281317
 Transform:
@@ -168,6 +170,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &521281318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 521281315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2412cea672112d142b94fbacb73852ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UnityEditor: 1
+  SkipDownLoadAsset: 1
 --- !u!1 &654942599
 GameObject:
   m_ObjectHideFlags: 0

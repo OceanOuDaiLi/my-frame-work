@@ -7,17 +7,20 @@ namespace FrameWork.Launch
 {
     public partial class HotLaunch : MonoBehaviour
     {
-        [Header("跳过热更流程")]
-        public bool UnityEditor = true;
+        // 跳过热更流程
+        public bool UnityEditor = false;
+        // 跳过资源下载
+        public bool SkipDownLoadAsset = false;
+
+        public System.Reflection.Assembly GameUIAsset { get; private set; }
+        public System.Reflection.Assembly CSharpAsset { get; private set; }
+        public System.Reflection.Assembly FrameWorkAsset { get; private set; }
+        public System.Reflection.Assembly TechArtistAsset { get; private set; }
 
         public static HotLaunch Instance { get; private set; }
 
-        void Awake()
-        {
-            Instance = this;
-        }
 
-        void Start()
+        public void Launch()
         {
             if (UnityEditor)
             {
@@ -31,6 +34,12 @@ namespace FrameWork.Launch
             }
         }
 
+        void Awake()
+        {
+            Instance = this;
+            DontDestroyOnLoad(Instance);
+        }
+
         async ETTask OnStart()
         {
             // 资源解压检测
@@ -41,14 +50,17 @@ namespace FrameWork.Launch
             }
 
             // 资源更新检测
-            bool needUpdate = await CheckHotFixVersion();
-            if (!needUpdate)
+            if (!SkipDownLoadAsset)
             {
-                await PrepareDownload();
+                bool needUpdate = await CheckHotFixVersion();
+                if (!needUpdate)
+                {
+                    await PrepareDownload();
 
-                await DeleteOldAssets();
+                    await DeleteOldAssets();
 
-                await DownLoadAssets();
+                    await DownLoadAssets();
+                }
             }
 
             // 热更启动
@@ -88,21 +100,31 @@ namespace FrameWork.Launch
                  * A需要B，D
                  * C需要D
                  * 那么，加载顺序就是D, C, B, A
+                 * 
                 */
 
                 AssetBundle dllAB = request.assetBundle;
                 // load bytes.
                 byte[] csBytes = dllAB.LoadAsset<TextAsset>("Assembly-CSharp.bytes").bytes;
                 byte[] techArtistBytes = dllAB.LoadAsset<TextAsset>("TechArtist.bytes").bytes;
+                byte[] frameWorkBytes = dllAB.LoadAsset<TextAsset>("FrameWotk.bytes").bytes;
+                byte[] gameUIBytes = dllAB.LoadAsset<TextAsset>("GameUI.bytes").bytes;
 
                 // load assembly.
-                System.Reflection.Assembly GameAsset = System.Reflection.Assembly.Load(csBytes);
-                LogProgress("[HotLaunch:CSharp Assembly Loaded] : " + (GameAsset != null).ToString());
+                FrameWorkAsset = System.Reflection.Assembly.Load(frameWorkBytes);
+                LogProgress("[HotLaunch:FrameWork Assembly Loaded] : " + (FrameWorkAsset != null).ToString());
 
-                System.Reflection.Assembly TechArtisttAsset = System.Reflection.Assembly.Load(techArtistBytes);
-                LogProgress("[HotLaunch:TechArtist Assembly Loaded] : " + (TechArtisttAsset != null).ToString());
+                GameUIAsset = System.Reflection.Assembly.Load(gameUIBytes);
+                LogProgress("[HotLaunch: GameUI Assembly Loaded] : " + (GameUIAsset != null).ToString());
 
-                var appType = GameAsset.GetType("FrameWork.Application.Main");
+                TechArtistAsset = System.Reflection.Assembly.Load(techArtistBytes);
+                LogProgress("[HotLaunch:TechArtist Assembly Loaded] : " + (TechArtistAsset != null).ToString());
+
+                CSharpAsset = System.Reflection.Assembly.Load(csBytes);
+                LogProgress("[HotLaunch:CSharp Assembly Loaded] : " + (CSharpAsset != null).ToString());
+
+
+                var appType = CSharpAsset.GetType("FrameWork.Application.Main");
                 if (appType == null)
                 {
                     LogError("[HotLaunch::HotFixStart] appType is null");

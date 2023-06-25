@@ -429,9 +429,7 @@ namespace UI
                 }
                 catch (Exception e) //捕捉callback里面的异常，避免网络卡死游戏进程
                 {
-#if UNITY_EDITOR
-                    CDebug.LogError(e);
-#endif
+                    CDebug.LogError($"HandleListeningAction: {e}");
                 }
                 if (clear)
                 {
@@ -464,9 +462,7 @@ namespace UI
                 }
                 catch (Exception e) //捕捉callback里面的异常，避免网络卡死游戏进程
                 {
-#if UNITY_EDITOR
-                    CDebug.LogError(e);
-#endif
+                    CDebug.LogError($"HandleListeningAction: {e}");
                 }
                 if (clear) ls.Clear();
             }
