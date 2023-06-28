@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221518ef91623a7438a71fef23660601, type: 3}
   m_Name: WhiteBalance
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   m_AdvancedMode: 0
   temperature:
     m_OverrideState: 1
-    m_Value: -10
+    m_Value: 1
     min: -100
     max: 100
   tint:
@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b2db86121404754db890f4c8dfe81b2, type: 3}
   m_Name: Bloom
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   m_AdvancedMode: 0
   threshold:
     m_OverrideState: 1
@@ -164,17 +164,31 @@ MonoBehaviour:
     m_Value: 0.3
     min: 0
     max: 1
+  clamp:
+    m_OverrideState: 0
+    m_Value: 65472
+    min: 0
   tint:
     m_OverrideState: 1
-    m_Value: {r: 0.003921569, g: 0.003921569, b: 0.003921569, a: 1}
+    m_Value: {r: 0.5990566, g: 1, b: 0.96988535, a: 1}
     hdr: 0
     showAlpha: 0
     showEyeDropper: 1
-  downscale:
+  highQualityFiltering:
     m_OverrideState: 0
-    m_Value: 0.5
+    m_Value: 0
+  skipIterations:
+    m_OverrideState: 0
+    m_Value: 1
     min: 0
-    max: 1
+    max: 16
+  dirtTexture:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
+  dirtIntensity:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,6 +209,8 @@ MonoBehaviour:
   - {fileID: -1033135199594366359}
   - {fileID: -6831963060540109812}
   - {fileID: -7405846578265364608}
+  - {fileID: 8473873220878770088}
+  - {fileID: 6061179015484027942}
 --- !u!114 &1509228481756251499
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -207,7 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c01700fd266d6914ababb731e09af2eb, type: 3}
   m_Name: DepthOfField
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   m_AdvancedMode: 0
   mode:
     m_OverrideState: 1
@@ -239,12 +255,12 @@ MonoBehaviour:
     max: 32
   focalLength:
     m_OverrideState: 1
-    m_Value: 100
+    m_Value: 12
     min: 1
     max: 300
   bladeCount:
     m_OverrideState: 1
-    m_Value: 5
+    m_Value: 4
     min: 3
     max: 9
   bladeCurvature:
@@ -295,3 +311,70 @@ MonoBehaviour:
     m_Value: 10
     min: -100
     max: 100
+--- !u!114 &6061179015484027942
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccf1aba9553839d41ae37dd52e9ebcce, type: 3}
+  m_Name: MotionBlur
+  m_EditorClassIdentifier: 
+  active: 0
+  m_AdvancedMode: 0
+  mode:
+    m_OverrideState: 0
+    m_Value: 0
+  quality:
+    m_OverrideState: 1
+    m_Value: 2
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0.119
+    min: 0
+    max: 1
+  clamp:
+    m_OverrideState: 0
+    m_Value: 0.05
+    min: 0
+    max: 0.2
+--- !u!114 &8473873220878770088
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5e1dc532bcb41949b58bc4f2abfbb7e, type: 3}
+  m_Name: LensDistortion
+  m_EditorClassIdentifier: 
+  active: 0
+  m_AdvancedMode: 0
+  intensity:
+    m_OverrideState: 0
+    m_Value: 0
+    min: -1
+    max: 1
+  xMultiplier:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+    max: 1
+  yMultiplier:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+    max: 1
+  center:
+    m_OverrideState: 0
+    m_Value: {x: 0.5, y: 0.5}
+  scale:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0.01
+    max: 5
