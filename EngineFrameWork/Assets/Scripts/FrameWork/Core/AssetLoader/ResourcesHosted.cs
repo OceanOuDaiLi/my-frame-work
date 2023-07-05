@@ -1,8 +1,8 @@
-﻿using FrameWork;
-using System.IO;
+﻿using System.IO;
+using FrameWork;
 using UnityEngine;
 using Core.Interface;
-using UnityEngine.Profiling;
+using System.Collections;
 using Core.Interface.Resources;
 using System.Collections.Generic;
 
@@ -20,7 +20,7 @@ namespace Core.Resources
     /// <summary>
     /// 资源托管
     /// </summary>
-    public class ResourcesHosted : IUpdate, IResourcesHosted
+    public sealed class ResourcesHosted : IUpdate, IResourcesHosted
     {
         /// <summary>
         /// 自检间隔
@@ -53,32 +53,11 @@ namespace Core.Resources
         private float time = SELF_CHECK_INTERVAL;
 
         /// <summary>
-        /// 线程计时
-        /// </summary>
-        private static float _timer = 0;
-
-        private static float _nowTime = 0;
-
-        /// <summary>
-        /// 等待计时队列
-        /// </summary>
-        internal static Queue<TimerAwait> TimerAwaitQueue = new Queue<TimerAwait>();
-
-        /// <summary>
-        /// 每帧时间
-        /// </summary>
-        public static float PER_FRAME_TIME = .33f;
-
-        /// <summary>
         /// 构建一个资源托管
         /// </summary>
         public ResourcesHosted()
         {
-            //Profiler.BeginSample("Auto UnLoad AssetBundle");
-
-            UnLoad().Coroutine();
-
-            //Profiler.EndSample();
+            App.Instance.StartCoroutine(UnLoad());
         }
 
         /// <summary>
@@ -124,10 +103,7 @@ namespace Core.Resources
             {
                 //如果已经缓存了相同名称，但不是同一个对象时，抛出异常
                 if (!refDict[assetPath][name].Original.Equals(obj))
-                {
                     throw new System.Exception("Can't host resources" + obj.name);
-                }
-
                 return refDict[assetPath][name];
             }
             else
@@ -144,25 +120,10 @@ namespace Core.Resources
         /// </summary>
         public void Update()
         {
-            // ETTask Timer Counter.
-            _nowTime = App.Time.DeltaTime;
-            int awaitQueueCount = TimerAwaitQueue.Count;
-            for (int i = 0; i < awaitQueueCount; i++)
-            {
-                TimerAwait timerAwait = TimerAwaitQueue.Dequeue();
-                if (!timerAwait.CalcSubTime(_nowTime))
-                {
-                    TimerAwaitQueue.Enqueue(timerAwait);
-                }
-            }
-            _timer += _nowTime;
-
-            if (!((time -= _nowTime) <= 0))
+            if (!((time -= App.Time.DeltaTime) <= 0))
             {
                 return;
             }
-
-            // reference counter
             for (var i = 0; i < refTraversal.Count; i++)
             {
                 if (refTraversal[i].IsDestroy)
@@ -174,22 +135,20 @@ namespace Core.Resources
                 {
                     continue;
                 }
-
-                // 防止处理卸载来不及不停的加入队列
+                //防止处理卸载来不及不停的加入队列
                 if (!destroyQueue.Contains(refTraversal[i]))
                 {
                     destroyQueue.Enqueue(refTraversal[i]);
                 }
             }
             time += SELF_CHECK_INTERVAL;
-            _timer = 0;
         }
 
         /// <summary>
         /// 卸载不使用的资源包
         /// </summary>
         /// <returns>迭代器</returns>
-        public async ETTask UnLoad()
+        public IEnumerator UnLoad()
         {
             ObjectInfo info;
             Dictionary<string, ObjectInfo> tmpDict;
@@ -199,16 +158,14 @@ namespace Core.Resources
             {
                 if (destroyQueue.Count <= 0)
                 {
-                    //可根据当前锁定帧率确定等待时间( 默认 30FPS )
-                    await TimeAwaitHelper.AwaitTime(PER_FRAME_TIME);
-
+                    yield return new WaitForEndOfFrame();
                     continue;
                 }
 
                 info = destroyQueue.Dequeue();
                 if (!info.IsDestroy)
                 {
-                    await TimeAwaitHelper.AwaitTime(PER_FRAME_TIME);
+                    yield return new WaitForEndOfFrame();
                     continue;
                 }
 
@@ -228,28 +185,22 @@ namespace Core.Resources
                         var isSuccess = App.AssetBundleLoader.UnloadAssetBundle(info.AssetBundle);
                         if (isSuccess)
                         {
-                            //CDebug.Log($"Auto Unload AssetBundle Success: {info.AssetBundle}");
-
                             foreach (var val in tmpDict.Values)
                             {
                                 refTraversal.Remove(val);
                             }
                             refDict.Remove(info.AssetBundle);
-                            await TimeAwaitHelper.AwaitTime(UNLOAD_INTERVAL);
+                            yield return new WaitForSeconds(UNLOAD_INTERVAL);
                         }
                         else
                         {
-                            //CDebug.Log($"Auto Unload AssetBundle Failed: {info.AssetBundle}");
-
                             //如果释放失败则重新丢入队尾
                             destroyQueue.Enqueue(info);
                         }
                     }
                 }
-                await TimeAwaitHelper.AwaitTime(PER_FRAME_TIME);
+                yield return new WaitForEndOfFrame();
             }
-
-
         }
     }
 }

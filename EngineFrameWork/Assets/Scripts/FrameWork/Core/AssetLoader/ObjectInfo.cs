@@ -1,19 +1,10 @@
 ﻿
 using System;
-using UnityEngine;
 using System.Collections.Generic;
 using Object = UnityEngine.Object;
+using UnityEngine;
 using Core.Interface.Resources;
 
-/********************************************************************
-	Copyright © 2018 - 2050 by DaiLi.Ou. All Rights Reserved. e-mail: odaili@163.com
-
-	Created:	2018 ~ 2023
-	Filename: 	ObjectInfo.cs
-	Author:		DaiLi.Ou
-
-	Descriptions: Bundle Runtime info.
-*********************************************************************/
 namespace Core.Resources
 {
     /// <summary>

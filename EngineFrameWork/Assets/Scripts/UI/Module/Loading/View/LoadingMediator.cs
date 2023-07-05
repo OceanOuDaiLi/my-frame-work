@@ -6,6 +6,7 @@ using Core.Resources;
 using UnityEngine.SceneManagement;
 using strange.extensions.mediation.impl;
 using strange.extensions.dispatcher.eventdispatcher.impl;
+using System.Collections;
 
 namespace UI
 {
@@ -57,10 +58,11 @@ namespace UI
 
             float curProg = view.GetLoadingProg();
             if (curProg <= 0 || curProg >= 1) view.SetLoadingProg(0);
-            AsynctLoadScene(structure).Coroutine();
+
+            StartCoroutine(AsynctLoadScene(structure));
         }
 
-        async ETTask AsynctLoadScene(LoadingStructure loadscene)
+        IEnumerator AsynctLoadScene(LoadingStructure loadscene)
         {
 
             App.Instance.Trigger(GameEvent.APP_EVENT_SCENE_CHANGE_START);
@@ -72,16 +74,17 @@ namespace UI
                 if (!string.IsNullOrEmpty(loadscene.bundleName))
                 {
                     bundlePath = string.Format("scenes/{0}", loadscene.bundleName);
-                    await App.AssetBundleLoader.LoadAssetBundleAsync(bundlePath, (assetBundle) => { });
+                    yield return App.AssetBundleLoader.LoadAssetBundleAsync(bundlePath, (assetBundle) => { });
                 }
             }
 #else
             if (!string.IsNullOrEmpty(loadscene.bundleName))
             {
                 bundlePath = string.Format("scenes/{0}", loadscene.bundleName);
-                await App.AssetBundleLoader.LoadAssetBundleAsync(bundlePath, (assetBundle) => { });
+                yield return App.AssetBundleLoader.LoadAssetBundleAsync(bundlePath, (assetBundle) => { });
             }
 #endif
+
 
             App.Instance.Trigger(GameEvent.APP_EVENT_SCENE_CHANGE);
 
@@ -95,7 +98,7 @@ namespace UI
                 while (!async.isDone)
                 {
                     view.SetLoadingProg(progOffset + async.progress * loadscene.progressRate);
-                    await TimeAwaitHelper.AwaitTime(ResourcesHosted.PER_FRAME_TIME);
+                    yield return Yielders.EndOfFrame;
                 }
 
                 view.SetLoadingProg(progOffset + loadscene.progressRate);

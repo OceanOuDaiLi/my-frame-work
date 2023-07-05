@@ -134,25 +134,25 @@ namespace UI
 
                 //资源加载
                 //CrossDisptacher.Dispatch(LoadEvent.SHOW_ACTIVITY_INDICATOR);
-                await App.Res.LoadAsyncTask<GameObject>(path, (obj) =>
-                 {
-                     if (cachesUI.ContainsKey(config.prefabName)) return;
+                App.Res.LoadAsync<GameObject>(path, (obj) =>
+                {
+                    if (cachesUI.ContainsKey(config.prefabName)) return;
 
-                     GameObject prefabObj = obj.Get<GameObject>(this);
-                     if (prefabObj == null)
-                     {
-                         return;
-                     }
+                    GameObject prefabObj = obj.Get<GameObject>(this);
+                    if (prefabObj == null)
+                    {
+                        return;
+                    }
 
-                     GameObject uiO = Instantiate(prefabObj, uiContainer);
-                     uiO.name = config.prefabName;
-                     cachesUI.Add(config.prefabName, uiO);
+                    GameObject uiO = Instantiate(prefabObj, uiContainer);
+                    uiO.name = config.prefabName;
+                    cachesUI.Add(config.prefabName, uiO);
 
-                     ShowUI(uiO, config);
-                     if (callback != null) callback(uiO);
-                     opening = false;
-                     //CrossDisptacher.Dispatch(LoadEvent.HIDE_ACTIVITY_INDICATOR);
-                 });
+                    ShowUI(uiO, config);
+                    if (callback != null) callback(uiO);
+                    opening = false;
+                    //CrossDisptacher.Dispatch(LoadEvent.HIDE_ACTIVITY_INDICATOR);
+                });
             }
             else
             {
