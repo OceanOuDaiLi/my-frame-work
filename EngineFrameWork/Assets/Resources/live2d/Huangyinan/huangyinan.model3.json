@@ -1,0 +1,55 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Huangyinan.moc3",
+		"Textures": [
+			"Huangyinan.2048/texture_00.png",
+			"Huangyinan.2048/texture_01.png"
+		],
+		"Physics": "Huangyinan.physics3.json",
+		"DisplayInfo": "Huangyinan.cdi3.json",
+		"Expressions": [
+			{
+				"Name": "乐",
+				"File": "expressions/乐.exp3.json"
+			},
+			{
+				"Name": "哀",
+				"File": "expressions/哀.exp3.json"
+			},
+			{
+				"Name": "喜",
+				"File": "expressions/喜.exp3.json"
+			},
+			{
+				"Name": "怒",
+				"File": "expressions/怒.exp3.json"
+			}
+		],
+		"Motions": {
+			"": [
+				{
+					"File": "motions/走路.motion3.json",
+					"FadeInTime": 0,
+					"FadeOutTime": 0
+				}
+			]
+		}
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": [
+				"ParamEyeLOpen",
+				"ParamEyeROpen"
+			]
+		}
+	],
+	"HitAreas": []
+}

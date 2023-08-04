@@ -1,7 +1,6 @@
 ﻿
 using Object = UnityEngine.Object;
 using Core.Interface.Resources;
-using FrameWork;
 
 namespace Core.Resources
 {
@@ -24,7 +23,5 @@ namespace Core.Resources
         /// <param name="obj">托管对象</param>
         /// <returns>包装对象</returns>
         IObject Hosted(string path, Object obj);
-
-        ETTask UnLoad();
     }
 }

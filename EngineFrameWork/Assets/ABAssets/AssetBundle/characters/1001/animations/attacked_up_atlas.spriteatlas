@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: attacked_up_atlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 0
+      maxTextureSize: 0
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 1
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 0
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: Android
+      m_MaxTextureSize: 1024
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 48
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 2
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 21300000, guid: 4eec5d1e61c2e4a4c8a5e015910cfa4a, type: 3}
+    - {fileID: 21300000, guid: d14d2ae1b19813e4db92cbde51e21ca5, type: 3}
+    - {fileID: 21300000, guid: d450f94df14ed794c90877a8e2d222ff, type: 3}
+    - {fileID: 21300000, guid: f2bec9a1ad2b9624fad233f88a08f786, type: 3}
+    - {fileID: 21300000, guid: 492958c1d127af04da08d8ebaa1dfbf6, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: f2bec9a1ad2b9624fad233f88a08f786, type: 3}
+  - {fileID: 21300000, guid: 492958c1d127af04da08d8ebaa1dfbf6, type: 3}
+  - {fileID: 21300000, guid: d14d2ae1b19813e4db92cbde51e21ca5, type: 3}
+  - {fileID: 21300000, guid: d450f94df14ed794c90877a8e2d222ff, type: 3}
+  - {fileID: 21300000, guid: 4eec5d1e61c2e4a4c8a5e015910cfa4a, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - 40004
+  - 40005
+  - 40002
+  - 40003
+  - 40001
+  m_RenderDataMap: {}
+  m_Tag: attacked_up_atlas
+  m_IsVariant: 0

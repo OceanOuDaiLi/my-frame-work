@@ -21,7 +21,8 @@ namespace UI
 
         public override void OnRemove()
         {
-            // remove global events' binding below.
+            // remove global events' below.
         }
+
     }
 }

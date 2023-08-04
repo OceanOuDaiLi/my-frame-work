@@ -25,6 +25,7 @@ namespace Core.Network
             Http,
             Tcp,
             UnityWeb,
+            WebSocket,
         }
 
         public enum NetworkConfigKey
@@ -62,6 +63,8 @@ namespace Core.Network
                     connector = new TcpRequest(); break;
                 case NetworkRequestType.UnityWeb:
                     connector = new WebRequest(); break;
+                case NetworkRequestType.WebSocket:
+                    connector = new WebSocketRequest(); break;
             }
             this.connector.Add(type, connector);
             InitConnector(connector, config);

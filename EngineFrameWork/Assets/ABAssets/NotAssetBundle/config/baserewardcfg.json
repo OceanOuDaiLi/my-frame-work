@@ -1,0 +1,22 @@
+[
+  {
+    "RewardKey": "新手礼包",
+    "ShowType": 1,
+    "cfgs": [
+      {
+        "level": 1,
+        "exp": 0,
+        "sexp": 0,
+        "money": 10000,
+        "gold": 0,
+        "gold_coupon": 0,
+        "reputes": [
+          {
+            "repute_type": "试炼积分",
+            "repute_val": "lv*10"
+          }
+        ]
+      }
+    ]
+  }
+]

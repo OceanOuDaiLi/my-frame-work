@@ -1,12 +1,12 @@
 ﻿using System;
 using FrameWork;
 using System.Net;
-using UnityEngine;
 using Core.Buffer;
 using Core.Interface;
 using System.Collections;
-using System.Collections.Generic;
 using Core.Interface.Network;
+using System.Collections.Generic;
+
 /********************************************************************
 	Copyright © 2018 - 2050 by DaiLi.Ou. All Rights Reserved. e-mail: odaili@163.com
 
@@ -18,7 +18,6 @@ using Core.Interface.Network;
 *********************************************************************/
 namespace Core.Network
 {
-
     public class TcpRequest : IConnectorTcp
     {
         public string Name { get; set; }

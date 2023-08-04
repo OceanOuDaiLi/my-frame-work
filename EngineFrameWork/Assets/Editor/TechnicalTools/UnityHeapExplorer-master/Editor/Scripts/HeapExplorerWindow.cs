@@ -151,7 +151,7 @@ namespace HeapExplorer
         {
             isClosing = false;
             titleContent = new GUIContent(HeGlobals.k_Title);
-            minSize = new Vector2(800, 600);
+            minSize = new Vector2(600, 600);
             snapshotPath = "";
             showInternalMemorySections = showInternalMemorySections;
             m_LastRepaintTimestamp = 0;
@@ -188,7 +188,7 @@ namespace HeapExplorer
         {
             if (m_Repaint || (m_Heap != null && m_Heap.isBusy))
             {
-                if (m_LastRepaintTimestamp+0.05f < EditorApplication.timeSinceStartup)
+                if (m_LastRepaintTimestamp + 0.05f < EditorApplication.timeSinceStartup)
                 {
                     m_Repaint = false;
                     m_LastRepaintTimestamp = EditorApplication.timeSinceStartup;
@@ -869,7 +869,7 @@ namespace HeapExplorer
                     {
                         threadFunc = ReceiveHeapThreaded,
                         snapshot = UnityEditor.Profiling.Memory.Experimental.PackedMemorySnapshot.Load(path)
-                };
+                    };
                     ScheduleJob(job);
                 }
                 else

@@ -20,8 +20,10 @@ MonoBehaviour:
   hotUpdateAssemblies:
   - Assembly-CSharp
   - TechArtist
-  - GameUI
-  - FrameWotk
+  - FrameWork
+  - GameLogic
+  - UnityWebSocket_Runtime
+  - TableData
   preserveHotUpdateAssemblies:
   - PreHotFix_1
   - PreHotFix_2

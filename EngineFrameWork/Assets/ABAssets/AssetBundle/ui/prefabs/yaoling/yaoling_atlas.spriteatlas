@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: yaoling_atlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 0
+      maxTextureSize: 0
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 1
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 0
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: Android
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 48
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 2
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 21300000, guid: 2f95b86ae30122b4b852074830c21ce8, type: 3}
+    - {fileID: 21300000, guid: 8a02f2cf702644c46b56456e90c5935d, type: 3}
+    - {fileID: 21300000, guid: 0689bb46700e77640abb9d516d83049b, type: 3}
+    - {fileID: 21300000, guid: d3770f3ef64a2cd43bd12d83cf39e9ff, type: 3}
+    - {fileID: 21300000, guid: c4300f6728e2f4646a70cc9ff8ee73b5, type: 3}
+    - {fileID: 21300000, guid: af28cf77a6a8b2642a5845145cbde0d5, type: 3}
+    - {fileID: 21300000, guid: 253c1dd971d4a4c48a080fd13b11268d, type: 3}
+    - {fileID: 21300000, guid: c155549305867e241879f3c4168e6913, type: 3}
+    - {fileID: 21300000, guid: 804165025daa2ec49b1d3a704fe71153, type: 3}
+    - {fileID: 21300000, guid: 6015b88a8ddcfc74e81f62997e9061c7, type: 3}
+    - {fileID: 21300000, guid: 0e7feaaef404b0e4f9785d72cee28c6b, type: 3}
+    - {fileID: 21300000, guid: 887dcb093ee73ee45813cdc4a7cc682b, type: 3}
+    - {fileID: 21300000, guid: 65ab1c076861180439019be59f31d438, type: 3}
+    - {fileID: 21300000, guid: 2f9ff147bda40b04f8efc5c218b342b6, type: 3}
+    - {fileID: 21300000, guid: e9ac746e02615f448a90f54972c4f2db, type: 3}
+    - {fileID: 21300000, guid: 86b954151adebc546813a0ed7a40a869, type: 3}
+    - {fileID: 21300000, guid: 61a2d6b7e2e5f0646944aba669b1214f, type: 3}
+    - {fileID: 21300000, guid: b699d6140a3352141835e72898a639bc, type: 3}
+    - {fileID: 21300000, guid: ed87a00b5c2680846a0b7ccae3b6db41, type: 3}
+    bindAsDefault: 0
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 804165025daa2ec49b1d3a704fe71153, type: 3}
+  - {fileID: 21300000, guid: c155549305867e241879f3c4168e6913, type: 3}
+  - {fileID: 21300000, guid: b699d6140a3352141835e72898a639bc, type: 3}
+  - {fileID: 21300000, guid: 86b954151adebc546813a0ed7a40a869, type: 3}
+  - {fileID: 21300000, guid: 0689bb46700e77640abb9d516d83049b, type: 3}
+  - {fileID: 21300000, guid: 65ab1c076861180439019be59f31d438, type: 3}
+  - {fileID: 21300000, guid: 2f9ff147bda40b04f8efc5c218b342b6, type: 3}
+  - {fileID: 21300000, guid: c4300f6728e2f4646a70cc9ff8ee73b5, type: 3}
+  - {fileID: 21300000, guid: af28cf77a6a8b2642a5845145cbde0d5, type: 3}
+  - {fileID: 21300000, guid: 61a2d6b7e2e5f0646944aba669b1214f, type: 3}
+  - {fileID: 21300000, guid: 887dcb093ee73ee45813cdc4a7cc682b, type: 3}
+  - {fileID: 21300000, guid: 253c1dd971d4a4c48a080fd13b11268d, type: 3}
+  - {fileID: 21300000, guid: 2f95b86ae30122b4b852074830c21ce8, type: 3}
+  - {fileID: 21300000, guid: 6015b88a8ddcfc74e81f62997e9061c7, type: 3}
+  - {fileID: 21300000, guid: ed87a00b5c2680846a0b7ccae3b6db41, type: 3}
+  - {fileID: 21300000, guid: d3770f3ef64a2cd43bd12d83cf39e9ff, type: 3}
+  - {fileID: 21300000, guid: e9ac746e02615f448a90f54972c4f2db, type: 3}
+  - {fileID: 21300000, guid: 0e7feaaef404b0e4f9785d72cee28c6b, type: 3}
+  - {fileID: 21300000, guid: 8a02f2cf702644c46b56456e90c5935d, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - icon_login_return
+  - icon_bottom_nature
+  - img_skill_type4
+  - img_skill_type2
+  - btn_nature_add
+  - img_hp
+  - img_skill
+  - icon_bottom_cultivate
+  - icon_bottom_equip
+  - img_skill_type3
+  - img_def1
+  - icon_bottom_evolution
+  - bg
+  - img_atk
+  - img_speed
+  - btn_rename
+  - img_skill_type1
+  - img_def
+  - btn_level_up
+  m_RenderDataMap: {}
+  m_Tag: yaoling_atlas
+  m_IsVariant: 0

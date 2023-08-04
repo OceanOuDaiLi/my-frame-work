@@ -1,3 +1,4 @@
+using FrameWork.Launch;
 using UnityEngine;
 
 /// <summary>
@@ -6,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class CDebug
 {
-    public static bool EnableLog;
+    public static bool EnableLog = true;
     public static bool EnableError;
     public static bool EnableWarning;
 
@@ -80,6 +81,26 @@ public class CDebug
         {
             Debug.LogFormat(logType, logOptions, context, format, args);
         }
+    }
+
+    public static void Assert(bool condition)
+    {
+        if (EnableLog)
+        {
+            Debug.Assert(condition);
+        }
+    }
+
+    public static void LogProgress(string txt)
+    {
+        string tips = "{0} {1} {2}";
+#if UNITY_EDITOR
+        tips = string.Format(tips, "<color=#1FD4BB>", txt, "</color>");
+#else
+        tips = string.Format(tips, "", txt, "");
+#endif
+
+        Log(tips, null);
     }
 
     //#region FightEngine Log

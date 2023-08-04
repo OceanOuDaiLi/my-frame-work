@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: defend_left_down_atlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 0
+      maxTextureSize: 0
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 1
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 0
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: Android
+      m_MaxTextureSize: 1024
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 48
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 2
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 21300000, guid: 5f713440f7efadc498f89897312aae53, type: 3}
+    - {fileID: 21300000, guid: b4d102c6ce49ef74081a931b23747e58, type: 3}
+    - {fileID: 21300000, guid: 515c3d022921f5749aa82752cab939ee, type: 3}
+    - {fileID: 21300000, guid: bc36bacc491d52d47b6e3ce793644858, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 5f713440f7efadc498f89897312aae53, type: 3}
+  - {fileID: 21300000, guid: 515c3d022921f5749aa82752cab939ee, type: 3}
+  - {fileID: 21300000, guid: b4d102c6ce49ef74081a931b23747e58, type: 3}
+  - {fileID: 21300000, guid: bc36bacc491d52d47b6e3ce793644858, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - 10001
+  - 10003
+  - 10002
+  - 10004
+  m_RenderDataMap: {}
+  m_Tag: defend_left_down_atlas
+  m_IsVariant: 0

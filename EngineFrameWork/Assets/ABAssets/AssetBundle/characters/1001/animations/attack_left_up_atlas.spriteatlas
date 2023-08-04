@@ -1,0 +1,147 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: attack_left_up_atlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 0
+      maxTextureSize: 0
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 1
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 0
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: Android
+      m_MaxTextureSize: 1024
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 48
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 2
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 21300000, guid: d60ae78cb806b974282180afeba580ed, type: 3}
+    - {fileID: 21300000, guid: b0d2a2e71662d5d44baa9c4cb9913bc1, type: 3}
+    - {fileID: 21300000, guid: 6501f73bc5173534aba7276b1e8587f3, type: 3}
+    - {fileID: 21300000, guid: e14cf09c401ca344c8649905f1acb4ce, type: 3}
+    - {fileID: 21300000, guid: 92f4fde56ab993e4dad770c2d0d9d4f6, type: 3}
+    - {fileID: 21300000, guid: b506a0d3893b5a642a8ee1c5fc19cb46, type: 3}
+    - {fileID: 21300000, guid: 99cccb771207fec45ba5446b28c863cf, type: 3}
+    - {fileID: 21300000, guid: 19a99effd46e7e0429f676988e60b735, type: 3}
+    - {fileID: 21300000, guid: c5f84c71902c3f54d92975112098496d, type: 3}
+    - {fileID: 21300000, guid: 6b8b9dc55635bf94ba143d22fb22c0af, type: 3}
+    - {fileID: 21300000, guid: 930d674a0ee49f04baf50cea6a587e27, type: 3}
+    - {fileID: 21300000, guid: ab5cd1647ec7b8d4aaa615495a9e8efb, type: 3}
+    - {fileID: 21300000, guid: e9e0e700680a87f4ebb3a1e889497b72, type: 3}
+    - {fileID: 21300000, guid: 12767ed874a5b0147b334b10b40dfc14, type: 3}
+    - {fileID: 21300000, guid: 49cd07bbb377d9b4b8ba182a14f76b86, type: 3}
+    - {fileID: 21300000, guid: 43472b90e16cb0d4b88e28af733d3083, type: 3}
+    - {fileID: 21300000, guid: 8dd7be50dab556943b63eb907964f704, type: 3}
+    - {fileID: 21300000, guid: 1aa0c7d77ebe6914f9560b81252da140, type: 3}
+    - {fileID: 21300000, guid: 07567893d48a8324591db39305c7705d, type: 3}
+    - {fileID: 21300000, guid: 2f41392138beb944ab698306fc4ab50f, type: 3}
+    - {fileID: 21300000, guid: f9fa2346461edc74380fcff5b0ea1841, type: 3}
+    - {fileID: 21300000, guid: 7a18c456c02e7cb4fb2a7c5076db43d4, type: 3}
+    - {fileID: 21300000, guid: 0f4ed775259cec74a80998b265ead02b, type: 3}
+    - {fileID: 21300000, guid: 512468a74c7093c45a9363df29c380b1, type: 3}
+    - {fileID: 21300000, guid: 9369c10ec2574234d99674fbea0d540c, type: 3}
+    - {fileID: 21300000, guid: 7dada38f42722194ca7fb641dd9e7d5b, type: 3}
+    - {fileID: 21300000, guid: ddaab33d8d8f0634cb37ce814667e9f4, type: 3}
+    - {fileID: 21300000, guid: f10d65422e805e14692793197202b85e, type: 3}
+    - {fileID: 21300000, guid: 55a7efc1bb22e1f4ba2c9f9fa62e2963, type: 3}
+    - {fileID: 21300000, guid: deeea6ce5ccc9de43a11ca582c52f807, type: 3}
+    - {fileID: 21300000, guid: 9c9ebbccb422bc44396e5c5d282a92b6, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: e9e0e700680a87f4ebb3a1e889497b72, type: 3}
+  - {fileID: 21300000, guid: 8dd7be50dab556943b63eb907964f704, type: 3}
+  - {fileID: 21300000, guid: 43472b90e16cb0d4b88e28af733d3083, type: 3}
+  - {fileID: 21300000, guid: 2f41392138beb944ab698306fc4ab50f, type: 3}
+  - {fileID: 21300000, guid: c5f84c71902c3f54d92975112098496d, type: 3}
+  - {fileID: 21300000, guid: 55a7efc1bb22e1f4ba2c9f9fa62e2963, type: 3}
+  - {fileID: 21300000, guid: f10d65422e805e14692793197202b85e, type: 3}
+  - {fileID: 21300000, guid: 07567893d48a8324591db39305c7705d, type: 3}
+  - {fileID: 21300000, guid: b506a0d3893b5a642a8ee1c5fc19cb46, type: 3}
+  - {fileID: 21300000, guid: ab5cd1647ec7b8d4aaa615495a9e8efb, type: 3}
+  - {fileID: 21300000, guid: 0f4ed775259cec74a80998b265ead02b, type: 3}
+  - {fileID: 21300000, guid: 6b8b9dc55635bf94ba143d22fb22c0af, type: 3}
+  - {fileID: 21300000, guid: 92f4fde56ab993e4dad770c2d0d9d4f6, type: 3}
+  - {fileID: 21300000, guid: f9fa2346461edc74380fcff5b0ea1841, type: 3}
+  - {fileID: 21300000, guid: 7a18c456c02e7cb4fb2a7c5076db43d4, type: 3}
+  - {fileID: 21300000, guid: 99cccb771207fec45ba5446b28c863cf, type: 3}
+  - {fileID: 21300000, guid: 512468a74c7093c45a9363df29c380b1, type: 3}
+  - {fileID: 21300000, guid: 1aa0c7d77ebe6914f9560b81252da140, type: 3}
+  - {fileID: 21300000, guid: b0d2a2e71662d5d44baa9c4cb9913bc1, type: 3}
+  - {fileID: 21300000, guid: 12767ed874a5b0147b334b10b40dfc14, type: 3}
+  - {fileID: 21300000, guid: 930d674a0ee49f04baf50cea6a587e27, type: 3}
+  - {fileID: 21300000, guid: 6501f73bc5173534aba7276b1e8587f3, type: 3}
+  - {fileID: 21300000, guid: 49cd07bbb377d9b4b8ba182a14f76b86, type: 3}
+  - {fileID: 21300000, guid: d60ae78cb806b974282180afeba580ed, type: 3}
+  - {fileID: 21300000, guid: e14cf09c401ca344c8649905f1acb4ce, type: 3}
+  - {fileID: 21300000, guid: 9c9ebbccb422bc44396e5c5d282a92b6, type: 3}
+  - {fileID: 21300000, guid: ddaab33d8d8f0634cb37ce814667e9f4, type: 3}
+  - {fileID: 21300000, guid: 9369c10ec2574234d99674fbea0d540c, type: 3}
+  - {fileID: 21300000, guid: deeea6ce5ccc9de43a11ca582c52f807, type: 3}
+  - {fileID: 21300000, guid: 7dada38f42722194ca7fb641dd9e7d5b, type: 3}
+  - {fileID: 21300000, guid: 19a99effd46e7e0429f676988e60b735, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - 30013
+  - 30017
+  - 30016
+  - 30020
+  - 30009
+  - 30029
+  - 30028
+  - 30019
+  - 30006
+  - 30012
+  - 30023
+  - 30010
+  - 30005
+  - 30021
+  - 30022
+  - 30007
+  - 30024
+  - 30018
+  - 30002
+  - 30014
+  - 30011
+  - 30003
+  - 30015
+  - 30001
+  - 30004
+  - 30031
+  - 30027
+  - 30025
+  - 30030
+  - 30026
+  - 30008
+  m_RenderDataMap: {}
+  m_Tag: attack_left_up_atlas
+  m_IsVariant: 0

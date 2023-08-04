@@ -1,9 +1,10 @@
 ﻿using UI;
+using Model;
 using System;
 using HybridCLR;
+using GameEngine;
 using UnityEngine;
 using System.Collections;
-using UnityEngine.SceneManagement;
 
 namespace FrameWork.Application
 {
@@ -12,9 +13,6 @@ namespace FrameWork.Application
         public static void HotFixStart(string aotDllPath)
         {
             CDebug.EnableLog = true;
-
-            UIMgr.Ins.Startup();
-            GameMgr.Ins.Startup();
 
 #if !UNITY_EDITOR
             GameMgr.Ins.StartCoroutine(LoadMetadataForAOTAssemblies(aotDllPath));
@@ -64,7 +62,7 @@ namespace FrameWork.Application
 
             CDebug.Log($"[Main::LoadMetadataForAotAssembly] finished!");
 
-            FrameWork.Launch.Utils.Utility.ResolveVolumeManager();
+            // FrameWork.Launch.Utils.Utility.ResolveVolumeManager();
 
             GC.Collect();
 
@@ -73,36 +71,37 @@ namespace FrameWork.Application
 
         private static IEnumerator Launch()
         {
-            while (!GameMgr.Ins.Inited && !UIMgr.Ins.Inited)
-            {
-                yield return Yielders.EndOfFrame;
-            }
+            GameMgr.Ins.Startup();
+            while (!GameMgr.Ins.Inited) { yield return Yielders.EndOfFrame; }
 
-            UIMgr.Ins.BindUICrossRoot();
+            UIMgr.Ins.Startup();
+            while (!UIMgr.Ins.Inited()) { yield return Yielders.EndOfFrame; }
+            UIMgr.Ins.RegisterSpriteAtlasEvent();
 
-            AsyncOperation sc = SceneManager.LoadSceneAsync("Scenes/LogIn", new LoadSceneParameters(LoadSceneMode.Single));
-            while (!sc.isDone)
-            {
-                yield return Yielders.EndOfFrame;
-            }
+            while (GlobalData.instance == null) { yield return Yielders.EndOfFrame; }
+            GlobalData.instance.Initialize();
 
-            //UIConfig loadingView = new UIConfig();
-            //loadingView.floaderName = "loading";
-            //loadingView.prefabName = "loading";
-            //UIMgr.Ins.OpenUI(loadingView, (s) =>
+            yield return GameMgr.Ins.LoadUICommonCanvas();
+            while (!GameMgr.Ins.LoadedCommonCanvas) { yield return Yielders.EndOfFrame; }
+
+            // Do PreLoad AseetBundle.
+
+            SceneLoadMgr.Ins.Startup();
+
+            //UIConfig loginView = new UIConfig();
+            //loginView.floaderName = "login";
+            //loginView.prefabName = "login";
+            //UIMgr.Ins.OpenUI(loginView, (s) =>
             //{
-            //    CCDebug.Log("Loading View Opened");
+
             //});
 
-            UIConfig launchView = new UIConfig();
-            launchView.floaderName = "login";
-            launchView.prefabName = "login";
-            UIMgr.Ins.OpenUI(launchView, (s) =>
+            string path = $"ui/prefabs/login/login";
+            yield return GameMgr.Ins.LoadGameAssets("LogIn", path, (tar) =>
             {
-
-
+                GameObject parent = GameObject.Find("Canvas");
+                tar.transform.SetParent(parent.transform, false);
             });
-
         }
         #endregion
     }

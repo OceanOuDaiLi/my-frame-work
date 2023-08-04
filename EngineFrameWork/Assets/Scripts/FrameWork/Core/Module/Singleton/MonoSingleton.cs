@@ -2,16 +2,16 @@ using UnityEngine;
 
 public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
 {
-    private const string mRootName = "Gameing";
-	private static T mIns = null;
+    private const string mRootName = "CodeV";
+    private static T mIns = null;
 
-	public static T Ins
+    public static T Ins
     {
         get
         {
-			if (mIns == null)
+            if (mIns == null)
             {
-            	mIns = FindObjectOfType(typeof(T)) as T;
+                mIns = FindObjectOfType(typeof(T)) as T;
                 if (mIns == null)
                 {
                     GameObject go = new GameObject(typeof(T).Name);
@@ -24,7 +24,7 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T
                     }
                     if (parent != null)
                     {
-                        go.transform.parent = parent.transform;
+                        go.transform.SetParent(parent.transform, false);
                     }
                 }
             }
@@ -51,7 +51,7 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T
         DontDestroyOnLoad(gameObject);
         Init();
     }
- 
+
     protected virtual void Init()
     {
 

@@ -1,0 +1,68 @@
+[
+  {
+    "RewardKey": "新手礼包",
+    "ShowType": 1,
+    "cfgs": [
+      {
+        "level": 1,
+        "itemgroups": [
+          {
+            "groupid": 1,
+            "grpitems": [
+              {
+                "rate": 10000,
+                "items": [
+                  {
+                    "sid": 10001,
+                    "amount": 50,
+                    "name": "洗髓露"
+                  },
+                  {
+                    "sid": 10002,
+                    "amount": 50,
+                    "name": "进阶丹"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "groupid": 2,
+            "grpitems": [
+              {
+                "rate": 1000,
+                "items": [
+                  {
+                    "sid": 2,
+                    "amount": 1000,
+                    "name": "金币"
+                  }
+                ]
+              },
+              {
+                "rate": 3000,
+                "items": [
+                  {
+                    "sid": 2,
+                    "amount": 2000,
+                    "name": "金币"
+                  }
+                ]
+              },
+              {
+                "rate": 5000,
+                "items": [
+                  {
+                    "sid": 2,
+                    "amount": 3000,
+                    "name": "金币"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 177eaa37f67246540914bfd2ad3d6131, type: 3}
+  m_Name: CompressAtlasSettings
+  m_EditorClassIdentifier: 
+  isCheckAlpha: 0
+  isCheckWidthHeight_IOS: 0
+  isCheckWidthHeight_android: 0
+  level: 200
+  fileObjs:
+  - {fileID: 102900000, guid: 7e055e57d51ff4d4388f94792ae12e48, type: 3}
+  whiteListFileObjs: []
+  whiteListFileObjsLevels: 

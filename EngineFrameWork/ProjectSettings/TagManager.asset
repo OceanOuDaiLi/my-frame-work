@@ -11,11 +11,10 @@ TagManager:
   - 
   - Water
   - UI
+  - Map
+  - 
   - DynamicResolution
-  - 
-  - Player
-  - Rim
-  - ReflectEF
+  - Post Processing
   - 
   - 
   - 
@@ -35,8 +34,9 @@ TagManager:
   - 
   - 
   - 
-  - VUI
-  - Hidden VUI
+  - 
+  - 
+  - 
   m_SortingLayers:
   - name: Default
     uniqueID: 0

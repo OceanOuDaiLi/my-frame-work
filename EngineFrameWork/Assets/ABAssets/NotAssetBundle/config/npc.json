@@ -1,0 +1,50 @@
+[
+  {
+    "ID": 1001,
+    "Name": "店小二",
+    "Shape": 1001,
+    "Title": "藏宝图",
+    "Activity_logo": "resource/icon/cangbaotu.png",
+    "Color": 0,
+    "Hair_color": 0,
+    "Weapon_color": 0,
+    "Mount": 0,
+    "Wing": 0
+  },
+  {
+    "ID": 1002,
+    "Name": "程咬金",
+    "Shape": 1002,
+    "Title": "跨服勇士",
+    "Activity_logo": "",
+    "Color": 0,
+    "Hair_color": 0,
+    "Weapon_color": 0,
+    "Mount": 0,
+    "Wing": 0
+  },
+  {
+    "ID": 1003,
+    "Name": "秘境传送使者",
+    "Shape": 1003,
+    "Title": "幻灵秘境",
+    "Activity_logo": "resource/icon/huanlingmijing.png",
+    "Color": 1,
+    "Hair_color": 2,
+    "Weapon_color": 0,
+    "Mount": 0,
+    "Wing": 0
+  },
+  {
+    "ID": 1004,
+    "Name": "帮派奸细",
+    "Shape": 1004,
+    "Title": "",
+    "Activity_logo": "",
+    "Color": 0,
+    "Hair_color": 0,
+    "Weapon_color": 0,
+    "Mount": 0,
+    "Wing": 0
+  }
+]
