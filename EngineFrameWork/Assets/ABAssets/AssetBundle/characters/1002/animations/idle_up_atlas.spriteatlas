@@ -7,6 +7,7 @@ SpriteAtlas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: idle_up_atlas
+  serializedVersion: 2
   m_EditorData:
     serializedVersion: 2
     textureSettings:
@@ -66,6 +67,8 @@ SpriteAtlas:
     - {fileID: 21300000, guid: 336423723b84fd041b660bb382e3c485, type: 3}
     - {fileID: 21300000, guid: 9b826866ed8becb41bfca98497582697, type: 3}
     - {fileID: 21300000, guid: bc5a78733bda0a34e8843304361b2025, type: 3}
+    - {fileID: 21300000, guid: 57d3ea62d7c5de44c8ed4638a040d47b, type: 3}
+    - {fileID: 21300000, guid: f4fbcf24eb0e5c348bf85fd287d46488, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -74,11 +77,13 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 7dc625807fb89034ba7edfbaa219cafd, type: 3}
   - {fileID: 21300000, guid: 7649d6a09275c924a9682fd49dcbf40f, type: 3}
   - {fileID: 21300000, guid: 588fb411baac8434f8431568a6b6b212, type: 3}
+  - {fileID: 21300000, guid: 57d3ea62d7c5de44c8ed4638a040d47b, type: 3}
   - {fileID: 21300000, guid: 3781fb624d9fbfa47ad20187e1d0874a, type: 3}
   - {fileID: 21300000, guid: 336423723b84fd041b660bb382e3c485, type: 3}
   - {fileID: 21300000, guid: bc5a78733bda0a34e8843304361b2025, type: 3}
   - {fileID: 21300000, guid: 88f302b3066b23e40811d7f9b42f443e, type: 3}
   - {fileID: 21300000, guid: 6cf30b24d3519054b8ba4249203a75a0, type: 3}
+  - {fileID: 21300000, guid: f4fbcf24eb0e5c348bf85fd287d46488, type: 3}
   - {fileID: 21300000, guid: 96847335ec815fc45a9a0850e0271e8f, type: 3}
   - {fileID: 21300000, guid: 25ab80455879a4847a2e4f9bc9cec9fd, type: 3}
   - {fileID: 21300000, guid: c5cd6da5a6fbb9c4484d5c428118c7d1, type: 3}
@@ -98,11 +103,13 @@ SpriteAtlas:
   - 40003
   - 40012
   - 40008
+  - 40024
   - 40018
   - 40021
   - 40023
   - 40011
   - 40002
+  - 40025
   - 40004
   - 40017
   - 40015
@@ -121,3 +128,4 @@ SpriteAtlas:
   m_RenderDataMap: {}
   m_Tag: idle_up_atlas
   m_IsVariant: 0
+  m_IsPlaceholder: 0

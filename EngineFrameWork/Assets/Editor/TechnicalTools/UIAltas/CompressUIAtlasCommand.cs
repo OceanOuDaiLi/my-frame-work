@@ -78,20 +78,27 @@ public class CompressUIAtlasCommand : EditorWindow
     [MenuItem("公共工具/图集生成/生成UI图集及配置", false, 900)]
     static void GenUIAtlas()
     {
-        BuildAltasCommand.BuildUIAtlas();
+        BuildAtlasCommand.BuildUIAtlas();
     }
 
     [MenuItem("公共工具/图集生成/生成角色动画图集", false, 1000)]
     static void GenCharacterAnimAtlas()
     {
-        BuildAltasCommand.BuildPlayerAnimaAtlas();
+        BuildAtlasCommand.BuildPlayerAnimaAtlas();
     }
 
     [MenuItem("公共工具/图集生成/生成地图Mask图集", false, 1200)]
     static void GenMapMaskAtlas()
     {
-        BuildAltasCommand.BuildMapMaskAtlas();
+        BuildAtlasCommand.BuildMapMaskAtlas();
     }
+
+    // todo: change logic achieve way.
+    //[MenuItem("公共工具/图集生成/生成地图Common图集", false, 1400)]
+    //static void GenMapCommonAtlas()
+    //{
+    //    BuildAtlasCommand.BuildMapCommonAtlas();
+    //}
 
     CompressUIAtlasCommand()
     {

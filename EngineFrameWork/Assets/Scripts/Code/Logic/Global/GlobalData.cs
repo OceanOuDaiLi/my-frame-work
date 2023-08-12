@@ -12,7 +12,6 @@ namespace Model
 
         // ui common tools managers.
         public ConfigMgr configMgr = null;
-        public SpriteAtlasMgr spriteAtlasMgr = null;
 
         // ui module model manager.
         public LoginModelMgr loginMgr = null;
@@ -39,17 +38,6 @@ namespace Model
             instance = null;
         }
 
-        public void SetHttpService(string url)
-        {
-            if (httpService != null)
-            {
-                httpService.Dispose();
-                httpService = null;
-            }
-            httpService = new HttpService(url);
-            httpService.dispatcher = GameMgr.Ins.CrossDispatcher;
-        }
-
         public void Initialize()
         {
             if (configMgr != null) configMgr.OnDispose();
@@ -58,8 +46,6 @@ namespace Model
             if (loginMgr != null) loginMgr.OnDispose();
             loginMgr = new LoginModelMgr();
 
-            if (spriteAtlasMgr != null) spriteAtlasMgr.OnDispose();
-            spriteAtlasMgr = new SpriteAtlasMgr();
 
             if (heroMgr != null) heroMgr.OnDispose();
             heroMgr = new HeroModelMgr();

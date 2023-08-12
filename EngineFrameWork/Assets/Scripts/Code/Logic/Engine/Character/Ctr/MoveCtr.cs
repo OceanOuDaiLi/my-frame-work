@@ -1,9 +1,9 @@
 ﻿using Model;
 using System;
+using FrameWork;
 using DG.Tweening;
 using UnityEngine;
 using System.Threading;
-using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
 /********************************************************************
@@ -16,7 +16,7 @@ using System.Collections.Generic;
 namespace GameEngine
 {
     [System.Serializable]
-    public class MoveCtr : ISerializationCallbackReceiver
+    public class MoveCtr : ISerializationCallbackReceiver, IDisposable
     {
         private float _fSpeed;
 
@@ -25,16 +25,26 @@ namespace GameEngine
         private Character _character;
 
         private List<Vector2> _vecfPath;
-        private List<MaskInfo> _vecMaskInfo;
         private List<Vector2Int> _vecPath;
 
         private Timer _turnDirTimer;
 
         private int _nCurDir;
 
+        public int CurDir { get => _nCurDir; }
+
+        public float Speed { get => _fSpeed; set => _fSpeed = value; }
+
         private bool _bIsMoving;
 
         private GameObject map_root;
+
+        private InputCatcher.IEventHandle inputEventHandle = null;
+
+        public List<Vector2> CurPath
+        {
+            get { return _vecfPath; }
+        }
 
         #region Unity Calls
 
@@ -43,34 +53,16 @@ namespace GameEngine
             this._character = _character;
             _sceneMap = GlobalData.instance.sceneModelMgr.SceneMap;
 
-            _insMap = GlobalData.instance.sceneModelMgr.MapInstance;
-
-            if (_character.Property.UserCharacter.isNpc == false)
-            {
-                map_root = _insMap.Find("map_root").gameObject;
-                UIEventTrigger.Get(map_root).onClick += OnPanelClick;
-            }
-
-            _character.TransformSelf.position = new Vector2(1500, 1500);
-
 
             _vecfPath = new List<Vector2>();
 
-            _vecMaskInfo = _sceneMap.m_vecMaskInfo;
-
             _nCurDir = 0;
 
-            _fSpeed = 300.0f;
+            _fSpeed = 350.0f;
 
             _bIsMoving = false;
         }
 
-
-        //public void OnDestroy()
-        //{
-        //    if ((_character.Property.UserCharacter.isNpc == false) && map_root != null)
-        //        UIEventTrigger.Get(map_root).onClick -= OnPanelClick;
-        //}
 
         public void OnAfterDeserialize()
         {
@@ -82,27 +74,17 @@ namespace GameEngine
 
         #endregion
 
-        public Vector2 GetMapPos(float x, float y, Vector2 size)
-        {
-            Vector2 vPos = new Vector2();
-            vPos.x = _sceneMap.m_nWidth * (x + size.x / 2) / size.x;
-            vPos.y = _sceneMap.m_nHeight * (y + size.y / 2) / size.y;
-            return vPos;
-        }
 
-        private void OnPanelClick(PointerEventData eventData)
+        public bool GotoAndDo(Vector2 vTagPos, int nDropStep = 0, Action funComplete = null)
         {
             _character.TransformSelf.DOKill();
 
-            Vector3 mousePos = eventData.pointerCurrentRaycast.worldPosition;
-
-            Vector3 vTagPos = _insMap.InverseTransformPoint(mousePos);
 
             Vector2 vHeroPos = _character.TransformSelf.position;
 
             Vector2Int vSrcGrid = _sceneMap.Pixel2Grid(vHeroPos.x, vHeroPos.y);
             Vector2Int vDstGrid = _sceneMap.Pixel2Grid(vTagPos.x, vTagPos.y);
-            _vecPath = _sceneMap.FindPath(vSrcGrid, vDstGrid, 0, 5000);
+            _vecPath = _sceneMap.FindPath(vSrcGrid, vDstGrid, nDropStep, 5000);
 
             _vecfPath.Clear();
             foreach (var vData in _vecPath)
@@ -111,33 +93,25 @@ namespace GameEngine
                 _vecfPath.Add(vec);
             }
 
+            App.Instance.Trigger("HeroOnMove", _vecfPath);
             //0是当前位置 从第二步开始
-            Move(1);
+            Move(1, funComplete);
+            return true;
         }
 
-        public void GenPath(Vector3 targetPos)
-        {
-            var insMap = GlobalData.instance.sceneModelMgr.MapInstance;
-            var curPos = _character.TransformSelf.position;
-
-            targetPos = insMap.InverseTransformPoint(targetPos);
-            curPos = insMap.InverseTransformPoint(curPos);
-
-            Vector2Int viSrc = _sceneMap.Pixel2Grid(curPos.x, curPos.y);
-            Vector2Int viDst = _sceneMap.Pixel2Grid(targetPos.x, targetPos.y);
-
-            _vecPath.Clear();
-            _vecPath = _sceneMap.FindPath(viSrc, viDst, 0, 5000);
-        }
-
-        public void Move(int nIndex)
+        public void Move(int nIndex, Action funComplete)
         {
             _bIsMoving = true;
 
             if (nIndex >= _vecfPath.Count)
             {
+                _vecfPath.Clear();
                 _bIsMoving = false;
                 Play(AnimCfg.STAND, _nCurDir);
+                if (funComplete != null)
+                {
+                    funComplete();
+                }
                 return;
             }
 
@@ -152,7 +126,7 @@ namespace GameEngine
             Play(AnimCfg.RUN, nToDir);
             _character.TransformSelf.DOMove(tarPos, fDis / _fSpeed).SetEase(Ease.Linear).OnComplete(() =>
             {
-                Move(nIndex + 1);
+                Move(nIndex + 1, funComplete);
             });
         }
 
@@ -171,26 +145,26 @@ namespace GameEngine
             }
 
             _turnDirTimer = new Timer((object state) =>
-        {
-            int nNextDir = _sceneMap.NextTurnDir(_nCurDir, nToDir);
-            if (nNextDir != -1)
             {
-                _nCurDir = nNextDir;
-                //CDebug.Log($"~~~~~~~~~{AnimCfg.RUN}  --> {nNextDir}");
-                _character.AnimCtr.PlayAnimationByName(AnimCfg.RUN, nNextDir);
-            }
-
-            if (nNextDir == nToDir)
-            {
-                if (funComplete != null)
+                int nNextDir = _sceneMap.NextTurnDir(_nCurDir, nToDir);
+                if (nNextDir != -1)
                 {
-                    funComplete.Invoke();
-                    _turnDirTimer.Dispose();
-                    _turnDirTimer = null;
+                    _nCurDir = nNextDir;
+                    //CDebug.Log($"~~~~~~~~~{AnimCfg.RUN}  --> {nNextDir}");
+                    _character.AnimCtr.PlayAnimationByName(AnimCfg.RUN, nNextDir);
                 }
-            }
 
-        }, null, 200, -1);
+                if (nNextDir == nToDir)
+                {
+                    if (funComplete != null)
+                    {
+                        funComplete.Invoke();
+                        _turnDirTimer.Dispose();
+                        _turnDirTimer = null;
+                    }
+                }
+
+            }, null, 200, -1);
 
         }
 
@@ -205,11 +179,29 @@ namespace GameEngine
                 GlobalData.instance.heroMgr.SetServerPos(viSrc);
 
                 //遮挡关系目前按照y轴计算
-                _character.GetComponentInChildren<SpriteRenderer>().sortingOrder = (int)(_sceneMap.m_nHeight - vPos.y);
+                _character.UpdateSortLayer((int)(_sceneMap.m_nHeight - vPos.y));
             }
         }
 
+        public void Dispose()
+        {
+            // 引用类型 置空
+            if (_vecPath != null) { _vecPath.Clear(); }
+            if (_vecfPath != null) { _vecfPath.Clear(); }
+            if (_sceneMap != null) { _sceneMap.Dispose(); }
+            _vecPath = null;
+            _sceneMap = null;
+            _vecfPath = null;
 
+            if (_insMap != null) { _insMap = null; }
+            if (map_root != null) { map_root = null; }
+            if (_character != null) { _character = null; }
 
+            if (inputEventHandle != null)
+            {
+                InputCatcher.Ins.Event.RemoveListenerClick(inputEventHandle);
+                inputEventHandle = null;
+            }
+        }
     }
 }

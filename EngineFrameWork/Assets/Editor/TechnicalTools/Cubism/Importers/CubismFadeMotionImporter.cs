@@ -66,7 +66,7 @@ namespace Live2D.Cubism.Framework.MotionFade
             var directoryName = Path.GetDirectoryName(importer.AssetPath);
             var modelDir = Path.GetDirectoryName(directoryName);
             var modelName = Path.GetFileName(modelDir);
-            var fadeMotionListPath = modelDir + "/" + modelName + ".fadeMotionList.asset";
+            var fadeMotionListPath = modelDir + "/" + modelName + "_fadeMotionList.asset";
 
             var assetList = CubismCreatedAssetList.GetInstance();
             var assetListIndex = assetList.AssetPaths.Contains(fadeMotionListPath)
@@ -75,7 +75,7 @@ namespace Live2D.Cubism.Framework.MotionFade
 
             CubismFadeMotionList fadeMotions = null;
 
-            if(assetListIndex < 0)
+            if (assetListIndex < 0)
             {
                 fadeMotions = AssetDatabase.LoadAssetAtPath<CubismFadeMotionList>(fadeMotionListPath);
 
@@ -169,7 +169,7 @@ namespace Live2D.Cubism.Framework.MotionFade
 
                 AssetDatabase.CreateAsset(
                     fadeMotion,
-                    importer.AssetPath.Replace(".motion3.json", ".fade.asset"));
+                    modelDir + "/" + Path.GetFileName(importer.AssetPath.Replace(".motion3.json", "_fade.asset")));
 
                 motionIndex = fadeMotions.MotionInstanceIds.Length;
 
@@ -187,9 +187,9 @@ namespace Live2D.Cubism.Framework.MotionFade
                 var sourceAnimationEvents = AnimationUtility.GetAnimationEvents(animationClip);
                 var index = -1;
 
-                for(var i = 0; i < sourceAnimationEvents.Length; ++i)
+                for (var i = 0; i < sourceAnimationEvents.Length; ++i)
                 {
-                    if(sourceAnimationEvents[i].functionName != "InstanceId")
+                    if (sourceAnimationEvents[i].functionName != "InstanceId")
                     {
                         continue;
                     }
@@ -198,7 +198,7 @@ namespace Live2D.Cubism.Framework.MotionFade
                     break;
                 }
 
-                if(index == -1)
+                if (index == -1)
                 {
                     index = sourceAnimationEvents.Length;
                     Array.Resize(ref sourceAnimationEvents, sourceAnimationEvents.Length + 1);

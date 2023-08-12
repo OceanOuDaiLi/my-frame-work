@@ -4,7 +4,6 @@
  * Use of this source code is governed by the Live2D Open Software license
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
-using Live2D.Cubism.Rendering.Masking;
 using UnityEngine;
 
 namespace Live2D.Cubism.Rendering
@@ -187,7 +186,7 @@ namespace Live2D.Cubism.Rendering
         /// <summary>
         /// Resource directory of builtin <see cref="Material"/>s.
         /// </summary>
-        private const string ResourcesDirectory = "Assets/Resources/live2d/Materials";
+        private const string ResourcesDirectory = "Assets/ABAssets/AssetBundle/live2d/materials";
 
         /// <summary>
         /// Loads an unlit material.
@@ -197,9 +196,14 @@ namespace Live2D.Cubism.Rendering
         private static Material LoadUnlitMaterial(string name)
         {
 #if UNITY_EDITOR
+
             return UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Material>(ResourcesDirectory + "/" + name + ".mat");
 #else
-           return (Material)UnityEngine.Resources.Load("live2d/Materials/" + name + ".mat");
+            // command by daili.ou
+            // 允许runtime使用Assetbundle方式加载 Unlit.mat 资源，动态赋值到live2d的预制体
+            // 不允许默认导入的live2d资源，未引用Assetbundle中的Unlit.mat
+            UnityEngine.Debug.LogError("错误：live2d 预制体自动引用 Unlit.mat 失败，导致移动端无法正常显示 live2d。请检测美术导入流程，并紧急修复！");
+            return (Material)UnityEngine.Resources.Load("live2d/Materials/" + name + ".mat");
 #endif
         }
 
@@ -212,6 +216,10 @@ namespace Live2D.Cubism.Rendering
 #if UNITY_EDITOR
             return UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Material>(ResourcesDirectory + "/Mask.mat");
 #else
+            // command by daili.ou
+            // 允许runtime使用Assetbundle方式加载 Mask.mat 资源，动态赋值到live2d的预制体
+            // 不允许默认导入的live2d资源，未引用Assetbundle中的Mask.mat
+            UnityEngine.Debug.LogError("错误：live2d 预制体自动引用 Mask.mat 失败，导致移动端无法正常显示 live2d。请检测美术导入流程，并紧急修复！");
             return (Material)UnityEngine.Resources.Load("live2d/Materials/Mask.mat");
 #endif
 
@@ -226,6 +234,10 @@ namespace Live2D.Cubism.Rendering
 #if UNITY_EDITOR
             return UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Material>(ResourcesDirectory + "/MaskCulling.mat");
 #else
+            // command by daili.ou
+            // 允许runtime使用Assetbundle方式加载 MaskCulling.mat 资源，动态赋值到live2d的预制体
+            // 不允许默认导入的live2d资源，未引用Assetbundle中的MaskCulling.mat
+            UnityEngine.Debug.LogError("错误：live2d 预制体自动引用 MaskCulling.mat 失败，导致移动端无法正常显示 live2d。请检测美术导入流程，并紧急修复！");
             return (Material)UnityEngine.Resources.Load("live2d/Materials/MaskCulling.mat");
 #endif
         }

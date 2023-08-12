@@ -7,6 +7,7 @@ SpriteAtlas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: login_atlas
+  serializedVersion: 2
   m_EditorData:
     serializedVersion: 2
     textureSettings:
@@ -16,7 +17,7 @@ SpriteAtlas:
       maxTextureSize: 0
       textureCompression: 0
       filterMode: 1
-      generateMipMaps: 1
+      generateMipMaps: 0
       readable: 0
       crunchedCompression: 0
       sRGB: 0
@@ -25,7 +26,7 @@ SpriteAtlas:
       m_BuildTarget: Android
       m_MaxTextureSize: 4096
       m_ResizeAlgorithm: 0
-      m_TextureFormat: 50
+      m_TextureFormat: 48
       m_TextureCompression: 1
       m_CompressionQuality: 50
       m_CrunchedCompression: 0
@@ -43,11 +44,11 @@ SpriteAtlas:
     secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
-    - {fileID: 21300000, guid: 9359d06dfde78984faca99fdcac8e0a2, type: 3}
-    - {fileID: 21300000, guid: 968ffe8c57f737541b39d816b9686be1, type: 3}
-    - {fileID: 21300000, guid: 723902d5276d1414da8ec8c907f3d507, type: 3}
-    - {fileID: 21300000, guid: 9899addb14f8aba4a9df155827665caf, type: 3}
-    - {fileID: 21300000, guid: fe7b86f670c0ba749b553201016a8392, type: 3}
+    - {fileID: 21300000, guid: 675e93542ec8763438db4d933d6f54ef, type: 3}
+    - {fileID: 21300000, guid: 95b6c500941a9f94cb7a9d0141362b8b, type: 3}
+    - {fileID: 21300000, guid: 675e93542ec8763438db4d933d6f54ef, type: 3}
+    - {fileID: 21300000, guid: 77ef2cfba3f3e78458fbefb8877cd461, type: 3}
+    - {fileID: 21300000, guid: 6e9c0bf5ae76f4842baf4b087b50737b, type: 3}
     - {fileID: 21300000, guid: 8309beff66784e94491d638d3ff013b5, type: 3}
     - {fileID: 21300000, guid: 95b6c500941a9f94cb7a9d0141362b8b, type: 3}
     - {fileID: 21300000, guid: bba7ef4f0f75e23408bbdc6f3d08578f, type: 3}
@@ -69,10 +70,11 @@ SpriteAtlas:
     - {fileID: 21300000, guid: 973b5194bb8bae746b489834a51b515d, type: 3}
     - {fileID: 21300000, guid: edff4559b5574ee47abccafacd392a51, type: 3}
     - {fileID: 21300000, guid: e493582fcddc01c448218176bc8332f5, type: 3}
-    - {fileID: 21300000, guid: 6e9c0bf5ae76f4842baf4b087b50737b, type: 3}
-    - {fileID: 21300000, guid: 77ef2cfba3f3e78458fbefb8877cd461, type: 3}
-    - {fileID: 21300000, guid: 675e93542ec8763438db4d933d6f54ef, type: 3}
-    bindAsDefault: 0
+    - {fileID: 21300000, guid: 9f47f9573e7ce204dbf9bfd256b45734, type: 3}
+    - {fileID: 21300000, guid: ab22a65d0ebfd8a4eb510737f1a963ce, type: 3}
+    - {fileID: 21300000, guid: 51eaf88246cfbec4983051092236565b, type: 3}
+    - {fileID: 21300000, guid: 901f0be90e74c104aa031a3804bc9ccc, type: 3}
+    bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
@@ -82,23 +84,22 @@ SpriteAtlas:
   - {fileID: 21300000, guid: d2a9a93129254a547a1c9a06d7817729, type: 3}
   - {fileID: 21300000, guid: 7fed6051cc94939498afc36dc4fd0506, type: 3}
   - {fileID: 21300000, guid: ab9d3932a59d12e458632a4e329e1a0e, type: 3}
+  - {fileID: 21300000, guid: 51eaf88246cfbec4983051092236565b, type: 3}
   - {fileID: 21300000, guid: 675e93542ec8763438db4d933d6f54ef, type: 3}
   - {fileID: 21300000, guid: 973b5194bb8bae746b489834a51b515d, type: 3}
-  - {fileID: 21300000, guid: 723902d5276d1414da8ec8c907f3d507, type: 3}
   - {fileID: 21300000, guid: 6e9c0bf5ae76f4842baf4b087b50737b, type: 3}
-  - {fileID: 21300000, guid: fe7b86f670c0ba749b553201016a8392, type: 3}
+  - {fileID: 21300000, guid: 9f47f9573e7ce204dbf9bfd256b45734, type: 3}
   - {fileID: 21300000, guid: 6ba7c697687773c4ab7669e425f7b318, type: 3}
   - {fileID: 21300000, guid: edff4559b5574ee47abccafacd392a51, type: 3}
   - {fileID: 21300000, guid: 9fdf4599b74e65241bccc051bea209bb, type: 3}
+  - {fileID: 21300000, guid: 901f0be90e74c104aa031a3804bc9ccc, type: 3}
   - {fileID: 21300000, guid: 0dc5d66af3878a742bbc46a5c4baadb6, type: 3}
   - {fileID: 21300000, guid: a567bc2b7ecef9c4da219b83562a0fdc, type: 3}
   - {fileID: 21300000, guid: 4ac6bf6b4e3b2cf45a4dcb619da45833, type: 3}
-  - {fileID: 21300000, guid: 9899addb14f8aba4a9df155827665caf, type: 3}
   - {fileID: 21300000, guid: 77ef2cfba3f3e78458fbefb8877cd461, type: 3}
   - {fileID: 21300000, guid: 75c8168cd87f48a4db4f0f532182b9b5, type: 3}
-  - {fileID: 21300000, guid: 968ffe8c57f737541b39d816b9686be1, type: 3}
   - {fileID: 21300000, guid: 3b3faa4d18ae15246b440c99d01a18bb, type: 3}
-  - {fileID: 21300000, guid: 9359d06dfde78984faca99fdcac8e0a2, type: 3}
+  - {fileID: 21300000, guid: ab22a65d0ebfd8a4eb510737f1a963ce, type: 3}
   - {fileID: 21300000, guid: 0d001dde1bba18d45aecbc018aa74d02, type: 3}
   - {fileID: 21300000, guid: e493582fcddc01c448218176bc8332f5, type: 3}
   - {fileID: 21300000, guid: cfc3363f6fd1a6346bb18f33f8881dbc, type: 3}
@@ -112,23 +113,22 @@ SpriteAtlas:
   - img_sign_profession_2_sel
   - btn_login_user
   - btn_login_repair
+  - bar_common_01_bg
   - server_status_normal
   - img_sign_profession_3
-  - bg_sign_02
   - login_bg_test
-  - bg_sign_04
+  - btn_common_01
   - btn_sign_man
   - img_sign_profession_3_sel
   - btn_sign_lady_sel
+  - Checkmark
   - btn_sign_man_sel
   - icon_login_return
   - icon_login_left
-  - bg_sign_03
   - server_panel_bg
   - img_sign_profession_1_sel
-  - bg_sign_01
   - img_sign_profession_2
-  - bg_Login_01
+  - icon_login_delete
   - btn_sign_lady
   - img_sign_profession_name
   - icon_login_close
@@ -139,3 +139,4 @@ SpriteAtlas:
   m_RenderDataMap: {}
   m_Tag: login_atlas
   m_IsVariant: 0
+  m_IsPlaceholder: 0

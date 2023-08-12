@@ -27,5 +27,9 @@ namespace UI
 
         public UIConfig() { }
 
+        public override string ToString()
+        {
+            return $"{floaderName}/{prefabName}, fullScreen: {fullScreen}, hideAllBefore: {hideAllBefore}" ;
+        }
     }
 }

@@ -125,8 +125,8 @@ public class EventViewEditor : Editor
         foreach (var item in rImgs)
         {
             string path = AssetDatabase.GetAssetPath(item.texture);
-
-            if (path.Contains("unity_builtin_extra") || path.Contains("Assets/Resources") || item.texture == null) { continue; }         // flit unity default resources.
+            // Assets/ABAssets/AssetBundle/live2d/huangyinan
+            if (path.Contains("unity_builtin_extra") || path.Contains("AssetBundle/live2d") || item.texture == null) { continue; }         // flit unity default resources.
 
             if (!string.IsNullOrEmpty(path))
             {
@@ -162,7 +162,7 @@ public class EventViewEditor : Editor
             {
                 TipsAlertWindow.ShowAlertWithBtn("提示", "图集未构建" + "\n" + "是否构建图集？", () =>
                 {
-                    BuildAltasCommand.BuildUIAtlas();
+                    BuildAtlasCommand.BuildUIAtlas();
                 });
                 _buildAtlas = true;
                 break;

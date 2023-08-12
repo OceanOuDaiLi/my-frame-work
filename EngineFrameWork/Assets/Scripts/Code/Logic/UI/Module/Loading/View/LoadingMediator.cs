@@ -16,28 +16,37 @@ namespace UI
         [Inject]
         public LoadingView view { get; set; }
 
+        IEventHandler eHandlerShowToast = null;
         IEventHandler eHandlerLoadGameScene = null;
 
         public override void OnRegister()
         {
+
+            eHandlerShowToast = App.Instance.On(GameEvent.SHOW_TOAST, OnShowToast);
             eHandlerLoadGameScene = App.Instance.On(LoadEvent.LOAD_GAME_SCENE, OnLoadGameScene);
         }
 
         public override void OnRemove()
         {
-            eHandlerLoadGameScene.Cancel();
+
+            if (eHandlerLoadGameScene != null) { eHandlerLoadGameScene.Cancel(); }
+            eHandlerLoadGameScene = null;
+
+            if (eHandlerShowToast != null) { eHandlerShowToast.Cancel(); }
+            eHandlerShowToast = null;
         }
 
-
-        void OnUpdateProg(object v)
+        private void OnShowToast(object sender, EventArgs e)
         {
-            view.SetLoadingProg((float)(v as TmEvent).data);
+            string data = sender as string;
+            view.ShowToast(data);
         }
+
 
         #region Game 场景 加载
+
         void OnLoadGameScene(object sender, EventArgs e)
         {
-            CDebug.Log("##### OnLoadGameScene ####");
             view.ShowLoading(true);
             view.ShowInit(true);
             StartCoroutine(AsyncLoadGameScne());
@@ -56,7 +65,7 @@ namespace UI
                 yield return Yielders.EndOfFrame;
             }
 
-            yield return SceneLoadMgr.Ins.StartLoadSceneAssets(() =>
+            yield return SceneLoadMgr.Ins.StartLoadGameMapAssets(() =>
             {
                 //MapMgr.Instance.BindCameraAndCharacter();
                 CameraMgr.Instance.BindVirtualCamera();
@@ -71,18 +80,9 @@ namespace UI
                     view.SetLoadingProg(1);
                     view.ShowInit(false);
                     view.ShowLoading(false);
+
+                    //   App.AssetBundleLoader.UnloadAssetBundle("LogIn");
                 });
-
-                UIConfig nameView = new UIConfig();
-                nameView.floaderName = "namepanel";
-                nameView.prefabName = "namepanel";
-                nameView.hideAllBefore = false;
-                nameView.fullScreen = false;
-                UIMgr.Ins.OpenUI(nameView, (s) =>
-                {
-
-                });
-
             }, (f) =>
             {
                 view.SetLoadingProg(0.5f + f * .5f);
@@ -90,29 +90,7 @@ namespace UI
             });
         }
 
-
         #endregion
-
-        void OnStartDataLoad()
-        {
-            //  view.ShowDataLoadingView();
-        }
-
-        void OnStartDataLoad(object sender, EventArgs e)
-        {
-            // view.ShowDataLoadingView();
-        }
-
-        void OnHidenDataLoad(object sender, EventArgs e)
-        {
-            //view.HidenDataLoadingView();
-        }
-
-        void OnHidenDataLoad()
-        {
-            //  view.HidenDataLoadingView();
-        }
-
 
         void SetLoadingTips(object evt)
         {

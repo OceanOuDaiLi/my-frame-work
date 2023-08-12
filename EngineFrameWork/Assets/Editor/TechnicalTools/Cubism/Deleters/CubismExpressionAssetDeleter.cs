@@ -31,7 +31,7 @@ namespace Live2D.Cubism.Editor.Deleters
         // ReSharper disable once UnusedMember.Local
         private static void RegisterDeleter()
         {
-            CubismDeleter.RegisterDeleter<CubismExpressionAssetDeleter>(".exp3.asset");
+            CubismDeleter.RegisterDeleter<CubismExpressionAssetDeleter>("_exp3.asset");
         }
 
         #endregion
@@ -46,7 +46,7 @@ namespace Live2D.Cubism.Editor.Deleters
             var directoryName = Path.GetDirectoryName(AssetPath).ToString();
             var modelDir = Path.GetDirectoryName(directoryName).ToString();
             var modelName = Path.GetFileName(modelDir).ToString();
-            var expressionListPath = Path.GetDirectoryName(directoryName).ToString() + "/" + modelName + ".expressionList.asset";
+            var expressionListPath = Path.GetDirectoryName(directoryName).ToString() + "/" + modelName + "_expressionList.asset";
             var expressionList = AssetDatabase.LoadAssetAtPath<CubismExpressionList>(expressionListPath);
 
             if (expressionList == null)

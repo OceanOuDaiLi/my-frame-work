@@ -1,7 +1,7 @@
 ﻿
-using Cinemachine;
 using Model;
-using UI;
+using FrameWork;
+using Cinemachine;
 using UnityEngine;
 
 /********************************************************************
@@ -43,53 +43,61 @@ namespace GameEngine
         {
             postEffectAni.enabled = true;
             postEffectAni.Play("GlitchAnim", 0, 0);
+
             GlobalData.instance.fightModelMgr.SetDemoFightData();
             StartCoroutine(SceneLoadMgr.Ins.StartLoadFightMapAssets());
         }
 
         public void BindVirtualCamera()
         {
-            userVirtualCamera.Follow = GlobalData.instance.characterModelMgr.GetPlayerCharacter().TransformSelf;
+            userVirtualCamera.Follow = GlobalData.instance.characterModelMgr.GetMapPlayerCharacter().Character.TransformSelf;
             var cinemachineConfiner = userVirtualCamera.GetComponent<CinemachineConfiner>();
             cinemachineConfiner.m_BoundingShape2D = GlobalData.instance.sceneModelMgr.MapInstance.GetComponentInChildren<PolygonCollider2D>();
         }
 
         public void OnGlitchEffectStart()
         {
-            CDebug.Log("OnGlitchEffectStart");
+            FightControl.Ins.State = FightState.Initialize;
             glitchEnd = false;
         }
 
         public void OnGlitchEffectEnd()
         {
-            CDebug.Log("OnGlitchEffectEnd");
             glitchEnd = true;
             if (!bindedFight)
             {
-                StartFigtBindCamera();
+                StartFightBindCamera();
+            }
+            else
+            {
+                postEffectAni.Play("GlitchAnim", 0, 0);
             }
         }
 
         bool glitchEnd = false;
         bool bindedFight = false;
-        public void StartFigtBindCamera()
+        public void StartFightBindCamera()
         {
             bindedFight = false;
             if (glitchEnd)
             {
-                CDebug.Log("StartFigtBindCamera");
-                GlobalData.instance.sceneModelMgr.MapMgrObj.SetActive(false);
+                var globalData = GlobalData.instance;
+                var fightModelMgr = globalData.fightModelMgr;
 
-                var mapIns = GlobalData.instance.fightModelMgr.GetCurFightMap().gameObject;
+                globalData.sceneModelMgr.MapMgrObj.SetActive(false);
+
+                var mapIns = fightModelMgr.GetCurFightMap;
                 userVirtualCamera.Follow = null;
                 var cinemachineConfiner = userVirtualCamera.GetComponent<CinemachineConfiner>();
                 cinemachineConfiner.m_BoundingShape2D = null;
 
-                userVirtualCamera.Follow = mapIns.transform;
+                userVirtualCamera.Follow = mapIns;
                 cinemachineConfiner.m_BoundingShape2D = mapIns.GetComponent<PolygonCollider2D>();
 
-                UIMgr.Ins.CloseToClear();
                 bindedFight = true;
+                CDebug.LogProgress("## [5] FightBindCamera End ##");
+
+                FightControl.Ins.State = FightState.Start;
             }
         }
 

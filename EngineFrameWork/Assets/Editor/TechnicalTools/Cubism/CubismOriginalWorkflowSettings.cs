@@ -16,7 +16,7 @@ namespace Live2D.Cubism.Editor.OriginalWorkflow
     /// <summary>
     /// ScriptableObject to save cubism original workflow setting.
     /// </summary>
-    public class CubismOriginalWorkflowSettings: ScriptableObject
+    public class CubismOriginalWorkflowSettings : ScriptableObject
     {
         /// <summary>
         /// Should import as original workflow.
@@ -38,22 +38,22 @@ namespace Live2D.Cubism.Editor.OriginalWorkflow
         {
             get
             {
-                var setting = Resources.Load<CubismOriginalWorkflowSettings>("Live2D/Cubism/OriginalWorkflowSettings");
+                var setting = AssetDatabase.LoadAssetAtPath<CubismOriginalWorkflowSettings>("Assets/Editor/TechnicalTools/Cubism/Settings/OriginalWorkflowSettings.asset");
+                //Resources.Load<CubismOriginalWorkflowSettings>("lived2d/OriginalWorkflowSettings");
 
-                if(setting == null)
+                if (setting == null)
                 {
                     setting = CreateInstance<CubismOriginalWorkflowSettings>();
-
-                    var directory = "Assets/Live2D/Cubism/Editor/Resources/Live2D/Cubism/";
-                    if(!Directory.Exists(directory))
+                    var directory = "Assets/Editor/TechnicalTools/Cubism/Settings/";
+                    if (!Directory.Exists(directory))
                     {
                         Directory.CreateDirectory(directory);
                     }
 
-                    AssetDatabase.CreateAsset(setting, "Assets/Live2D/Cubism/Editor/Resources/Live2D/Cubism/OriginalWorkflowSettings.asset");
+                    AssetDatabase.CreateAsset(setting, "Assets/Editor/TechnicalTools/Cubism/Settings/OriginalWorkflowSettings.asset");
                 }
 
-               return setting;
+                return setting;
             }
         }
     }

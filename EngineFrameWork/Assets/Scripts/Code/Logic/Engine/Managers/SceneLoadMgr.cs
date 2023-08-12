@@ -4,7 +4,9 @@
 	Created:	2023/07/12
 	Filename: 	SceneLoadMgr.cs
 	Author:		DaiLi.Ou
-	Descriptions: 场景加载管理类。用于加载进入的Game场景中，各类资源
+	Descriptions: 场景加载管理类。
+                  用于加载进入的Game场景中，各类资源。
+                  用于加载进入战斗场景中，各类资源。
 *********************************************************************/
 using Model;
 using System;
@@ -23,9 +25,41 @@ namespace GameEngine
         private bool loadedCurMapData { get; set; }
         private bool loadedCurMapMaskData { get; set; }
 
-        private SceneModelMgr modelMgr = null;
+        private Transform poolParent;
+        public Transform PoolParent
+        {
+            get
+            {
+                if (poolParent == null)
+                {
+                    GameObject tar = new GameObject("Pools");
+
+                    poolParent = tar.transform;
+                    poolParent.SetParent(transform.parent);
+                }
+
+                return poolParent;
+            }
+        }
+
+        private SceneModelMgr sceneModelMgr = null;
+        private FightModelMgr fightModelMgr = null;
 
         public CharacterLoadMgr characterLoadMgr = null;
+
+        #region Const String
+        const string MapMgrPath = "map/common/MapMgr";
+        const string CameraMgrPath = "map/common/CameraMgr";
+        const string FightMapMgrPath = "map/common/FightMapMgr";
+        const string FightCanvasPath = "ui/prefabs/fight/FightCanvas";
+
+        // pools
+
+        private const string UIPoolPath = "pools/original/UIPool";
+        private const string MapPoolPath = "pools/original/MapPool";
+        private const string PropPoolPath = "pools/original/PropPool";
+        private const string EffectPoolPath = "pools/original/EffectPool";
+        #endregion
 
         ~SceneLoadMgr()
         {
@@ -34,15 +68,16 @@ namespace GameEngine
 
         protected override void Init()
         {
-            modelMgr = GlobalData.instance.sceneModelMgr;
+            sceneModelMgr = GlobalData.instance.sceneModelMgr;
+            fightModelMgr = GlobalData.instance.fightModelMgr;
             characterLoadMgr = new CharacterLoadMgr();
             base.Init();
         }
 
         public void OnDispose()
         {
-            if (modelMgr.SceneMap != null) { modelMgr.SceneMap.Dispose(); }
-            modelMgr.SceneMap = null;
+            if (sceneModelMgr.SceneMap != null) { sceneModelMgr.SceneMap.Dispose(); }
+            sceneModelMgr.SceneMap = null;
 
             if (characterLoadMgr != null) { characterLoadMgr.OnDispose(); }
             characterLoadMgr = null;
@@ -54,7 +89,110 @@ namespace GameEngine
             loadedCurMapMaskData = false;
         }
 
-        public IEnumerator StartLoadSceneAssets(Action down, Action<float> showProgress)
+        #region PreLoad Spawn Pool Assets / 加载缓存池相关资源
+
+        public IEnumerator PreLoadPoolAssets()
+        {
+            yield return GameMgr.Ins.LoadGameAssets($"{GameConfig.PROP_POOL_NAME}PoolMgr", PropPoolPath, (tar) =>
+            {
+                tar.transform.SetParent(PoolParent);
+                CDebug.LogProgress("## Pre Loaded Prop Pools ##");
+            });
+
+            yield return GameMgr.Ins.LoadGameAssets($"{GameConfig.EFFECT_POOL_NAME}PoolMgr", EffectPoolPath, (tar) =>
+            {
+                tar.transform.SetParent(PoolParent);
+                CDebug.LogProgress("## Pre Loaded Effect Pools ##");
+            });
+
+            yield return GameMgr.Ins.LoadGameAssets($"{GameConfig.UI_POOL_NAME}PoolMgr", UIPoolPath, (tar) =>
+            {
+                tar.transform.SetParent(PoolParent);
+                CDebug.LogProgress("## Pre Loaded UI Pools ##");
+            });
+
+            yield return GameMgr.Ins.LoadGameAssets($"{GameConfig.MAP_POOL_NAME}PoolMgr", MapPoolPath, (tar) =>
+            {
+                tar.transform.SetParent(PoolParent);
+                CDebug.LogProgress("## Pre Loaded Map Cell Pools ##");
+            });
+
+            FightControl.Ins.Startup();
+        }
+
+
+
+        #endregion
+
+        #region Load Fight Map Assets / 加载战斗相关资源
+
+        public IEnumerator StartLoadFightMapAssets()
+        {
+            // 1.load fightMap parent Node
+            if (sceneModelMgr.FightMap == null)
+            {
+                yield return LoadFightMapMgr();
+            }
+            while (sceneModelMgr.FightMap == null) { yield return Yielders.EndOfFrame; }
+
+            // 2.load fight map node
+            if (fightModelMgr.GetCurFightMap == null)
+            {
+                yield return LoadFightMapInstance();
+            }
+            while (fightModelMgr.GetCurFightMap == null) { yield return Yielders.EndOfFrame; }
+
+            // 3.load fight canvas
+            if (sceneModelMgr.FightCanvas == null)
+            {
+                yield return LoadFightCanvas();
+            }
+            while (sceneModelMgr.FightCanvas == null) { yield return Yielders.EndOfFrame; }
+
+            yield return characterLoadMgr.CreateFightCharacters();
+            while (!characterLoadMgr.LoadedFightCharacters()) { yield return Yielders.EndOfFrame; }
+            CDebug.LogProgress("## [4] FightCharacters Loaded ##");
+
+            CameraMgr.Instance.StartFightBindCamera();
+        }
+
+        private IEnumerator LoadFightMapMgr()
+        {
+            yield return GameMgr.Ins.LoadGameAssets("FightMapMgr", FightMapMgrPath, (tar) =>
+            {
+                sceneModelMgr.FightMap = tar.GetComponent<FightMap>();
+                CDebug.LogProgress("## [1] FightMapMgr Loaded ##");
+            });
+        }
+
+        private IEnumerator LoadFightMapInstance()
+        {
+            string loadPath = fightModelMgr.GetCurFightMapPath;
+            yield return GameMgr.Ins.LoadGameAssets($"{loadPath}_fight_map", $"map/fight/{loadPath}/{loadPath}_fight", (tar) =>
+            {
+                var tarTrans = tar.transform;
+                tarTrans.SetParent(sceneModelMgr.FightMap.transform, false);
+                fightModelMgr.SetCurFightMap(tarTrans);
+                CDebug.LogProgress("## [2] FightMap Instance Loaded ##");
+            });
+        }
+
+        private IEnumerator LoadFightCanvas()
+        {
+            yield return GameMgr.Ins.LoadGameAssets("FightCanvas", FightCanvasPath, (tar) =>
+            {
+                DontDestroyOnLoad(tar);
+                tar.transform.SetParent(GameMgr.Ins.transform.parent, false);
+                sceneModelMgr.FightCanvas = tar;
+                CDebug.LogProgress("## [3] FightCanvas Loaded ##");
+            });
+        }
+
+        #endregion
+
+        #region Load Game Map Assets / 加载Game地图相关资源
+
+        public IEnumerator StartLoadGameMapAssets(Action down, Action<float> showProgress)
         {
             // 1. Load MapBlockData.(.cel file)
             string blockName = "1005";
@@ -72,77 +210,31 @@ namespace GameEngine
 
             // 4. Load MapMgr
             yield return SyncLoadMapMgr();
-            while (modelMgr.MapMgrObj == null) { yield return Yielders.EndOfFrame; }
+            while (sceneModelMgr.MapMgrObj == null) { yield return Yielders.EndOfFrame; }
             showProgress((float)(4 / 7));
             // 5. Load CameraMgr
             yield return SyncLoadCameraMgr();
-            while (modelMgr.CameraMgrObj == null) { yield return Yielders.EndOfFrame; }
+            while (sceneModelMgr.CameraMgrObj == null) { yield return Yielders.EndOfFrame; }
             showProgress((float)(5 / 7));
             // 6. Load MapInstance.
             yield return SyncLoadMapInstance();
-            while (modelMgr.MapInstance == null) { yield return Yielders.EndOfFrame; }
+            while (sceneModelMgr.MapInstance == null) { yield return Yielders.EndOfFrame; }
             showProgress((float)(6 / 7));
 
             // 7. Load User Characters.
             yield return characterLoadMgr.CreateSceneMapCharacters();
-            while (!characterLoadMgr.LoadedAllSceneCharacters()) { yield return Yielders.EndOfFrame; }
+            while (!characterLoadMgr.LoadedSceneCharacters()) { yield return Yielders.EndOfFrame; }
             showProgress(1);
 
             down?.Invoke();
         }
-
-        #region Load Fight Map Assets
-
-        public IEnumerator StartLoadFightMapAssets()
-        {
-            // load fightMap parent Node
-            string mapPath = $"map/common/FightMapMgr";
-            if (modelMgr.FightMap == null)
-            {
-                yield return GameMgr.Ins.LoadGameAssets("FightMapMgr", mapPath, (tar) =>
-                {
-                    modelMgr.FightMap = tar.GetComponent<FightMap>();
-                    CDebug.LogProgress("## [1] FightMapMgr Loaded ##");
-                });
-            }
-            while (modelMgr.FightMap == null) { yield return Yielders.EndOfFrame; }
-
-            // load fight map node
-            var fightModelMgr = GlobalData.instance.fightModelMgr;
-            var fightMapTrans = fightModelMgr.GetCurFightMap();
-            if (fightMapTrans == null)
-            {
-                string loadPath = fightModelMgr.GetCurFightMapPath();
-                yield return GameMgr.Ins.LoadGameAssets($"{loadPath}_fight_map", $"fight_map/{loadPath}/{loadPath}_fight", (tar) =>
-                {
-                    //modelMgr.FightMap = tar.GetComponent<FightMap>();
-                    tar.transform.SetParent(modelMgr.FightMap.transform, false);
-                    fightModelMgr.SetCurFightMap(tar.transform);
-                    CDebug.LogProgress("## [2] FightMap Instance Loaded ##");
-                    // CameraMgr.Instance.StartFigtBindCamera(tar);
-                });
-            }
-
-
-            yield return characterLoadMgr.CreateFightCharacters();
-            while (!characterLoadMgr.LoadedFightCharacters()) { yield return Yielders.EndOfFrame; }
-
-
-            CameraMgr.Instance.StartFigtBindCamera();
-            CDebug.LogProgress("## [2] FightCharacters Loaded ##");
-
-        }
-
-        #endregion
-
-        #region Load Game Assets Methods
 
         /// <summary>
         /// 加载地图配置
         /// </summary>
         private void InitMapConfig(string blockName)
         {
-            modelMgr.SceneMap.LoadMapBlock(_curMapData, _curMapMaskData, blockName);
+            sceneModelMgr.SceneMap.LoadMapBlock(_curMapData, _curMapMaskData, blockName);
             CDebug.LogProgress("## [3] InitMapConfig Success ##");
         }
 
@@ -152,10 +244,9 @@ namespace GameEngine
         /// <returns></returns>
         private IEnumerator SyncLoadMapMgr()
         {
-            string mapPath = $"map/common/MapMgr";
-            yield return GameMgr.Ins.LoadGameAssets("MapMgr", mapPath, (tar) =>
+            yield return GameMgr.Ins.LoadGameAssets("MapMgr", MapMgrPath, (tar) =>
             {
-                modelMgr.MapMgrObj = tar;
+                sceneModelMgr.MapMgrObj = tar;
                 CDebug.LogProgress("## [4] MapMgr Loaded ##");
             });
         }
@@ -166,10 +257,9 @@ namespace GameEngine
         /// <returns></returns>
         private IEnumerator SyncLoadCameraMgr()
         {
-            string cameraPath = $"map/common/CameraMgr";
-            yield return GameMgr.Ins.LoadGameAssets("CameraMgr", cameraPath, (tar) =>
+            yield return GameMgr.Ins.LoadGameAssets("CameraMgr", CameraMgrPath, (tar) =>
             {
-                modelMgr.CameraMgrObj = tar;
+                sceneModelMgr.CameraMgrObj = tar;
                 CDebug.LogProgress("## [5] CameraMgr Loaded ##");
             });
         }
@@ -180,20 +270,18 @@ namespace GameEngine
         /// <returns></returns>
         private IEnumerator SyncLoadMapInstance()
         {
-            //string path = $"map/1_test/{name}";
-            string path = $"map/1005/1005";
+            string path = $"map/base/1005/1005";
             yield return GameMgr.Ins.LoadGameAssets("1_map_bg", path, (tar) =>
             {
-                modelMgr.MapInstance = tar.transform;
-                modelMgr.MapInstance.SetParent(modelMgr.MapMgrObj.transform, false);
+                sceneModelMgr.MapInstance = tar.transform;
+                sceneModelMgr.MapInstance.SetParent(sceneModelMgr.MapMgrObj.transform, false);
                 CDebug.LogProgress("## [6] MapInstance Loaded ##");
             });
         }
 
-
         #endregion
 
-        #region Load MapBlock Config
+        #region Load MapBlock Config / 加载Game地图相关配置
 
         IDirectory streamDir = null;
         string realPath = string.Empty;

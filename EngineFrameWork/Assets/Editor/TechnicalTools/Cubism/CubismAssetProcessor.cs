@@ -71,7 +71,7 @@ namespace Live2D.Cubism.Editor
                 {
                     importer.Import();
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Debug.LogError("CubismAssetProcessor : Following error occurred while importing " + assetPath);
                     Debug.LogError(e);
@@ -261,15 +261,12 @@ namespace Live2D.Cubism.Editor
         /// </summary>
         private static void GenerateBuiltinResources()
         {
-            var resourcesRoot = AssetDatabase
-                .GetAssetPath(CubismBuiltinShaders.Unlit)
-                .Replace("/Shaders/Unlit.shader", "");
-
+            var resourcesRoot = "Assets/ABAssets/AssetBundle/live2d"; //AssetDatabase.GetAssetPath(CubismBuiltinShaders.Unlit).Replace("/Shaders/Unlit.shader", "");
 
             // Create materials.
             if (CubismBuiltinMaterials.Mask == null)
             {
-                var materialsRoot = resourcesRoot + "/Materials";
+                var materialsRoot = resourcesRoot + "/materials";
 
 
                 // Make sure materials folder exists.
@@ -280,7 +277,7 @@ namespace Live2D.Cubism.Editor
 
 
                 // Create mask material.
-                var material = new Material (CubismBuiltinShaders.Mask)
+                var material = new Material(CubismBuiltinShaders.Mask)
                 {
                     name = "Mask"
                 };
@@ -290,7 +287,7 @@ namespace Live2D.Cubism.Editor
 
 
                 // Create mask material.
-                material = new Material (CubismBuiltinShaders.Mask)
+                material = new Material(CubismBuiltinShaders.Mask)
                 {
                     name = "MaskCulling"
                 };
@@ -300,7 +297,7 @@ namespace Live2D.Cubism.Editor
 
 
                 // Create non-masked materials.
-                material = new Material (CubismBuiltinShaders.Unlit)
+                material = new Material(CubismBuiltinShaders.Unlit)
                 {
                     name = "Unlit"
                 };
@@ -309,7 +306,7 @@ namespace Live2D.Cubism.Editor
                 AssetDatabase.CreateAsset(material, string.Format("{0}/{1}.mat", materialsRoot, material.name));
 
 
-                material = new Material (CubismBuiltinShaders.Unlit)
+                material = new Material(CubismBuiltinShaders.Unlit)
                 {
                     name = "UnlitAdditive"
                 };
@@ -318,7 +315,7 @@ namespace Live2D.Cubism.Editor
                 AssetDatabase.CreateAsset(material, string.Format("{0}/{1}.mat", materialsRoot, material.name));
 
 
-                material = new Material (CubismBuiltinShaders.Unlit)
+                material = new Material(CubismBuiltinShaders.Unlit)
                 {
                     name = "UnlitMultiply"
                 };
@@ -328,7 +325,7 @@ namespace Live2D.Cubism.Editor
 
 
                 // Create masked materials.
-                material = new Material (CubismBuiltinShaders.Unlit)
+                material = new Material(CubismBuiltinShaders.Unlit)
                 {
                     name = "UnlitMasked"
                 };
@@ -338,7 +335,7 @@ namespace Live2D.Cubism.Editor
                 AssetDatabase.CreateAsset(material, string.Format("{0}/{1}.mat", materialsRoot, material.name));
 
 
-                material = new Material (CubismBuiltinShaders.Unlit)
+                material = new Material(CubismBuiltinShaders.Unlit)
                 {
                     name = "UnlitAdditiveMasked"
                 };
@@ -348,7 +345,7 @@ namespace Live2D.Cubism.Editor
                 AssetDatabase.CreateAsset(material, string.Format("{0}/{1}.mat", materialsRoot, material.name));
 
 
-                material = new Material (CubismBuiltinShaders.Unlit)
+                material = new Material(CubismBuiltinShaders.Unlit)
                 {
                     name = "UnlitMultiplyMasked"
                 };
@@ -359,7 +356,7 @@ namespace Live2D.Cubism.Editor
 
 
                 // Create inverted mask materials.
-                material = new Material (CubismBuiltinShaders.Unlit)
+                material = new Material(CubismBuiltinShaders.Unlit)
                 {
                     name = "UnlitMaskedInverted"
                 };
@@ -369,7 +366,7 @@ namespace Live2D.Cubism.Editor
                 AssetDatabase.CreateAsset(material, string.Format("{0}/{1}.mat", materialsRoot, material.name));
 
 
-                material = new Material (CubismBuiltinShaders.Unlit)
+                material = new Material(CubismBuiltinShaders.Unlit)
                 {
                     name = "UnlitAdditiveMaskedInverted"
                 };
@@ -379,7 +376,7 @@ namespace Live2D.Cubism.Editor
                 AssetDatabase.CreateAsset(material, string.Format("{0}/{1}.mat", materialsRoot, material.name));
 
 
-                material = new Material (CubismBuiltinShaders.Unlit)
+                material = new Material(CubismBuiltinShaders.Unlit)
                 {
                     name = "UnlitMultiplyMaskedInverted"
                 };
@@ -500,8 +497,9 @@ namespace Live2D.Cubism.Editor
 
                 globalMaskTexture.name = "GlobalMaskTexture";
 
-
-                AssetDatabase.CreateAsset(globalMaskTexture, string.Format("{0}/{1}.asset", resourcesRoot, globalMaskTexture.name));
+                var path = string.Format("{0}/{1}.asset", resourcesRoot + "/settings", globalMaskTexture.name);
+                Debug.Log($"##################### Create New GlobalMaskTexture On {path}");
+                AssetDatabase.CreateAsset(globalMaskTexture, path);
             }
         }
 

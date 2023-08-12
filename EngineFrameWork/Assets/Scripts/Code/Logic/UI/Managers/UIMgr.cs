@@ -3,8 +3,6 @@ using System;
 using FrameWork;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.U2D;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace UI
@@ -64,17 +62,6 @@ namespace UI
             uiContainer = transform;
             uICrossRoot = self.AddComponent<UICrossRoot>();
         }
-        public void RegisterSpriteAtlasEvent()
-        {
-            SpriteAtlasManager.atlasRequested += RequestAtlas;
-            SpriteAtlasManager.atlasRegistered += RegisteredAtlas;
-        }
-
-        void RemoveSpriteAtlasEvent()
-        {
-            SpriteAtlasManager.atlasRequested -= RequestAtlas;
-            SpriteAtlasManager.atlasRegistered -= RegisteredAtlas;
-        }
 
         public bool Inited()
         {
@@ -103,31 +90,6 @@ namespace UI
             onEventCloseUI = null;
             onEventRoot = null;
             onEventClear = null;
-        }
-
-        private void OnDisable()
-        {
-            RemoveSpriteAtlasEvent();
-        }
-
-        private void RegisteredAtlas(SpriteAtlas spriteAtlas)
-        {
-            // CDebug.Log(($"Atlas  Loaded {spriteAtlas.name} success. "));
-        }
-
-        private void RequestAtlas(string atlasName, System.Action<SpriteAtlas> callback)
-        {
-            if (globalData == null || globalData.spriteAtlasMgr == null)
-            {
-                CDebug.Log($"Request Atlas null: {atlasName}");
-                return;
-            }
-
-            string bundleName = atlasName.Split('_')[0];
-            globalData.spriteAtlasMgr.LoadSpriteAtlas(bundleName, (atlas) =>
-            {
-                callback?.Invoke(atlas);
-            });
         }
 
         protected override void Init()
@@ -161,13 +123,14 @@ namespace UI
 
             self.AddComponent<GraphicRaycaster>();
             self.name = CanvasName;
+            base.Init();
         }
 
         #endregion
 
         public void OpenUI(UIConfig config, Action<GameObject> callback = null)
         {
-            //if (opening) return;
+            if (opening) return;
 
             GameObject ui = null;
             if (cachesUI.TryGetValue(config.prefabName, out ui))
@@ -182,7 +145,7 @@ namespace UI
 
             if (config.transform == null)
             {
-                //opening = true;
+                opening = true;
                 string path = string.Format("ui/prefabs/{0}/{1}", config.floaderName, config.prefabName);
 
                 //CrossDisptacher.Dispatch(LoadEvent.SHOW_ACTIVITY_INDICATOR);
@@ -197,20 +160,13 @@ namespace UI
                         return;
                     }
 
-                    StartCoroutine(WaitLoadAtlas(config.prefabName, () =>
-                    {
-                        GameObject uiO = Instantiate(prefabObj, uiContainer);
-                        uiO.name = config.prefabName;
-                        cachesUI.Add(config.prefabName, uiO);
+                    GameObject uiO = Instantiate(prefabObj, uiContainer);
+                    uiO.name = config.prefabName;
+                    cachesUI.Add(config.prefabName, uiO);
 
-                        ShowUI(uiO, config);
-                        if (callback != null) callback(uiO);
-                        //opening = false;
-
-                        //CrossDisptacher.Dispatch(LoadEvent.HIDE_ACTIVITY_INDICATOR);
-
-                    }));
-
+                    ShowUI(uiO, config);
+                    if (callback != null) callback(uiO);
+                    opening = false;
                 });
             }
             else
@@ -222,16 +178,6 @@ namespace UI
                 ShowUI(uiO, config);
                 if (callback != null) callback(uiO);
             }
-        }
-
-        IEnumerator WaitLoadAtlas(string prefabName, Action down)
-        {
-            while (!globalData.spriteAtlasMgr.IsDependenceAtlasLoaded(prefabName))
-            {
-                yield return Yielders.EndOfFrame;
-            }
-
-            down.Invoke();
         }
 
         /// <summary>
@@ -281,6 +227,7 @@ namespace UI
             openConfig.Pop();
             GameObject ui = openStack.Pop();
             ui.SetActive(false);
+            curConfig = openConfig.Count > 0 ? openConfig.Peek() : null;
 
             UpdateBaseUiElements();
         }
@@ -368,22 +315,23 @@ namespace UI
 
         void UpdateBaseUiElements()
         {
-            Transform tTmp = null;
-            GameObject oTmp = null;
+            Transform curTrans = null;
+            GameObject curGO = null;
             UIConfig lastCfg = null;
             bool hideAllBefore = false;
 
             foreach (UIConfig config in openConfig)
             {
-                tTmp = config.transform;
-                oTmp = tTmp.gameObject;
+                curTrans = config.transform;
+                curGO = curTrans.gameObject;
                 if (lastCfg == null)
                 {
                     lastCfg = config;
+                    curGO.SetActive(true);
                 }
                 else if (!lastCfg.fullScreen)
                 {
-                    if (!oTmp.activeSelf) oTmp.SetActive(true);
+                    if (!curGO.activeSelf) curGO.SetActive(true);
                     lastCfg = config;
                     continue;
                 }
@@ -394,14 +342,14 @@ namespace UI
 
                 if (hideAllBefore)
                 {
-                    if (oTmp.activeSelf) oTmp.SetActive(false);
+                    if (curGO.activeSelf) curGO.SetActive(false);
                     continue;
                 }
 
                 if (config.hideAllBefore)
                 {
                     hideAllBefore = true;
-                    if (!oTmp.activeSelf) oTmp.SetActive(true);
+                    if (!curGO.activeSelf) curGO.SetActive(true);
                 }
             }
         }

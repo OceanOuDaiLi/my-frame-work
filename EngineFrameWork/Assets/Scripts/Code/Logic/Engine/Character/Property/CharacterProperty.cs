@@ -1,25 +1,69 @@
 using Model;
+using System;
 using UnityEngine;
+
+/********************************************************************
+	Copyright © 2018 - 2050 by DaiLi.Ou. All Rights Reserved. e-mail: odaili@163.com
+	Created:	2023/08/07
+	Filename: 	CharacterProperty.cs
+	Author:		DaiLi.Ou
+	Descriptions: 角色属性基类
+*********************************************************************/
 
 namespace GameEngine
 {
-    [System.Serializable]
-
-    public class CharacterProperty : ISerializationCallbackReceiver
+    public enum CharacterType
     {
-        private Character _character;
-        public UserCharacter UserCharacter { get; set; }
+        MAP_NPC = 0,                     // npc
+        MAP_HERO = 1,                    // 当前玩家
+        MAP_PLAYER = 2,                  // 其他c端玩家
 
-        public void SetPropertyData(UserCharacter _userCharacter)
+        FIGHT_HERO = 3,                  // 战斗玩家
+        // others
+    }
+
+    [Serializable]
+    public class CharacterProperty : ISerializationCallbackReceiver, IDisposable
+    {
+
+        public CharacterType CharacterType { get; set; }            // 角色类型
+
+        public MonoProperty MonoProperty { get; set; }              // 角色组件属性
+        public TeamProperty TeamProperty { get; set; }              // 角色队伍属性
+        public SkillProperty SkillProperty { get; set; }            // 角色技能属性
+        public ConfigProperty ConfigProperty { get; set; }          // 角色配置属性
+
+        /////////// Public Geter/Seter ///////////
+        public bool IsNpc
         {
-            UserCharacter = _userCharacter;
-            _character.TransformSelf.position = (Vector2)UserCharacter.data[0];
+            get => CharacterType.Equals(CharacterType.MAP_NPC);
         }
 
-
-        public void OnEnable(Character _character)
+        public bool IsMapHero
         {
-            this._character = _character;
+            get => CharacterType.Equals(CharacterType.MAP_HERO);
+        }
+
+        public bool IsFightHero
+        {
+            get => CharacterType.Equals(CharacterType.FIGHT_HERO);
+        }
+
+        /////////// Public Methods ///////////
+        public void Dispose()
+        {
+            if (MonoProperty != null)
+            {
+                MonoProperty.Dispose();
+            }
+            if (SkillProperty != null)
+            {
+                SkillProperty.Dispose();
+            }
+            if (ConfigProperty != null)
+            {
+                ConfigProperty.Dispose();
+            }
         }
 
         public void OnBeforeSerialize()
@@ -31,5 +75,6 @@ namespace GameEngine
         {
 
         }
+
     }
 }

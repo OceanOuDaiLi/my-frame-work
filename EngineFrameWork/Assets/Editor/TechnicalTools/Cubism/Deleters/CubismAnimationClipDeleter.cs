@@ -41,7 +41,7 @@ namespace Live2D.Cubism.Editor.Deleters
         /// </summary>
         public override void Delete()
         {
-            var fadeAssetPath = AssetPath.Replace(".anim", ".fade.asset");
+            var fadeAssetPath = AssetPath.Replace(".anim", "_fade.asset");
             var fadeAsset = AssetDatabase.LoadAssetAtPath<CubismFadeMotionData>(fadeAssetPath);
 
             // Fail silently...

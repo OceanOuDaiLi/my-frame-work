@@ -11,7 +11,7 @@ using System.Collections.Generic;
 	Author:		DaiLi.Ou
 	Descriptions: 
 *********************************************************************/
-namespace Engine
+namespace GameEngine
 {
     public class BundleMgr : IDisposable
     {

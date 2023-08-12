@@ -31,7 +31,7 @@ namespace Live2D.Cubism.Editor.Deleters
         // ReSharper disable once UnusedMember.Local
         private static void RegisterDeleter()
         {
-            CubismDeleter.RegisterDeleter<CubismFadeAssetDeleter>(".fade.asset");
+            CubismDeleter.RegisterDeleter<CubismFadeAssetDeleter>("_fade.asset");
         }
 
         #endregion
@@ -46,7 +46,7 @@ namespace Live2D.Cubism.Editor.Deleters
             var directoryName = Path.GetDirectoryName(AssetPath).ToString();
             var modelDir = Path.GetDirectoryName(directoryName).ToString();
             var modelName = Path.GetFileName(modelDir).ToString();
-            var fadeMotionListPath = Path.GetDirectoryName(directoryName).ToString() + "/" + modelName + ".fadeMotionList.asset";
+            var fadeMotionListPath = Path.GetDirectoryName(directoryName).ToString() + "/" + modelName + "_fadeMotionList.asset";
             var fadeMotionList = AssetDatabase.LoadAssetAtPath<CubismFadeMotionList>(fadeMotionListPath);
 
             if (fadeMotionList == null)

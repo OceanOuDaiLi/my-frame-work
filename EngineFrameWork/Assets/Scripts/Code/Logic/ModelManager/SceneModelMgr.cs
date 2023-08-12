@@ -10,6 +10,7 @@ namespace Model
         public SceneMap SceneMap { get; set; }
         public GameObject MapMgrObj { get; set; }
         public Transform MapInstance { get; set; }
+        public GameObject FightCanvas { get; set; }
         public GameObject CameraMgrObj { get; set; }
 
         public SceneModelMgr()

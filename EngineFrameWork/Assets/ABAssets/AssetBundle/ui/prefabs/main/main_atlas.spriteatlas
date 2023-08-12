@@ -7,6 +7,7 @@ SpriteAtlas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: main_atlas
+  serializedVersion: 2
   m_EditorData:
     serializedVersion: 2
     textureSettings:
@@ -16,14 +17,14 @@ SpriteAtlas:
       maxTextureSize: 0
       textureCompression: 0
       filterMode: 1
-      generateMipMaps: 1
+      generateMipMaps: 0
       readable: 0
       crunchedCompression: 0
       sRGB: 0
     platformSettings:
     - serializedVersion: 3
       m_BuildTarget: Android
-      m_MaxTextureSize: 1024
+      m_MaxTextureSize: 2048
       m_ResizeAlgorithm: 0
       m_TextureFormat: 48
       m_TextureCompression: 1
@@ -80,7 +81,7 @@ SpriteAtlas:
     - {fileID: 21300000, guid: d7163c23f99c7dd40b0ecf4e36fe5032, type: 3}
     - {fileID: 21300000, guid: a61abbc56e888934da5f45ec53d18903, type: 3}
     - {fileID: 21300000, guid: fe7b0ec7eaf41094da119745be334376, type: 3}
-    bindAsDefault: 0
+    bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
@@ -163,3 +164,4 @@ SpriteAtlas:
   m_RenderDataMap: {}
   m_Tag: main_atlas
   m_IsVariant: 0
+  m_IsPlaceholder: 0

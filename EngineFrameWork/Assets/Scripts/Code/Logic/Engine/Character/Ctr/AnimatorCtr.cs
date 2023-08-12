@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
 
 /********************************************************************
@@ -10,8 +11,8 @@ using System.Collections.Generic;
 *********************************************************************/
 namespace GameEngine
 {
-    [System.Serializable]
-    public class AnimatorCtr : ISerializationCallbackReceiver
+    [Serializable]
+    public class AnimatorCtr : ISerializationCallbackReceiver, IDisposable
     {
         private Animator _animator;
         private Character _character;
@@ -40,9 +41,9 @@ namespace GameEngine
             _animator = this._character.Animator;
         }
 
-        public void PlayAnimationByName(string name)
+        public void PlayAnimationByName(string name, Vector2 direction)
         {
-            _animator.Play(name, 0);
+            SetAnimatorParameter(name, direction);
         }
 
         public void PlayAnimationByName(string name, int direction)
@@ -56,18 +57,51 @@ namespace GameEngine
             switch (animationName)
             {
                 case AnimCfg.STAND:
-                    _animator.SetBool(AnimCfg.PARAM_MOVEING, false);
-                    _animator.SetFloat(AnimCfg.PARAM_INPUT_X, dir.x);
-                    _animator.SetFloat(AnimCfg.PARAM_INPUT_Y, dir.y);
+                    _animator.SetBool(AnimCfg.PARAM__BOOL_MOVEING, false);
                     break;
                 case AnimCfg.RUN:
-                    _animator.SetBool(AnimCfg.PARAM_MOVEING, true);
-                    _animator.SetFloat(AnimCfg.PARAM_INPUT_X, dir.x);
-                    _animator.SetFloat(AnimCfg.PARAM_INPUT_Y, dir.y);
+                    _animator.SetBool(AnimCfg.PARAM__BOOL_MOVEING, true);
                     break;
                 default:
                     break;
             }
+
+            SetBlendTreeParameter(dir);
+        }
+
+        public void SetAnimatorParameter(string animationName, Vector2 dir)
+        {
+            switch (animationName)
+            {
+                case AnimCfg.STAND:
+                    _animator.SetBool(AnimCfg.PARAM__BOOL_MOVEING, false);
+                    break;
+                case AnimCfg.RUN:
+                    _animator.SetBool(AnimCfg.PARAM__BOOL_MOVEING, true);
+                    break;
+                default:
+                    break;
+            }
+
+            SetBlendTreeParameter(dir);
+        }
+
+        public void SetBlendTreeParameter(Vector2 dir)
+        {
+            _animator.SetFloat(AnimCfg.PARAM_INPUT_X, dir.x);
+            _animator.SetFloat(AnimCfg.PARAM_INPUT_Y, dir.y);
+        }
+
+        public Vector2 GetReverseDirection(Vector2 dir)
+        {
+            var result = dir * (-1);
+            return result;
+        }
+
+        public void Dispose()
+        {
+            if (_character != null) { _character = null; }
+            if (_animator != null) { _animator = null; }
         }
 
         public void OnAfterDeserialize()
@@ -77,5 +111,6 @@ namespace GameEngine
         public void OnBeforeSerialize()
         {
         }
+
     }
 }

@@ -8,7 +8,7 @@ namespace UI
         {
             {"login" , new List<string>(){"login"  , "common"  } },
             {"main" , new List<string>(){"main"  , "common"  } },
-            {"namepanel" , new List<string>(){} },
+            {"npcchat" , new List<string>(){"npcchat"  } },
             {"userinfo" , new List<string>(){"userinfo"  , "common"  } },
             {"yaoling" , new List<string>(){"yaoling"  } },
 

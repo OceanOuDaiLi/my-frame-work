@@ -40,8 +40,13 @@ namespace Live2D.Cubism.Rendering.Masking
             get
             {
 #if UNITY_EDITOR
-                return UnityEditor.AssetDatabase.LoadAssetAtPath<CubismMaskTexture>("Assets/Launch/Scripts/Cubism/Rendering/Res/Live2D/Cubism/GlobalMaskTexture.asset");
+                return UnityEditor.AssetDatabase.LoadAssetAtPath<CubismMaskTexture>("Assets/ABAssets/AssetBundle/live2d/settings/GlobalMaskTexture.asset");
 #else
+                // command by daili.ou
+                // 允许runtime使用Assetbundle方式加载 GlobalMaskTexture.asset 资源，动态赋值到live2d的预制体
+                // 不允许默认导入的live2d资源，未引用Assetbundle中的GlobalMaskTexture.asset
+                
+                UnityEngine.Debug.LogError("错误：live2d 预制体自动引用 GlobalMaskTexture失败，导致移动端无法正常显示 live2d。请检测美术导入流程，并紧急修复！");
                 return (CubismMaskTexture)UnityEngine.Resources.Load("live2d/GlobalMaskTexture.asset");
 #endif
 

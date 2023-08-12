@@ -6,10 +6,9 @@
 	Descriptions: 角色加载管理类。用于加载进入的Game场景中的角色资源
 *********************************************************************/
 using Model;
-using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace GameEngine
 {
@@ -23,37 +22,47 @@ namespace GameEngine
         private FightModelMgr fightModelMgr = null;
 
         /// <summary>
-        /// 创建测试 NPC 及 角色
+        /// Game场景
+        /// 创建NPC及角色
+        /// 使用测试数据
         /// </summary>
         /// <returns></returns>
         public IEnumerator CreateSceneMapCharacters()
         {
+#warning need opt code. using character pool. & IEnumerator foreach => property tocorrect.
+
             if (modelMgr == null)
             {
                 modelMgr = GlobalData.instance.characterModelMgr;
             }
 
-            Dictionary<int, UserCharacter> needCreate = modelMgr.GetAllCharacterData();
+            Dictionary<int, BaseCharacter> needCreate = modelMgr.GetAllCharacterData();
             loadCount = needCreate.Count;
 
             foreach (var character in needCreate)
             {
-                yield return GameMgr.Ins.LoadGameAssets(character.Value.data[1].ToString(), character.Value.baseCharacter.prefahPath, (d) =>
+                var insCharacter = character.Value;
+                int resId = insCharacter.GetResID();
+                string szPath = insCharacter.GetResPath();
+                yield return GameMgr.Ins.LoadGameAssets(resId.ToString(), szPath, (d) =>
                 {
                     var data = d.GetComponent<Character>();
-                    data.Initialized(character.Value);
-                    modelMgr.UpdateCharacterByInstanceId(character.Value.instanceId, data);
+                    modelMgr.UpdateCharacterByInstanceId(insCharacter.InstanceId, data);
 
-                    int resId = character.Value.baseCharacter.resId;
-                    data.GameObjectSelf.name = character.Value.isNpc ? string.Format("{0}_Npc", resId) : string.Format("{0}_Player", resId);
-                    data.TransformSelf.GetComponentInChildren<SpriteRenderer>().sortingOrder = GlobalData.instance.sceneModelMgr.SceneMap.m_nHeight - (int)data.TransformSelf.position.y;
-                    data.TransformSelf.SetParent(GlobalData.instance.sceneModelMgr.MapMgrObj.transform, false);
+                    insCharacter.SetCharacter(data);
+                    insCharacter.SetParent(GlobalData.instance.sceneModelMgr.MapMgrObj.transform, false);
 
+                    insCharacter.OnCreateMono(data);
                     loadCount--;
                 });
             }
         }
 
+        /// <summary>
+        /// 战斗
+        /// 创建战斗角色
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator CreateFightCharacters()
         {
             loadedFight = false;
@@ -64,26 +73,28 @@ namespace GameEngine
             }
 
 
-            Dictionary<int, UserCharacter> teamCharacters = fightModelMgr.GetFightTeamCharacters();
-            Dictionary<int, UserCharacter> enemyCharacters = fightModelMgr.GetFightEnemyCharacters();
+            Dictionary<int, BaseCharacter> teamCharacters = fightModelMgr.GetFightTeamCharacters();
+            Dictionary<int, BaseCharacter> enemyCharacters = fightModelMgr.GetFightEnemyCharacters();
             var sceneModelMgr = GlobalData.instance.sceneModelMgr;
 
             loadCount = teamCharacters.Count;
             foreach (var character in teamCharacters)
             {
-                yield return GameMgr.Ins.LoadGameAssets(character.Value.data[1].ToString(), character.Value.baseCharacter.prefahPath, (d) =>
+                var property = character.Value.Property;
+                var teamProperty = property.TeamProperty;
+                var cfgProperty = property.ConfigProperty;
+                yield return GameMgr.Ins.LoadGameAssets(cfgProperty.resId.ToString(), cfgProperty.prefabPath, (d) =>
                 {
                     var data = d.GetComponent<Character>();
-                    data.Initialized(character.Value);
+                    data.RefreshData(property);
 
 
-                    int resId = character.Value.baseCharacter.resId;
+                    int resId = cfgProperty.resId;
                     data.GameObjectSelf.name = resId.ToString();
 
-
-                    var pos = data.Property.UserCharacter.pos;
+                    var pos = teamProperty.FightTeamPos;
                     UnityEngine.Transform parent = null;
-                    switch (data.Property.UserCharacter.frontBack)
+                    switch (teamProperty.FrontOrBack)
                     {
                         case 0:
                             parent = sceneModelMgr.FightMap.GetTeamFrontByPos(pos);
@@ -97,8 +108,11 @@ namespace GameEngine
                             break;
                     }
 
+                    // need to cleaning code . add by daili.ou
                     data.TransformSelf.SetParent(parent, false);
-
+                    character.Value.OnCreateMono(data);
+                    data.SetMonoName(character.Key + "_TeamPlayer");
+                    data.Property.MonoProperty.FightCreatePos = data.TransformSelf.position;
                     loadCount--;
                 });
             }
@@ -109,32 +123,38 @@ namespace GameEngine
             loadCount = enemyCharacters.Count;
             foreach (var character in enemyCharacters)
             {
-                yield return GameMgr.Ins.LoadGameAssets(character.Value.data[1].ToString(), character.Value.baseCharacter.prefahPath, (d) =>
+                var property = character.Value.Property;
+                var monoProperty = property.MonoProperty;
+                var teamProperty = property.TeamProperty;
+                var cfgProperty = property.ConfigProperty;
+                yield return GameMgr.Ins.LoadGameAssets(cfgProperty.resId.ToString(), cfgProperty.prefabPath, (d) =>
                 {
                     var data = d.GetComponent<Character>();
-                    data.Initialized(character.Value);
+                    data.RefreshData(property);
 
-                    int resId = character.Value.baseCharacter.resId;
+                    int resId = cfgProperty.resId;
                     data.GameObjectSelf.name = resId.ToString();
-                    var pos = data.Property.UserCharacter.pos;
 
                     UnityEngine.Transform parent = null;
-                    switch (data.Property.UserCharacter.frontBack)
+                    switch (teamProperty.FrontOrBack)
                     {
                         case 0:
-                            parent = sceneModelMgr.FightMap.GetEnemyFrontByPos(pos);
+                            parent = sceneModelMgr.FightMap.GetEnemyFrontByPos(teamProperty.FightTeamPos);
                             data.UpdateSortLayer(GameConfig.FightEnemyCharacter_Front_OrderInLayer);
                             break;
                         case 1:
-                            parent = sceneModelMgr.FightMap.GetEnemyBackByPos(pos);
+                            parent = sceneModelMgr.FightMap.GetEnemyBackByPos(teamProperty.FightTeamPos);
                             data.UpdateSortLayer(GameConfig.FightEnemyCharacter_Back_OrderInLayer);
                             break;
                         default:
                             break;
                     }
 
+                    // need to cleaning code . add by daili.ou
                     data.TransformSelf.SetParent(parent, false);
-
+                    character.Value.OnCreateMono(data);
+                    data.SetMonoName(character.Key + "_EnemyPlayer");
+                    data.Property.MonoProperty.FightCreatePos = data.TransformSelf.position;
                     loadCount--;
                 });
             }
@@ -143,7 +163,7 @@ namespace GameEngine
             loadedFight = true;
         }
 
-        public bool LoadedAllSceneCharacters()
+        public bool LoadedSceneCharacters()
         {
             bool loaded = loadCount == 0;
             return loaded;

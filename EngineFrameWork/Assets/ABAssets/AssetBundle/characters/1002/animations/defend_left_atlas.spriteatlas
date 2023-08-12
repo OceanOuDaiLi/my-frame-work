@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: defend_left_atlas
+  serializedVersion: 2
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 0
+      maxTextureSize: 0
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 1
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 0
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: Android
+      m_MaxTextureSize: 1024
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 48
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 2
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 21300000, guid: 3bca04ef7a4c2ed4998ca30f5085dc24, type: 3}
+    - {fileID: 21300000, guid: 6aaa19464f15b2e4fad5c894fe6ff8a6, type: 3}
+    - {fileID: 21300000, guid: 51b740bd87d273f43bcc7ad6fb773d99, type: 3}
+    - {fileID: 21300000, guid: c131b713f9a6725449bc3c1e6e747d78, type: 3}
+    - {fileID: 21300000, guid: 58990bdad2ae62c4daccabf2e13907d6, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: c131b713f9a6725449bc3c1e6e747d78, type: 3}
+  - {fileID: 21300000, guid: 6aaa19464f15b2e4fad5c894fe6ff8a6, type: 3}
+  - {fileID: 21300000, guid: 58990bdad2ae62c4daccabf2e13907d6, type: 3}
+  - {fileID: 21300000, guid: 51b740bd87d273f43bcc7ad6fb773d99, type: 3}
+  - {fileID: 21300000, guid: 3bca04ef7a4c2ed4998ca30f5085dc24, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - 20004
+  - 20002
+  - 20005
+  - 20003
+  - 20001
+  m_RenderDataMap: {}
+  m_Tag: defend_left_atlas
+  m_IsVariant: 0
+  m_IsPlaceholder: 0

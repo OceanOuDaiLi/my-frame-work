@@ -1,10 +1,19 @@
 ﻿
 public class GameConfig
 {
-    #region Global Pool Name
-    public const string PROP_POOL_NAME = "PropPool";
-    public const string EFFECT_POOL_NAME = "EffectPool";
-    public const string UI_POOL_NAME = "UIPool";
+    #region Global Pool Related
+    public const string UI_POOL_NAME = "UI";
+    public const string MAP_POOL_NAME = "Map";
+    public const string PROP_POOL_NAME = "Prop";
+    public const string EFFECT_POOL_NAME = "Effect";
+
+    public const string UI_TOAST = "ui_toast";
+    public const string UI_NAMEPANEL = "ui_name_panel";
+
+    public const string MAP_DOT_PATH_OBJ = "map_dot_path_find";
+    public const string MAP_CHARACTER_SELECTED_OBJ = "map_character_selected";
+    public const string MAP_TASK_FLAG_AVALIABLE = "map_task_flag_avaliable";
+    public const string MAP_TASK_FLAG_COMPLETE = "map_task_flag_complete";
     #endregion
 
     /// <summary>
@@ -27,7 +36,6 @@ public class GameConfig
 
     // 3D 
     public const int MapSubBg_OrderInLayer = 2;
-    public const int NpcCharacter_OrderInLayer = 3;
     public const int UserCharacter_OrderInLayer = 4;
     public const int MapMask_OrderInLayer = 6;
 

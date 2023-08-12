@@ -18,49 +18,77 @@ namespace Model
         /// int: 示例id
         /// 测试模拟服务器数据 服务器ID 位置  资源ID 朝向 名字 是否是主角等。
         /// </summary>
-        Dictionary<int, UserCharacter> allUserCharacters = null;
+        Dictionary<int, BaseCharacter> allUserCharacters = null;
+
+        public Character ChooseTarget { get; set; }
 
         public CharacterModelMgr() : base()
         {
             OnRegister();
 
             if (allUserCharacters != null) { allUserCharacters.Clear(); }
-            allUserCharacters = new Dictionary<int, UserCharacter>();
+            allUserCharacters = new Dictionary<int, BaseCharacter>();
 
+            CharacterProperty property;
             // tips: This is test code for add test data..
-            allUserCharacters[101] = new UserCharacter
+            allUserCharacters[101] = new HeroCharacter();
+            allUserCharacters[101].InstanceId = 101;
+            property = new CharacterProperty()
             {
-                instanceId = 101,
-                data = new List<object>() { new Vector2(3152, 700), "1001", 0, "龙傲天" },
-                isNpc = false,
-                baseCharacter = new BaseCharacter
+                ConfigProperty = new ConfigProperty
                 {
+                    name = "龙傲天",
                     resId = 1001,
-                    prefahPath = "characters/1001/prefab/1001"
-                }
-            };
-            allUserCharacters[50001] = new UserCharacter
-            {
-                instanceId = 50001,
-                data = new List<object> { new Vector2(2896, 976), "1001", 0, "武器商人" },
-                isNpc = true,
-                baseCharacter = new BaseCharacter
+                    prefabPath = "characters/1001/prefab/1001"
+                },
+                MonoProperty = new MonoProperty
                 {
-                    resId = 1002,
-                    prefahPath = "characters/1002/prefab/1002"
+                    Pos = new Vector2(3152, 700),
+                    Dir = 0
                 }
             };
-            allUserCharacters[50002] = new UserCharacter
+            allUserCharacters[101].Init(property);
+
+            allUserCharacters[50001] = new NpcCharacter();
+            allUserCharacters[50001].InstanceId = 50001;
+            property = new CharacterProperty()
             {
-                instanceId = 50002,
-                data = new List<object> { new Vector2(3152, 208), "1001", 0, "云游道长" },
-                isNpc = true,
-                baseCharacter = new BaseCharacter
+                CharacterType = CharacterType.MAP_NPC,
+                ConfigProperty = new ConfigProperty
                 {
+                    name = "武器商人",
                     resId = 1002,
-                    prefahPath = "characters/1002/prefab/1002"
+                    prefabPath = "characters/1002/prefab/1002"
+
+                },
+                MonoProperty = new MonoProperty
+                {
+                    Pos = new Vector2(2896, 976),
+                    Dir = 0,
+                    HeadFlag = HeadFlagCfg.TASK_FLAG_AVALIABLE,
                 }
             };
+            allUserCharacters[50001].Init(property);
+
+            allUserCharacters[50002] = new NpcCharacter();
+            allUserCharacters[50002].InstanceId = 50002;
+            property = new CharacterProperty()
+            {
+                CharacterType = CharacterType.MAP_NPC,
+                ConfigProperty = new ConfigProperty
+                {
+                    name = "云游道长",
+                    resId = 1002,
+                    prefabPath = "characters/1002/prefab/1002"
+                },
+                MonoProperty = new MonoProperty
+                {
+                    Pos = new Vector2(3152, 208),
+                    Dir = 0,
+                    HeadFlag = HeadFlagCfg.TASK_FLAG_COMPLETE,
+                }
+            };
+            allUserCharacters[50002].Init(property);
         }
 
         #region Auto Event Binding.
@@ -80,7 +108,7 @@ namespace Model
 
         #region Methods for create characters.
 
-        public Dictionary<int, UserCharacter> GetAllCharacterData()
+        public Dictionary<int, BaseCharacter> GetAllCharacterData()
         {
             return allUserCharacters;
         }
@@ -96,14 +124,14 @@ namespace Model
 
         #region Methods for get/set characters.
 
-        public Character GetPlayerCharacter()
+        public HeroCharacter GetMapPlayerCharacter()
         {
-            Character character = null;
+            HeroCharacter character = null;
             foreach (var item in allUserCharacters)
             {
-                if (item.Value.isNpc == false)
+                if (item.Value.Property.IsMapHero)
                 {
-                    character = item.Value.Character;
+                    character = item.Value as HeroCharacter;
                     break;
                 }
             }
@@ -111,7 +139,7 @@ namespace Model
             return character;
         }
 
-        public UserCharacter GetUserCharacterByInstanceId(int id)
+        public BaseCharacter GetMapCharacterByInstanceId(int id)
         {
             if (!allUserCharacters.ContainsKey(id))
             {
@@ -133,6 +161,16 @@ namespace Model
             allUserCharacters = null;
 
             // todo: unload CreatedCharacters
+        }
+
+        public void SetChooseCharacter(Character ins)
+        {
+            if (ChooseTarget != null)
+                ChooseTarget.SetChooseFlag(false);
+            ChooseTarget = ins;
+
+            if (ChooseTarget != null)
+                ChooseTarget.SetChooseFlag(true);
         }
     }
 }

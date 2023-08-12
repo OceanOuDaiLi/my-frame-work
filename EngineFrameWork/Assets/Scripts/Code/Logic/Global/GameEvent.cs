@@ -2,11 +2,11 @@
 
 public class GameEvent
 {
-    public const string APP_EVENT_SCENE_CHANGE_START = "ChangeSceneStart";
+    /// <summary>
+    /// 事件：用户单机按下屏幕
+    /// 参数：被点中的gameobject，注意，如果没有点击到任何物体，参数为null
+    /// </summary>
+    public const string INPUT_EVENT_SINGLE_CLICK = "InputEvent_SingleClick";
 
-    public const string APP_EVENT_SCENE_CHANGE = "ChangeScene";
-    public const string APP_EVENT_SCENE_CHANGE_TO_MAIN = "ChangeMainScene";
-    public const string APP_EVENT_SCENE_CHANGE_TO_BATTLE = "ChangeBattleScene";
-
-    public const string APP_EVENT_SCENE_CHANGE_END = "ChangeSceneEnd";
+    public const string SHOW_TOAST = "UI_ShowToast";
 }

@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &453037432511772496
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5288971882380983300}
+  - component: {fileID: 3896875890619598534}
+  - component: {fileID: 9005670833610461112}
+  m_Layer: 0
+  m_Name: MapPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5288971882380983300
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453037432511772496}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3896875890619598534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453037432511772496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 471e0463c8f8b454b8e18dad038df2f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolName: Map
+  dontDestroyOnLoad: 0
+  logMessages: 0
+  _perPrefabPoolOptions:
+  - prefab: {fileID: 9128997602771738397, guid: d46d41986d4eb1b489c3ceac3eccfa70,
+      type: 3}
+    preloadAmount: 5
+    limitInstances: 0
+    limitAmount: 100
+    cullDespawned: 0
+    cullAbove: 50
+    cullDelay: 60
+    cullMaxPerPass: 5
+    _logMessages: 0
+  - prefab: {fileID: 8838189191828848138, guid: 086e243af68896a489b3296838a8fd65,
+      type: 3}
+    preloadAmount: 2
+    limitInstances: 0
+    limitAmount: 100
+    cullDespawned: 0
+    cullAbove: 50
+    cullDelay: 60
+    cullMaxPerPass: 5
+    _logMessages: 0
+  - prefab: {fileID: 5704965618075533980, guid: 83fc381c96483c743a75b0c7e8075201,
+      type: 3}
+    preloadAmount: 2
+    limitInstances: 0
+    limitAmount: 100
+    cullDespawned: 0
+    cullAbove: 50
+    cullDelay: 60
+    cullMaxPerPass: 5
+    _logMessages: 0
+  - prefab: {fileID: 7463589652274599182, guid: 664289ba6aab9df42aa1950fc3abebe2,
+      type: 3}
+    preloadAmount: 2
+    limitInstances: 0
+    limitAmount: 100
+    cullDespawned: 0
+    cullAbove: 50
+    cullDelay: 60
+    cullMaxPerPass: 5
+    _logMessages: 0
+  maxParticleDespawnTime: 60
+--- !u!114 &9005670833610461112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453037432511772496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74ecfbbd4682dbb4b8a7f525b427f2aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

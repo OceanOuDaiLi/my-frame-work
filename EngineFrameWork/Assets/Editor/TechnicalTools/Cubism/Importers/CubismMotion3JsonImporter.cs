@@ -70,8 +70,9 @@ namespace Live2D.Cubism.Editor.Importers
 
                 AnimationClip clip;
                 var directoryName = Path.GetDirectoryName(AssetPath);
+                var modelDir = Path.GetDirectoryName(directoryName);
                 var motionName = Path.GetFileName(AssetPath.Replace(".motion3.json", ".anim"));
-                var motionPath = $"{directoryName}/{motionName}";
+                var motionPath = $"{modelDir}/{motionName}";
                 motionPath = motionPath.Replace("\\", "/");
 
                 var assetList = CubismCreatedAssetList.GetInstance();
@@ -99,7 +100,7 @@ namespace Live2D.Cubism.Editor.Importers
                     return _animationClip;
                 }
 
-                clip = AssetDatabase.LoadAssetAtPath<AnimationClip>(AssetPath.Replace(".motion3.json", ".anim"));
+                clip = AssetDatabase.LoadAssetAtPath<AnimationClip>(motionPath);
                 _animationClip = clip;
                 _animationClipGuid = AssetGuid.GetGuid(clip);
 
@@ -159,8 +160,10 @@ namespace Live2D.Cubism.Editor.Importers
 
             // Add reference of motion to list.
             var directoryName = Path.GetDirectoryName(AssetPath);
+            var modelDir = Path.GetDirectoryName(directoryName);
             var motionName = Path.GetFileName(AssetPath.Replace(".motion3.json", ".anim"));
-            var motionPath = $"{directoryName}/{motionName}";
+            var motionPath = modelDir + "/" + motionName;
+            motionPath = motionPath.Replace("\\", "/");
 
             var assetList = CubismCreatedAssetList.GetInstance();
             var assetListIndex = assetList.AssetPaths.Contains(motionPath)
@@ -184,7 +187,7 @@ namespace Live2D.Cubism.Editor.Importers
                 // Create animation clip.
                 if (AnimationClip == null)
                 {
-                    AssetDatabase.CreateAsset(animationClip, AssetPath.Replace(".motion3.json", ".anim"));
+                    AssetDatabase.CreateAsset(animationClip, motionPath);
                     AnimationClip = animationClip;
                 }
 
@@ -210,7 +213,7 @@ namespace Live2D.Cubism.Editor.Importers
                 // Create animation clip.
                 if (AnimationClip == null)
                 {
-                    AssetDatabase.CreateAsset(animationClip, AssetPath.Replace(".motion3.json", ".anim"));
+                    AssetDatabase.CreateAsset(animationClip, motionPath);
                     AnimationClip = animationClip;
                 }
 

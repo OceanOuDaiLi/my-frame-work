@@ -1,4 +1,5 @@
-﻿using GameEngine;
+﻿using FrameWork;
+using GameEngine;
 using UnityEngine;
 using UnityEngine.UI;
 using strange.extensions.mediation.impl;
@@ -14,14 +15,10 @@ namespace UI
         [SerializeField] GameObject[] taskAndTeamObjs;               //0:team,  1:task
         [SerializeField] Text posText;
 
+        [SerializeField] GameObject[] showFightObjs;
+
         // private Variables
         private int _sysPanelState = 0;                              //0:关闭，1:打开
-        private MainMediator mediator;
-
-        public void BindMediator(MainMediator _mediator)
-        {
-            mediator = _mediator;
-        }
 
         protected override void Awake()
         {
@@ -37,16 +34,16 @@ namespace UI
             sysPanelObj.SetActive(false);
         }
 
-        void Update()
+        public void OnHasAnybodyClick(InputCatcher.SingleClickData clickData)
         {
-            if (Input.GetMouseButtonUp(0))
+            if (clickData.clickTarget == null ||
+                (_sysPanelState == 1 &&
+                toggleBtn != clickData.clickTarget &&
+                !toggleBtn.transform.IsMyGrandson(clickData.clickTarget.transform) &&
+                sysPanelObj != clickData.clickTarget &&
+                !sysPanelObj.transform.IsMyGrandson(clickData.clickTarget.transform)))
             {
-                if (_sysPanelState == 1
-                    && !RectTransformUtility.RectangleContainsScreenPoint(toggleBtn.GetComponent<RectTransform>(), Input.mousePosition)
-                    && !RectTransformUtility.RectangleContainsScreenPoint(sysPanelObj.GetComponent<RectTransform>(), Input.mousePosition))
-                {
-                    ShowAndHideSysPanel(false);
-                }
+                ShowAndHideSysPanel(false);
             }
         }
 
@@ -109,12 +106,28 @@ namespace UI
         public void NotFunction()
         {
             // 功能未实现
-            GameMgr.Ins.CrossDispatcher.Dispatch(ToastEvent.SHOW, "功能未实现");
+            App.Instance.Trigger(GameEvent.SHOW_TOAST, "功能未实现");
         }
 
         public void SetPositionText(string text)
         {
             posText.text = text;
+        }
+
+        public void OnGameFightStart()
+        {
+            foreach (var item in showFightObjs)
+            {
+                item.SetActive(false);
+            }
+        }
+
+        public void OnGameFightEnd()
+        {
+            foreach (var item in showFightObjs)
+            {
+                item.SetActive(true);
+            }
         }
     }
 }

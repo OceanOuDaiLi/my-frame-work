@@ -5,6 +5,7 @@ namespace Model
 {
     public class HeroModelMgr : BaseModelMgr
     {
+        public const string ON_HERO_POS_CHANGED = "OnHeroPosChanged";
         public Vector2Int m_vServerPos;
         public Vector2 m_vClientPos;
         // Todo: Cache DB Config Data 
@@ -20,7 +21,7 @@ namespace Model
             m_vServerPos.x = vPos.x;
             m_vServerPos.y = vPos.y;
 
-            App.Instance.Trigger("OnHeroPosChanged");
+            App.Instance.Trigger(ON_HERO_POS_CHANGED, m_vServerPos);
         }
 
         ///////////////////////////////////////////////
