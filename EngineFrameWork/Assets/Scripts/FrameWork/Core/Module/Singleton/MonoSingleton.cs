@@ -54,7 +54,9 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T
 
     protected virtual void Init()
     {
-
+#if UNITY_EDITOR
+        CDebug.LogProgress($"{gameObject.name} Inited");
+#endif
     }
 
     public void DestroySelf()

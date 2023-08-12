@@ -14,27 +14,17 @@ namespace cfg
    
 public sealed partial class Tables
 {
-    public BaseRewardCfg BaseRewardCfg {get; }
-    public ItemRewardCfg ItemRewardCfg {get; }
 
     public Tables(System.Func<string, JSONNode> loader)
     {
         var tables = new System.Collections.Generic.Dictionary<string, object>();
-        BaseRewardCfg = new BaseRewardCfg(loader("baserewardcfg")); 
-        tables.Add("BaseRewardCfg", BaseRewardCfg);
-        ItemRewardCfg = new ItemRewardCfg(loader("itemrewardcfg")); 
-        tables.Add("ItemRewardCfg", ItemRewardCfg);
         PostInit();
 
-        BaseRewardCfg.Resolve(tables); 
-        ItemRewardCfg.Resolve(tables); 
         PostResolve();
     }
 
     public void TranslateText(System.Func<string, string, string> translator)
     {
-        BaseRewardCfg.TranslateText(translator); 
-        ItemRewardCfg.TranslateText(translator); 
     }
     
     partial void PostInit();

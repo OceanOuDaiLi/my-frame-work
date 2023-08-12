@@ -30,6 +30,9 @@ public class SceneMap
         m_insBlock = null;
         m_insPF = null;
         m_insMask = null;
+
+        m_vecMaskInfo.Clear();
+        m_vecMaskInfo = null;
     }
 
     public void LoadMapBlock(byte[] mapData, byte[] mapMaskData, string szMapName)

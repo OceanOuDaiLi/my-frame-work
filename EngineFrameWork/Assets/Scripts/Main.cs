@@ -74,9 +74,10 @@ namespace FrameWork.Application
             GameMgr.Ins.Startup();
             while (!GameMgr.Ins.Inited) { yield return Yielders.EndOfFrame; }
 
+            InputCatcher.Ins.Startup();
+
             UIMgr.Ins.Startup();
             while (!UIMgr.Ins.Inited()) { yield return Yielders.EndOfFrame; }
-            UIMgr.Ins.RegisterSpriteAtlasEvent();
 
             while (GlobalData.instance == null) { yield return Yielders.EndOfFrame; }
             GlobalData.instance.Initialize();
@@ -84,22 +85,19 @@ namespace FrameWork.Application
             yield return GameMgr.Ins.LoadUICommonCanvas();
             while (!GameMgr.Ins.LoadedCommonCanvas) { yield return Yielders.EndOfFrame; }
 
-            // Do PreLoad AseetBundle.
-
             SceneLoadMgr.Ins.Startup();
-
-            //UIConfig loginView = new UIConfig();
-            //loginView.floaderName = "login";
-            //loginView.prefabName = "login";
-            //UIMgr.Ins.OpenUI(loginView, (s) =>
-            //{
-
-            //});
+            // Do PreLoad AseetBundle.
+            yield return SceneLoadMgr.Ins.PreLoadPoolAssets();
 
             string path = $"ui/prefabs/login/login";
             yield return GameMgr.Ins.LoadGameAssets("LogIn", path, (tar) =>
             {
                 GameObject parent = GameObject.Find("Canvas");
+
+                for(int i=0;i< parent.transform.childCount;i++)
+                {
+                    parent.transform.GetChild(i).gameObject.SetActive(false);
+                }
                 tar.transform.SetParent(parent.transform, false);
             });
         }

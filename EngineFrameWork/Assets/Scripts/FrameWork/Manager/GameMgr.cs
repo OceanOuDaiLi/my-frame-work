@@ -31,11 +31,17 @@ public class GameMgr : MonoSingleton<GameMgr>
     private bool loadedCommonCanvas { get; set; }
     public bool LoadedCommonCanvas { get => loadedCommonCanvas; }
 
+    // ui common canvas
+    private const string CommonCanvasPath = "ui/prefabs/common/common_canvas";
+
+
+
     /////////////////////////////////////////////////
     /////////Unity Calls/////////////////////////////
     /////////////////////////////////////////////////
-    void Awake()
+    protected override void Init()
     {
+
         App.Env.IsAssetCrypt = false;
         App.Env.SetDebugLevel(debugLevel);
 
@@ -51,6 +57,7 @@ public class GameMgr : MonoSingleton<GameMgr>
 #else
         App.Env.SetDebugLevel(DebugLevels.Product);
 #endif
+        base.Init();
     }
 
     void Start()
@@ -70,17 +77,14 @@ public class GameMgr : MonoSingleton<GameMgr>
     //////////////////////////////////////////////////
     public IEnumerator LoadUICommonCanvas()
     {
-        string path = $"ui/prefabs/common/common_canvas";
         loadedCommonCanvas = false;
-        yield return LoadGameAssets("CommonUICanvas", path, (tar) =>
+        yield return LoadGameAssets("CommonUICanvas", CommonCanvasPath, (tar) =>
         {
-            GameObject parent = GameObject.Find("CodeV");
             DontDestroyOnLoad(tar);
-            tar.transform.SetParent(parent.transform, false);
+            tar.transform.SetParent(transform.parent, false);
             loadedCommonCanvas = true;
         });
     }
-
 
     public IEnumerator LoadGameAssets(string name, string path, Action<GameObject> down)
     {
@@ -96,7 +100,6 @@ public class GameMgr : MonoSingleton<GameMgr>
             var ins = Instantiate(prefabObj, null);
             ins.name = name;
 
-            ins.transform.SetParent(null);
             down?.Invoke(ins);
         });
     }

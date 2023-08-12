@@ -7,6 +7,7 @@ using Proto.Scene;
 using Proto.Npc;
 using Proto.Battle;
 using Proto.Bag;
+using Proto.Team;
 
 
 public class ProtoConst
@@ -42,6 +43,7 @@ public class ProtoConst
 		{312 , typeof(NtfMapAddGoods)  },
 		{313 , typeof(NtfHeroGoto)  },
 		{314 , typeof(NtfHeroEnterScene)  },
+		{315 , typeof(NtfMapTeam)  },
 		{402 , typeof(RspNpcLook)  },
 		{404 , typeof(NtfNpcTalk)  },
 		{406 , typeof(RspNpcRespond)  },
@@ -87,6 +89,8 @@ public class ProtoConst
 		{703 , typeof(NtfItemUpdate)  },
 		{704 , typeof(NtfItemDel)  },
 		{705 , typeof(RspUseItem)  },
+		{808 , typeof(NtfTeamInfo)  },
+		{809 , typeof(NtfTeamInvite)  },
 
 	};
 
@@ -116,6 +120,13 @@ public class ProtoConst
 		{"Proto.Battle.ReqSetCommandEscape" , 536},
 		{"Proto.Battle.ReqSetCommandProtect" , 537},
 		{"Proto.Bag.ReqUseItem" , 705},
+		{"Proto.Team.ReqInviteTeam" , 801},
+		{"Proto.Team.ReqJoinTeam" , 802},
+		{"Proto.Team.ReqAwayTeam" , 803},
+		{"Proto.Team.ReqLeaveTeam" , 804},
+		{"Proto.Team.ReqKickMember" , 805},
+		{"Proto.Team.ReqRecallMember" , 806},
+		{"Proto.Team.ReqChangeLeader" , 807},
 
 	};
 }

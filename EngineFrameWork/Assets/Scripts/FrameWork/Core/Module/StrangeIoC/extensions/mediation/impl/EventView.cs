@@ -82,7 +82,7 @@ namespace strange.extensions.mediation.impl
             {
                 string path = AssetDatabase.GetAssetPath(item.texture);
 
-                if (path.Contains("unity_builtin_extra") || path.Contains("Assets/Resources") || item.texture == null) { continue; }         // flit unity default resources.
+                if (path.Contains("unity_builtin_extra") || path.Contains("AssetBundle/live2d") || item.texture == null) { continue; }         // flit unity default resources.
 
                 if (!string.IsNullOrEmpty(path))
                 {

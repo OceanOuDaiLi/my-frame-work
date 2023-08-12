@@ -1,4 +1,5 @@
 using FrameWork.Launch;
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -25,6 +26,11 @@ public class CDebug
         {
             Debug.Log(message, context);
         }
+    }
+
+    public static void LogException(Exception exception)
+    {
+        Debug.LogException(exception);
     }
 
     public static void LogError(object message)
@@ -101,6 +107,14 @@ public class CDebug
 #endif
 
         Log(tips, null);
+    }
+
+    public static void FightLog(object message)
+    {
+        if (EnableLog)
+        {
+            Log(message, null);
+        }
     }
 
     //#region FightEngine Log

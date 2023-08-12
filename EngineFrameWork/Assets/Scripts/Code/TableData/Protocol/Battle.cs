@@ -53,35 +53,38 @@ namespace Proto.Battle
         [global::ProtoBuf.ProtoMember(2, Name = @"type")]
         public int Type { get; set; }
 
-        [global::ProtoBuf.ProtoMember(3, Name = @"name")]
+        [global::ProtoBuf.ProtoMember(3, Name = @"side")]
+        public int Side { get; set; }
+
+        [global::ProtoBuf.ProtoMember(4, Name = @"name")]
         [global::System.ComponentModel.DefaultValue("")]
         public string Name { get; set; } = "";
 
-        [global::ProtoBuf.ProtoMember(4, Name = @"shape")]
+        [global::ProtoBuf.ProtoMember(5, Name = @"shape")]
         public int Shape { get; set; }
 
-        [global::ProtoBuf.ProtoMember(5, Name = @"grade")]
+        [global::ProtoBuf.ProtoMember(6, Name = @"grade")]
         public int Grade { get; set; }
 
-        [global::ProtoBuf.ProtoMember(6, Name = @"prof")]
+        [global::ProtoBuf.ProtoMember(7, Name = @"prof")]
         public int Prof { get; set; }
 
-        [global::ProtoBuf.ProtoMember(7, Name = @"position")]
+        [global::ProtoBuf.ProtoMember(8, Name = @"position")]
         public int Position { get; set; }
 
-        [global::ProtoBuf.ProtoMember(8, Name = @"status")]
+        [global::ProtoBuf.ProtoMember(9, Name = @"status")]
         public int Status { get; set; }
 
-        [global::ProtoBuf.ProtoMember(9)]
+        [global::ProtoBuf.ProtoMember(10)]
         public int playerID { get; set; }
 
-        [global::ProtoBuf.ProtoMember(10)]
+        [global::ProtoBuf.ProtoMember(11)]
         public int operatorID { get; set; }
 
-        [global::ProtoBuf.ProtoMember(11)]
+        [global::ProtoBuf.ProtoMember(12)]
         public int masterID { get; set; }
 
-        [global::ProtoBuf.ProtoMember(12)]
+        [global::ProtoBuf.ProtoMember(13)]
         public global::System.Collections.Generic.List<Skill> activeSkills { get; } = new global::System.Collections.Generic.List<Skill>();
 
     }
