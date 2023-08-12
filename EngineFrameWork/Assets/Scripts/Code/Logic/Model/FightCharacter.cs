@@ -37,9 +37,10 @@ namespace Model
         }
 
         //public void ExcuteBehaviour(object sender, EventArgs e)
+        FightDirector curDir;
         public void ExcuteBehaviour(FightDirector fightDirector)
         {
-
+            curDir = fightDirector;
             var action = fightDirector.BehaviourQueue.Dequeue();
 
 
@@ -51,14 +52,16 @@ namespace Model
                 case StateType.ATTACK:
                     var enemyFigth = GlobalData.instance.fightModelMgr.GetFighCharacterByInstanceId(action.TargetInstanceId);
                     Character.Enemy = enemyFigth.Character;
-                    CDebug.FightLog($" ### {InstanceId} 进入追击 目标： {enemyFigth.InstanceId} ###");
                     Character.SetAnimatorTrigger(AnimCfg.PARAM_TRIGGER_CHASEING);
+
+                    Character.AttackDown = null;
+                    Character.AttackDown = OnAttackDown;
                     break;
                 case StateType.SKILL:
                     break;
                 case StateType.DEFEND:
+                    curDir.Down = true;
                     Character.OnDefend();
-                    CDebug.FightLog($" ### {InstanceId} 进入防守 ###");
                     break;
                 case StateType.BEATTACK:
                     break;
@@ -70,9 +73,12 @@ namespace Model
 
         }
 
-        private void ExcuteAction(BaseStateInfo action)
+        void OnAttackDown()
         {
-
+            curDir.Down = true;
+            FightControl.Ins.ExcuteNextDirector();
         }
+
+        void OnSkillDown() { }
     }
 }

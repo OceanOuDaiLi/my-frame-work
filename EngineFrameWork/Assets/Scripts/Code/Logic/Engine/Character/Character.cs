@@ -258,18 +258,17 @@ namespace GameEngine
             MoveCtr.Speed = fSpeed;
         }
 
-        public bool IsInState(string stateName)
-        {
-            return _animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
-        }
+
 
         #region Fight Methods
 
         Character enemy;
+        Character demageSource;
         bool isDefendState = false;
         Vector2 _animDir = Vector2.zero;
 
-        Character demageSource;
+        public Action AttackDown;
+
 
 
         public Character Enemy
@@ -338,6 +337,9 @@ namespace GameEngine
         {
             SetAnimatorTrigger(AnimCfg.PARAM_TRIGGER_STAND);
             Play(AnimCfg.STAND, Property.MonoProperty.Dir);
+
+            AttackDown?.Invoke();
+            // SkillDown?.Invoke();
         }
 
 
@@ -371,6 +373,10 @@ namespace GameEngine
             return _animator.GetBool(key);
         }
 
+        public bool IsInState(string stateName)
+        {
+            return _animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
+        }
         #endregion
     }
 }

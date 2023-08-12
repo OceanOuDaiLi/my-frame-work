@@ -32,6 +32,7 @@ namespace GameEngine
         //      时间线可视化 + FSM 树状图可视化 + 行为节点轨道可视化。
         //      回放支持：指令记录
 
+        public bool Down = false;
         public int ActionIdx = -1;                                         // 出手顺序
         public int RoundIdx { get; set; }                                  // 回合信息.
         public int InstanceId { get; set; }                                // 执行行为角色实例ID.
@@ -66,13 +67,11 @@ namespace GameEngine
         {
             CurRoundDirectors.Sort((a, b) => { return a.ActionIdx > b.ActionIdx ? 1 : 0; });
 
-            ExcuteRoundDirectors();
+            ExcuteRoundDirector();
         }
 
-        public void ExcuteRoundDirectors()
+        public void ExcuteRoundDirector()
         {
-            //App.Instance.Trigger(FightEvent.EXCUTE_FIGHT_STATE_BEHAVIOUR, ExcuteDirectors.Dequeue());
-
             var curActions = CurRoundDirectors.FindAll((x) => { return x.ActionIdx.Equals(curActionIdx); });
             if (curActions.Count < 1)
             {
@@ -91,6 +90,20 @@ namespace GameEngine
             }
 
             curActionIdx++;
+        }
+
+
+        public void ExcuteNextDirector()
+        {
+            var unFinished = CurRoundDirectors.FindAll((x) =>
+            {
+                return x.Down == false && x.ActionIdx.Equals(curActionIdx - 1);
+            });
+
+            if (unFinished.Count < 1)
+            {
+                ExcuteRoundDirector();
+            }
         }
 
         /// <summary>
