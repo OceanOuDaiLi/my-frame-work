@@ -39,7 +39,7 @@ namespace GameEngine
 
         public void DefendStart()
         {
-            Owner.DefendStart();
+
         }
 
         public void DefendEnd()
@@ -49,7 +49,7 @@ namespace GameEngine
 
         public void BeAttackEnd()
         {
-            Owner.BeAttackEnd();
+            Owner.BeAttackedEnd();
         }
 
         public void AttackEnd(int attackIdx)

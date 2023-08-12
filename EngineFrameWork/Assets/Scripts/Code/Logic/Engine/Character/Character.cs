@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using Core.Interface.Event;
 using System.Collections.Generic;
-using static Codice.Client.Common.WebApi.WebApiEndpoints;
+using static UnityEngine.UI.GridLayoutGroup;
 
 /********************************************************************
 	Copyright © 2018 - 2050 by DaiLi.Ou. All Rights Reserved. e-mail: odaili@163.com
@@ -284,11 +284,12 @@ namespace GameEngine
             _animDir = Vector2.zero;
         }
 
-        public void Chase(Vector2 dir)
+        public void ChaseEnemy(Vector2 dir)
         {
             if (dir.Equals(_animDir)) { return; }
             _animDir = dir;
-            Play(AnimCfg.RUN, dir);
+
+            SetBlendTreeParameter(dir);
         }
 
         public void ChaseBack()
@@ -297,16 +298,28 @@ namespace GameEngine
             SetAnimatorTrigger(AnimCfg.PARAM_TRIGGER_CHASEING);
         }
 
+        public void DoAttack()
+        {
+            CDebug.LogProgress($"{GameObjectSelf.name}  do attack");
+            SetAnimatorTrigger(AnimCfg.PARAM_TRIGGER_ATTACK);
+        }
+
         public void OnDefend()
         {
             isDefendState = true;
+        }
+
+        public void DefendEnd()
+        {
+            Stand();
+
+            demageSource.ChaseBack();
         }
 
         public void BeAttacked(Vector2 dir, Character demageSource)
         {
             this.demageSource = demageSource;
             SetBlendTreeParameter(dir);
-            CDebug.FightLog($"{GameObjectSelf.name} isDefendState:{isDefendState}  受到来自 {demageSource.GameObjectSelf.name} 攻击 ");
             if (isDefendState)
             {
                 SetAnimatorTrigger(AnimCfg.PARAM_TRIGGER_DEFEND);
@@ -317,51 +330,36 @@ namespace GameEngine
             }
         }
 
-        public void DefendStart()
+        public void BeAttackedEnd()
         {
-
-        }
-
-        public void DefendEnd()
-        {
-            // if(反击)
-            // attack & demageSource.be attacked.
-
-            // end. demageSource beck
-
             demageSource.ChaseBack();
         }
 
-        public void BeAttackEnd()
+        public void Stand()
         {
-            // if(反击)
-            // attack & demageSource.be attacked.
-
-            // end. demageSource beck
-
-            demageSource.ChaseBack();
+            SetAnimatorTrigger(AnimCfg.PARAM_TRIGGER_STAND);
+            Play(AnimCfg.STAND, Property.MonoProperty.Dir);
         }
+
 
         public void AttackStart(int attackIdx)
         {
+            CDebug.LogProgress($"{GameObjectSelf.name} atk start  ");
+
             Enemy.BeAttacked(GetReverseDirection(_animDir), this);
-            // 组合表现(合击，被反击，死亡，等...)
-            // Enemt 置空
-            //  enemy = null;
         }
 
         public void AttackEnd(int attackIdx)
         {
+            CDebug.LogProgress($"{GameObjectSelf.name} atk end  ");
 
-            // 自己先待机
             Play(AnimCfg.STAND, 4);
-            // 组合表现(被反击，死亡，等...)
-
-            // 回到原位
         }
 
 
+        #endregion
 
+        #region Animation Param & Methods
 
         public void SetAnimatorTrigger(string key)
         {

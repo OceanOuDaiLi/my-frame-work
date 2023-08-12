@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace GameEngine
 {
@@ -70,10 +71,9 @@ namespace GameEngine
                 //缓冲距离是使追逐人物时到达的距离不会在最大有效攻击距离的边界
                 if (dist <= 150f)  // 可视化攻击距离 或 策划公式计算可攻击距离         150为像素单位
                 {
-                    // 执行普通攻击， 或则 技能
+                    // 执行普通攻击或技能
                     chaseingEnemy = false;
-                    owner.SetAnimatorTrigger(AnimCfg.PARAM_TRIGGER_ATTACK);
-                    //owner.SetAnimatorBool("Chase", false);
+                    owner.DoAttack();
                 }
             }
             else
@@ -91,7 +91,7 @@ namespace GameEngine
             Vector3 ownerPos = owner.TransformSelf.position;
             Vector3 enemyPos = owner.Enemy.TransformSelf.position;
 
-            owner.Chase(GetAnimaChaseDirection(ownerPos, enemyPos));
+            owner.ChaseEnemy(GetAnimaChaseDirection(ownerPos, enemyPos));
 
             ownerPos.y = ownerPos.y.Move(enemyPos.y, chaseSpeed, deltaTime);
             float normalizeTime = stateInfo.normalizedTime - (int)stateInfo.normalizedTime;
@@ -109,8 +109,7 @@ namespace GameEngine
             {
                 chaseingBack = false;
                 owner.SetAnimatorBool(AnimCfg.PARAM_BOOL_CHASE_BACK, false);
-                owner.SetAnimatorTrigger(AnimCfg.PARAM_TRIGGER_STAND);
-                owner.Play(AnimCfg.STAND, owner.Property.MonoProperty.Dir);
+                owner.Stand();
                 owner.TransformSelf.localPosition = Vector3.zero;
             }
         }
@@ -124,7 +123,7 @@ namespace GameEngine
             Vector3 ownerPos = owner.TransformSelf.position;
             Vector3 tarPos = owner.Property.MonoProperty.FightCreatePos;
 
-            owner.Chase(GetAnimaChaseDirection(ownerPos, tarPos));
+            owner.ChaseEnemy(GetAnimaChaseDirection(ownerPos, tarPos));
 
             ownerPos.y = ownerPos.y.Move(tarPos.y, chaseSpeed, deltaTime);
             float normalizeTime = stateInfo.normalizedTime - (int)stateInfo.normalizedTime;
