@@ -300,7 +300,6 @@ namespace GameEngine
 
         public void DoAttack()
         {
-            CDebug.LogProgress($"{GameObjectSelf.name}  do attack");
             SetAnimatorTrigger(AnimCfg.PARAM_TRIGGER_ATTACK);
         }
 
@@ -344,15 +343,11 @@ namespace GameEngine
 
         public void AttackStart(int attackIdx)
         {
-            CDebug.LogProgress($"{GameObjectSelf.name} atk start  ");
-
             Enemy.BeAttacked(GetReverseDirection(_animDir), this);
         }
 
         public void AttackEnd(int attackIdx)
         {
-            CDebug.LogProgress($"{GameObjectSelf.name} atk end  ");
-
             Play(AnimCfg.STAND, 4);
         }
 
