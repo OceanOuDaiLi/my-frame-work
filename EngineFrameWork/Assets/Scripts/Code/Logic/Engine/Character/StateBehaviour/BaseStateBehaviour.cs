@@ -20,10 +20,11 @@ namespace GameEngine
 
     public class BaseStateInfo
     {
-        public int TargetInstanceId { get; set; }
-
+        public int SkillId { get; set; }
         public StateType StateType { get; set; }        // 同一行为执行索引下的，表现执行优先级。 如A 攻击B. C 保护B.
                                                         // 优先级从->低： 0 -> 999
+        public int TargetInstanceId { get; set; }
+
     }
 
     public class BaseStateBehaviour : StateMachineBehaviour

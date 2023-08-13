@@ -23,7 +23,7 @@ namespace UI
             view.BindMediator(this);
 
             // binds global events below.
-            eventHandlerGameFightStart = App.Instance.On(FightEvent.FIGHT_EVENT_GAME_FIGHT_STATE_CHANGE, OnGameFightStartEffect);
+            eventHandlerGameFightStart = App.Instance.On(FightEvent.FIGHT_EVENT_GAME_FIGHT_STATE_CHANGE, OnGameFightStateChange);
         }
 
         public override void OnRemove()
@@ -37,7 +37,7 @@ namespace UI
         }
 
 
-        private void OnGameFightStartEffect(object sender, EventArgs e)
+        private void OnGameFightStateChange(object sender, EventArgs e)
         {
             FightState state = (FightState)sender;
             if (state.Equals(FightState.Initialize))

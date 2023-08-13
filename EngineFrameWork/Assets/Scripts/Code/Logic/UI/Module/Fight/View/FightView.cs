@@ -32,6 +32,11 @@ namespace UI
             // start client time count.
             mediator.OnRoundPrepare();
 
+            StarCountTime();
+        }
+
+        public void StarCountTime()
+        {
             countTime = 60;
             geImg.gameObject.SetActive(true);
             shiImg.gameObject.SetActive(true);

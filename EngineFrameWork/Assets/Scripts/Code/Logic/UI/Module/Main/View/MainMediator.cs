@@ -27,7 +27,7 @@ namespace UI
             // binds global events below.
 
             eventHandlerHeroMove = App.Instance.On(HeroModelMgr.ON_HERO_POS_CHANGED, OnHeroMove);
-            eventHandlerGameFightStart = App.Instance.On(FightEvent.FIGHT_EVENT_GAME_FIGHT_STATE_CHANGE, OnGameFightStartEffect);
+            eventHandlerGameFightStart = App.Instance.On(FightEvent.FIGHT_EVENT_GAME_FIGHT_STATE_CHANGE, OnGameFightStateChange);
 
             if (eventHandlerInputSingleClick == null)
                 eventHandlerInputSingleClick = App.Instance.On(GameEvent.INPUT_EVENT_SINGLE_CLICK, OnHasAnybodyClick);
@@ -61,7 +61,7 @@ namespace UI
             view.SetPositionText(message.ToString());
         }
 
-        private void OnGameFightStartEffect(object sender, EventArgs e)
+        private void OnGameFightStateChange(object sender, EventArgs e)
         {
             FightState state = (FightState)sender;
 

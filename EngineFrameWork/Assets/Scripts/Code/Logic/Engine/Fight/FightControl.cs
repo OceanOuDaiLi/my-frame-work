@@ -16,6 +16,7 @@ namespace GameEngine
         Initialize,         //初始化
         Start,              //游戏开始
         RoundStart,         //回合开始，进入倒计时。
+        RoundEnd,           //回合结束，进入倒计时。
         Win,                //战斗胜利
         Lost,               //战斗失败
         End                 //战斗结束
@@ -77,6 +78,12 @@ namespace GameEngine
             {
                 // round end.
                 CDebug.FightLog("###   round end.   ###");
+                // notify server
+
+                // notify client
+                State = FightState.RoundEnd;
+
+                CurRoundDirectors.Clear();
                 return;
             }
 
@@ -178,7 +185,71 @@ namespace GameEngine
         /// </summary>
         public void DemoSimulateServerSkill()
         {
+            CurRoundDirectors = new List<FightDirector>();
+            if (modelMgr == null) { modelMgr = GlobalData.instance.fightModelMgr; }
 
+            Dictionary<int, BaseCharacter> teamCharacters = modelMgr.GetFightTeamCharacters();
+            Dictionary<int, BaseCharacter> enemyCharacters = modelMgr.GetFightEnemyCharacters();
+
+
+            // Simulate server users' team directors.
+            int roundIdx = 1;
+            int actionIdx = 0;
+            foreach (var tar in teamCharacters)
+            {
+                var baseChara = tar.Value;
+                FightDirector tmp = new FightDirector();
+                tmp.RoundIdx = roundIdx;
+                tmp.InstanceId = tar.Key;
+                tmp.ActionIdx = actionIdx;
+
+                var stateInfo = new BaseStateInfo();
+                // 设置对位同排同位置的为敌人
+                int pos = baseChara.Property.TeamProperty.FightTeamPos;
+                int frontBack = baseChara.Property.TeamProperty.FrontOrBack;
+                stateInfo.TargetInstanceId = modelMgr.GetEnemyCharacterByPos(pos, frontBack).InstanceId;
+                // 设置当前行为优先级
+                if (actionIdx % 3 == 0)
+                {
+                    stateInfo.SkillId = 1001;
+                    stateInfo.StateType = StateType.SKILL;
+                }
+                else if (actionIdx % 2 == 0)
+                {
+                    stateInfo.SkillId = 1002;
+                    stateInfo.StateType = StateType.SKILL;
+                }
+
+                tmp.BehaviourQueue = new Queue<BaseStateInfo>();                             // 测试数据只执行一次行为。可执行多次。如：连击，或 普攻触发技能。
+                tmp.BehaviourQueue.Enqueue(stateInfo);
+
+                CurRoundDirectors.Add(tmp);
+                actionIdx++;
+            }
+
+            actionIdx = 0;
+            foreach (var tar in enemyCharacters)
+            {
+                var baseChara = tar.Value;
+                int pos = baseChara.Property.TeamProperty.FightTeamPos;
+
+                FightDirector tmp = new FightDirector();
+                tmp.RoundIdx = roundIdx;
+                tmp.InstanceId = tar.Key;
+                tmp.ActionIdx = actionIdx;
+
+                var stateInfo = new BaseStateInfo();
+                stateInfo.StateType = StateType.BEATTACK;
+
+                tmp.BehaviourQueue = new Queue<BaseStateInfo>();
+                tmp.BehaviourQueue.Enqueue(stateInfo);
+
+                CurRoundDirectors.Add(tmp);
+
+                actionIdx++;
+            }
+
+            PackRoundDirectors();
         }
     }
 }
