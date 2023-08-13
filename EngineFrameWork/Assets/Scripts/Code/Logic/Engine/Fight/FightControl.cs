@@ -219,6 +219,10 @@ namespace GameEngine
                     stateInfo.SkillId = 1002;
                     stateInfo.StateType = StateType.SKILL;
                 }
+                else
+                {
+
+                }
 
                 tmp.BehaviourQueue = new Queue<BaseStateInfo>();                             // 测试数据只执行一次行为。可执行多次。如：连击，或 普攻触发技能。
                 tmp.BehaviourQueue.Enqueue(stateInfo);
